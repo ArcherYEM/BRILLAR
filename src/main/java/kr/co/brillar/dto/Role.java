@@ -1,4 +1,4 @@
-package kr.co.brillar.domain;
+package kr.co.brillar.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

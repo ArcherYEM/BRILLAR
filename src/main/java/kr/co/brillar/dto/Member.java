@@ -1,4 +1,4 @@
-package kr.co.brillar.domain;
+package kr.co.brillar.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Member {
 
     private Integer userId;
+    private String loginId;
     private String userPassword;    //Bcrypt hash
     private String userName;
     private LocalDate userBirth;

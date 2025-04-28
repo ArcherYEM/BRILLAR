@@ -1,4 +1,4 @@
-package kr.co.brillar.dto.user.request;
+package kr.co.brillar.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -16,8 +19,13 @@ public class JoinRequest {
 //    @Size(min = 5, max = 20, message = "아이디는 5자 이상 20자 이하로 입력해주세요.")
 //    private Integer userId;
 
+
+    @NotBlank(message = "아이디를 입력해주세요.")
+    @Size(min=1, max = 50)
+    private String loginId;
+
     @NotBlank(message = "비밀번호를 입력하세요.")
-    @Size(min = 8,max = 30, message = "비밀번호는 8자 이상 30자 이하로 입력해주세요.")
+    @Size(min = 4,max = 30, message = "비밀번호는 4자 이상 30자 이하로 입력해주세요.")
     private String userPassword;
 
     private String userPasswordConfirm;
@@ -27,7 +35,7 @@ public class JoinRequest {
 
     @NotBlank(message = "생년월일을 입력하세요.")
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "생년월일은 yyyy-MM-dd형식이어야 합니다.")
-    private String userBirth;
+    private LocalDate userBirth;
 
     @NotBlank(message = "성별을 선택하세요.")
     @Pattern(regexp = "^[MF]{1}$", message = "성별은 M/F 중 하나여야 합니다.")
