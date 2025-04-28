@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class Member {
 
+
     private Integer userId;
     private String loginId;
     private String userPassword;    //Bcrypt hash
