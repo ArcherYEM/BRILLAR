@@ -1,13 +1,28 @@
 package kr.co.brillar.service.user;
 
 
-import kr.co.brillar.dto.user.request.JoinRequest;
+import kr.co.brillar.dto.Member;
+import kr.co.brillar.dto.JoinRequest;
+import kr.co.brillar.mapper.UserMapper;
+import kr.co.brillar.security.PasswordEncryptor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 public class JoinServiceImplTest {
 
-    private final JoinServiceImpl joinService = new JoinServiceImpl();
+    private final PasswordEncryptor passwordEncryptor = new PasswordEncryptor(new BCryptPasswordEncoder());
+
+    private final UserMapper userMapper = new UserMapper() {
+        @Override
+        public void insertUser(Member member) {
+            System.out.println("가짜 ");
+        }
+    };
+
+    private final JoinServiceImpl joinService = new JoinServiceImpl(new BCryptPasswordEncoder(),passwordEncryptor, userMapper);
+
 
     @Test
     void register(){
@@ -19,6 +34,7 @@ public class JoinServiceImplTest {
         joinRequest.setUserBirth("2020-05-05");
         joinRequest.setUserPhone("010-2050-4040");
         joinRequest.setUserEmail("test@join.com");
+
 
 
         //when & then

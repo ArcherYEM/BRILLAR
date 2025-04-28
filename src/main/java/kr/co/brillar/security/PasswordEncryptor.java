@@ -1,4 +1,4 @@
-package kr.co.brillar.security.encrypt;
+package kr.co.brillar.security;
 
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
