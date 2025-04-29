@@ -28,20 +28,6 @@ public class MainController {
     return "main/index";
     }
 
-    // RequestMapping
-    // @GetMapping("/")
-    // public String index(Model model) {
-
-    //     List<MainDto> result = mainService.getNewList();
-    //     for (MainDto mainDto : result) {
-    //         log.info("mainDto : {}", mainDto);
-    //     }
-
-    //     model.addAttribute("result", result);
-
-    //     return "main/index";
-    // }
-
     // REST API
     @GetMapping("/get/products")
     @ResponseBody
