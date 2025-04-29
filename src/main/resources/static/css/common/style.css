@@ -53,6 +53,25 @@ a {
     color: inherit;
 }
 
+input {
+    padding: 10px 15px;
+    border: 1px solid var(--c-gray-2);
+    border-radius: 5px;
+    outline: none;
+}
+
+button {
+    border: 1px solid var(--c-purple-1);
+    outline: none;
+    cursor: pointer;
+}
+
+.container {
+    width: 1440px;
+    padding: 30px;
+    margin: 0 auto;
+}
+
 /* 공통 컴포넌트 */
 .title-lg {
     width: 100%;
@@ -92,4 +111,69 @@ a {
     color: var(--c-white);
     cursor: pointer;
     transition: all 0.2s linear;
+}
+
+.btn-wide {
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid var(--c-purple-1);
+    background-color: var(--c-purple-1);
+    border-radius: 5px;
+    color: var(--c-white);
+    cursor: pointer;
+    transition: all 0.2s linear;
+
+    &:hover {
+        background-color: var(--c-purple-2);
+        border-color: var(--c-purple-2);
+        color: var(--c-white);
+    }
+}
+
+.btn-duplicate {
+    font-size: 14px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--c-purple-1);
+    background-color: var(--c-purple-1);
+    color: var(--c-white);
+    transition: all 0.2s linear;
+
+    &:hover {
+        border-color: var(--c-purple-2);
+        background-color: var(--c-purple-2);
+        color: var(--c-white);
+    }
+}
+
+.btn-primary {
+    font-size: 14px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--c-green-2);
+    background-color: var(--c-green-2);
+    color: var(--c-white);
+    transition: all 0.2s linear;
+
+    &:hover {
+        border-color: var(--c-green-3);
+        background-color: var(--c-green-3);
+        color: var(--c-white);
+    }
+}
+
+.btn-warning {
+    font-size: 14px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--c-red-1);
+    background-color: var(--c-red-1);
+    color: var(--c-white);
+    transition: all 0.2s linear;
+
+    &:hover {
+        border-color: var(--c-red-2);
+        background-color: var(--c-red-2);
+        color: var(--c-white);
+    }
 }
