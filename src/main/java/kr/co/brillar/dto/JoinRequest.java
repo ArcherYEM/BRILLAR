@@ -15,12 +15,9 @@ import java.time.LocalDateTime;
 @Setter
 public class JoinRequest {
 
-//    @NotBlank(message = "아이디를 입력하세요.")
-//    @Size(min = 5, max = 20, message = "아이디는 5자 이상 20자 이하로 입력해주세요.")
-//    private Integer userId;
 
 
-    @NotBlank(message = "아이디를 입력해주세요.")
+    @NotBlank(message = "로그인 아이디를 입력해주세요.")
     @Size(min=1, max = 50)
     private String loginId;
 
@@ -33,8 +30,8 @@ public class JoinRequest {
     @NotBlank(message = "이름을 입력해주세요.")
     private String userName;
 
-    @NotBlank(message = "생년월일을 입력하세요.")
-    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "생년월일은 yyyy-MM-dd형식이어야 합니다.")
+//    @NotBlank(message = "생년월일을 입력하세요.")
+//    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "생년월일은 yyyy-MM-dd형식이어야 합니다.") => 로컬데이터는 패턴 입력불가
     private LocalDate userBirth;
 
     @NotBlank(message = "성별을 선택하세요.")

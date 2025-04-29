@@ -11,11 +11,13 @@
 <!--/*@thymesVar id="joinRequest" type=""*/-->
 <form th:action="@{/join}" method="post" th:object="${joinRequest}">
 
+<!--    로그인 아이디 입력-->
+    <input type="text" th:field="*{loginId}" placeholder="로그인 아이디를 입력하세요"/><br>
 <!--    비밀번호 입력-->
     <input type="password" th:field="*{userPassword}" placeholder="비밀번호를 입력하세요" /><br>
 <!--    비밀번호 확인 입력-->
     <input type="password" th:field="*{userPasswordConfirm}" placeholder="비밀번호를 다시 입력하세요" />
-    <button type="submit">비밀번호 확인</button><br>
+    <button type="button" onclick="checkPasswordMatch()">비밀번호 확인</button><br>
 <!--    이름 입력-->
     <input type="text" th:field="*{userName}" placeholder="이름을 입력하세요"/><br>
 <!--    생년월일 입력-->
@@ -35,3 +37,4 @@
 
 </body>
 </html>
+<script src="/js/join.js"></script>

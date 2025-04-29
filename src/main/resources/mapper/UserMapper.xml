@@ -8,6 +8,7 @@
     <!-- 테스트용 -->
     <insert id="insertUser" parameterType="kr.co.brillar.dto.Member">
         insert into user(
+                         user_loginUser,
                          user_password,
                          user_name,
                          user_birth,
@@ -20,6 +21,7 @@
                          created_at,
                          updated_at
         ) values (
+                  #{loginId},
                   #{userPassword},
                   #{userName},
                   #{userBirth},
