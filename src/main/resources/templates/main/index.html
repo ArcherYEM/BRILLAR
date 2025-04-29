@@ -18,23 +18,27 @@
         </div>
 
         <!-- s: 제품 리스트 -->
-        <div>
-            <div>
-                <div>
-                    <img src="" alt="제품사진">
-                </div>
-                <div>
-                    <span>플레인 골드 체인 팔찌 1</span>
-                </div>
-                <div>
-                    <span>20,000</span><span> 원</span>
-                </div>
-                <div>
-                    <span>기본적인 디자인의 골드 팔찌</span>
-                </div>
-            </div>
+        <!-- Ajax 적용 -->
+        <div id="newProducts">
 
-            <div>
+            <!-- Thymleaf 적용 -->
+            <!-- <div th:each="dto : ${result}">
+                <input id="pid" type="hidden" name="productId" value="${dto.productId}">
+                <div>
+                    <img th:src="${dto.imageUrl}" alt="제품사진">
+                </div>
+                <div>
+                    <span th:text="${dto.productName}"></span>
+                </div>
+                <div>
+                    <span th:text="${dto.price}"></span><span> 원</span>
+                </div>
+                <div>
+                    <span th:text="${dto.productDesc}"></span>
+                </div>
+            </div> -->
+
+            <!-- <div>
                 <div>
                     <img src="" alt="제품사진">
                 </div>
@@ -107,7 +111,7 @@
                 <div>
                     <span>기본적인 디자인의 골드 팔찌</span>
                 </div>
-            </div>
+            </div> -->
         </div>
         <!-- e: 제품리스트 -->
 
@@ -199,6 +203,88 @@
     </div>
     <!-- e: 할인상품 -->
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script>
+        // const pageLoaded = () => {
+        //     fetch('/get/products')
+        //         .then(response => {
+        //             if (!response) {
+        //                 throw new Error("요청 확인")
+        //             }
+        //             return response.json()
+        //         })
+        //         .then(data => {
+        //             console.log(data)
+        //             const container = document.getElementById('newProducts');
+        //             let html = "";
+                    
+        //             data.forEach(dto => {
+        //                 html += `
+        //                     <div>
+        //                         <input id="pid" type="hidden" name="productId" value="${dto.productId}">
+        //                         <div>
+        //                             <img src="${dto.imageUrl}" alt="제품사진">
+        //                         </div>
+        //                         <div>
+        //                             <span>${dto.productName}</span>
+        //                         </div>
+        //                         <div>
+        //                             <span>${dto.price}</span><span> 원</span>
+        //                         </div>
+        //                         <div>
+        //                             <span>${dto.productDesc}</span>
+        //                         </div>
+        //                     </div>
+        //                 `;
+        //             });
+    
+        //             container.innerHTML = html;
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //         });
+        // };
+            
+
+        const pageLoaded = () => {
+            $.ajax({
+                url: '/get/products',
+                method: 'GET',
+                dataType: 'json',
+                success: (data)=>{
+                    const $newProducts = $('#newProducts')
+                    let html = '';
+
+                    $.each(data, function(index, dto) {
+                    html += `
+                        <div>
+                            <input id="pid" type="hidden" name="productId" value="${dto.productId}">
+                            <div>
+                                <img src="${dto.imageUrl}" alt="제품사진">
+                            </div>
+                            <div>
+                                <span>${dto.productName}</span>
+                            </div>
+                            <div>
+                                <span>${dto.price}</span><span> 원</span>
+                            </div>
+                            <div>
+                                <span>${dto.productDesc}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                    $newProducts.html(html);
+                },
+                error: (xhr, status, error)=>{
+                    console.error("오류: " + status, "내용: " + error);
+                }
+            });
+        };
+
+        pageLoaded();
+    </script>
+    
 </body>
 
 </html>

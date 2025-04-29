@@ -11,4 +11,16 @@
         FROM orderStatus
     </select>
 
+    <select id="getNewProduct" resultType="kr.co.brillar.dto.MainDto">
+        SELECT r.* 
+        FROM (
+            SELECT @rownum:=@rownum+1 AS rn,n.* 
+            FROM (
+                SELECT product_id, product_name , product_desc , imageURL , price, created_at  
+                FROM product ) n 
+            WHERE (@ROWNUM:=0)=0 
+            ORDER BY n.created_at DESC) r 
+        WHERE rn <![CDATA[<]]>7;
+    </select>
+
 </mapper>
