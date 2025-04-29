@@ -335,20 +335,5 @@
             $('#join-terms-modal').fadeIn(200);
         });
 
-        // 약관 모달 닫기
-        $('#join-modal-close, #join-term-close, #join-terms-modal').on('click', function (e) {
-            if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
-                $('#join-terms-modal').fadeOut(200);
-            }
-        });
-
-        // 모달 확인 버튼 클릭
-        $('#join-term-confirm').on('click', function () {
-            $('#join-check').prop('checked', true);
-            $('#join-terms-modal').fadeOut(200);
-        });
-    });
-</script>
 </body>
-
 </html>
