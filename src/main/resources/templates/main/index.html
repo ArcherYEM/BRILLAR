@@ -1,245 +1,296 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <title>BRILLAR</title>
 </head>
+
 <body>
-
-    <!-- 상단배너 -->
-    <div>
-        <img src="" alt="배너">
+<!-- 헤더 -->
+<header class="header">
+    <div class="header-top">
+        <div class="logo">
+            <a href="/"><img src="/img/icons/logo.svg" alt="logo"/></a>
+        </div>
+        <div class="cart">
+            <img src="../img/icons/icon-cart.svg" alt="cart"/>
+        </div>
     </div>
-
-    <!-- s: 신상품 -->
-    <div>
-        <div>
-            <p>What Is New?</p>
+    <div class="divider"></div>
+    <div class="header-bottom">
+        <nav class="menu">
+            <ul class="menu-list">
+                <li class="shop">
+                    Shop
+                    <ul class="dropdown">
+                        <li><a href="/ring.html">반지</a></li>
+                        <li><a href="/earring.html">귀걸이</a></li>
+                        <li><a href="/necklace.html">목걸이</a></li>
+                        <li><a href="/bracelet.html">팔찌</a></li>
+                    </ul>
+                </li>
+                <li><a href="/notice.html">Notice</a></li>
+                <li><a href="/events.html">Events</a></li>
+                <li><a href="/qna.html">Q&A</a></li>
+            </ul>
+        </nav>
+        <div class="auth">
+            <a href="/login.html">로그인</a>
+            <a href="/signup.html">회원가입</a>
         </div>
-
-        <!-- s: 제품 리스트 -->
-        <div id="newProducts">
-            <!-- <div>
-                <div>
-                    <img src="" alt="제품사진">
-                </div>
-                <div>
-                    <span>플레인 골드 체인 팔찌 2</span>
-                </div>
-                <div>
-                    <span>20,000</span><span> 원</span>
-                </div>
-                <div>
-                    <span>기본적인 디자인의 골드 팔찌</span>
-                </div>
-            </div>
-
-            <div>
-                <div>
-                    <img src="" alt="제품사진">
-                </div>
-                <div>
-                    <span>플레인 골드 체인 팔찌 3</span>
-                </div>
-                <div>
-                    <span>20,000</span><span> 원</span>
-                </div>
-                <div>
-                    <span>기본적인 디자인의 골드 팔찌</span>
-                </div>
-            </div>
-
-            <div>
-                <div>
-                    <img src="" alt="제품사진">
-                </div>
-                <div>
-                    <span>플레인 골드 체인 팔찌 3</span>
-                </div>
-                <div>
-                    <span>20,000</span><span> 원</span>
-                </div>
-                <div>
-                    <span>기본적인 디자인의 골드 팔찌</span>
-                </div>
-            </div>
-
-            <div>
-                <div>
-                    <img src="" alt="제품사진">
-                </div>
-                <div>
-                    <span>플레인 골드 체인 팔찌 4</span>
-                </div>
-                <div>
-                    <span>20,000</span><span> 원</span>
-                </div>
-                <div>
-                    <span>기본적인 디자인의 골드 팔찌</span>
-                </div>
-            </div>
-
-            <div>
-                <div>
-                    <img src="" alt="제품사진">
-                </div>
-                <div>
-                    <span>플레인 골드 체인 팔찌 5</span>
-                </div>
-                <div>
-                    <span>20,000</span><span> 원</span>
-                </div>
-                <div>
-                    <span>기본적인 디자인의 골드 팔찌</span>
-                </div>
-            </div>
-
-            <div>
-                <div>
-                    <img src="" alt="제품사진">
-                </div>
-                <div>
-                    <span>플레인 골드 체인 팔찌 6</span>
-                </div>
-                <div>
-                    <span>20,000</span><span> 원</span>
-                </div>
-                <div>
-                    <span>기본적인 디자인의 골드 팔찌</span>
-                </div>
-            </div> -->
-        </div>
-        <!-- e: 제품리스트 -->
-
-        <div>
-            <button>쇼핑하기 →</button>
-        </div>
-
     </div>
-    <!-- e: 신상품 -->
-
-    <!-- s: 컬렉션1 -->
-    <div>
-        <div>
-            <div>
-                <img src="" alt="모델사진">
+</header>
+<div class="main-container">
+    <!-- 배너 슬라이드 -->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="../img/sample/slide-1.png"/>
             </div>
-            <div>
-                <div>
-                    <p>BRILLAR EARRINGS</p>
-                </div>
-                <div>
-                    <p>브릴라 귀걸이 컬렉션</p>
-                </div>
-                <div>
-                    <p>Lorem ipsum dolor sit amet consectetur.</p>
-                    <p>Sed commodo pellentesque arcu tristique et morbi.</p>
-                    <p>Lorem ipsum dolor sit amet consectetur.</p>
-                    <p>Sed commodo pellentesque arcu tristique et Lorem ipsum dolor sit am</p>
+            <div class="swiper-slide">
+                <img src="../img/sample/slide-2.png"/>
+            </div>
+            <div class="swiper-slide">
+                <img src="../img/sample/slide-3.png"/>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <!-- 신상품 -->
+    <div class="new-item-wrapper inner-wrapper">
+        <div class="title-lg">What Is New?</div>
+        <div id="new-list" class="new-item-list"></div>
+        <div class="shop-link">
+            <span class="btn-basic-sm"><a href="/shop/ring">쇼핑하기&nbsp;&#8594;</a></span>
+        </div>
+    </div>
+    <!-- 귀걸이 컬렉션 -->
+    <div class="collection-wrapper">
+        <div class="main-info-section inner-wrapper">
+            <div class="main-info-image collection-image">
+                <img src="../img/sample/main-img1.png"/>
+                <div class="collection-frame"></div>
+            </div>
+            <div class="main-info">
+                <p class="main-sub-title">BRILLAR EARRINGS</p>
+                <p class="main-title">브릴라 귀걸이 컬렉션</p>
+                <p class="main-desc">
+                    BRILLAR의 귀걸이 컬렉션은 일상 속 자연스러운 아름다움부터 특별한 날의 우아함까지 아우릅니다.
+                    고급 소재와 섬세한 디테일을 기반으로, 오직 당신만의 빛을 더욱 돋보이게 할 디자인을 담았습니다. 클래식한 감성과
+                    현대적인 세련미를 조화롭게 풀어낸 우리의 컬렉션은, 시간이 지나도 변치 않는 가치를 선사합니다.
+                    지금, 당신의 이야기를 더욱 특별하게 완성하세요.
+                </p>
+                <div class="earring-link">
+                    <span class="btn-white-sm"><a href="/shop/earring">보러가기&nbsp;&#8594;</a></span>
                 </div>
             </div>
         </div>
     </div>
-    <!-- e: 컬렉션1 -->
-    <!-- s: 컬렉션2 -->
-    <div>
-        <div>
-            <div>
-                <div>
-                    <p>BRILLAR JEWELRY</p>
-                </div>
-                <div>
-                    <p>최고의 선택</p>
-                </div>
-                <div>
-                    <p>저희는 정말 최고의 제품입니다... 믿어주세요.</p>
-                    <p>저희는 정말 최고의 제품입니다... 믿어주세요.</p>
-                    <p>저희는 정말 최고의 제품입니다... 믿어주세요.</p>
-                    <p>저희는 정말 최고의 제품입니다... 믿어주세요.</p>
-                    <p>저희는 정말 최고의 제품입니다... 믿어주세요.</p>
-                </div>
+    <!-- 브랜드 소개 -->
+    <div class="brand-wrapper">
+        <div class="main-info-section inner-wrapper">
+            <div class="main-info">
+                <p class="main-sub-title">VALUE OF BRILLAR</p>
+                <p class="main-title">최고의 선택</p>
+                <p class="main-desc">
+                    진정한 아름다움은 시간이 지나도 변하지 않습니다.
+                    BRILLAR는 일시적인 유행을 따르지 않고,
+                    한 점 한 점 정성스럽고 고집스럽게 완성된 액세서리로
+                    소중한 순간을 영원히 간직할 수 있도록 합니다.
+                    품질, 디자인, 의미를 모두 갖춘 BRILLAR의 액세서리는 단순한 소비를 넘어, 당신만의 가치를 완성하는 현명한 결정입니다.
+                </p>
             </div>
-            <div>
-                <img src="" alt="모델 사진">
+            <div class="main-info-image brand-image">
+                <img src="../img/sample/main-img2.png"/>
+                <div class="brand-frame"></div>
             </div>
         </div>
     </div>
-    <!-- e: 컬렉션2 -->
-
-    <!-- s: 할인상품 -->
-    <div>
-        <div>
-            <img src="" alt="할인상품">
-            <div>
-                <div>
-                    <p>15% OFF</p>
-                </div>
-                <div>
-                    <p>루비 실버 물방울 귀걸이</p>
-                </div>
-                <div>
-                    <a href="#">바로가기</a>
-                </div>
+    <!-- 할인 상품 -->
+    <div class="sale-item-wrapper">
+        <div class="title-lg">ON SALE</div>
+        <div id="sale-list" class="sale-item-list"></div>
+    </div>
+</div>
+<!-- 푸터 -->
+<footer class="footer">
+    <div class="footer-top">
+        <div class="footer-left">
+            <img src="../img/icons/logo.svg" alt="logo"/>
+            <div class="footer-desc">
+                섬세한 손길과 진심을 담아, 당신의 빛나는 순간을 완성합니다. 품격과 감성을 잇는 Brillar.
             </div>
         </div>
-        <div>
-            <img src="" alt="할인상품">
-            <div>
-                <div>
-                    <p>15% OFF</p>
+        <div class="footer-right">
+            <div class="sitemap">
+                <div class="sitemap-section">
+                    <div class="sitemap-title">Shop</div>
+                    <a href="/shop/ring">반지</a>
+                    <a href="/shop/earring">귀걸이</a>
+                    <a href="/shop/necklace">목걸이</a>
+                    <a href="/shop/bracelet">팔찌</a>
                 </div>
-                <div>
-                    <p>루비 실버 물방울 귀걸이</p>
+                <div class="sitemap-section">
+                    <div class="sitemap-title">Notice</div>
+                    <a href="/notice">공지사항</a>
+                    <a href="/event">이벤트</a>
+                    <a href="/qna">문의</a>
                 </div>
-                <div>
-                    <a href="#">바로가기</a>
+                <div class="sitemap-section">
+                    <div class="sitemap-title">Account</div>
+                    <a href="/mypage/main">마이페이지</a>
+                    <a href="/mypage/history">주문내역</a>
+                </div>
+                <div class="sitemap-section">
+                    <div class="sitemap-title">TEAM BRILLAR</div>
+                    <a href="/about">About us</a>
+                    <a href="/">Github</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- e: 할인상품 -->
+    <div class="footer-bottom">
+        ©2025 BRILLAR. All rights reserved.
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    // 배너 슬라이드
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        speed: 1000,
+        initialSlide: 0,
+        autoplay: {
+            delay: 3000,
+            pauseOnMouseEnter: true
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script>
-        const pageLoaded = () => {
-            $.ajax({
-                url: '/get/products',
-                method: 'GET',
-                dataType: 'json',
-                success: (data)=>{
-                    const $newProducts = $('#newProducts')
-                    let html = '';
+    // 더미데이터
+    const products = [{
+            id: 1,
+            name: "골드 체인 팔찌1",
+            price: "20,000원",
+            desc: "고급스러운 골드 체인 팔찌",
+            image: "../img/products/bracelet/b1.png",
+            link: "/shop/bracelet/1"
+        },
+        {
+            id: 2,
+            name: "골드 체인 팔찌2",
+            price: "25,000원",
+            desc: "고급스러운 골드 체인 팔찌",
+            image: "../img/products/bracelet/b1.png",
+            link: "/shop/bracelet/1"
+        },
+        {
+            id: 3,
+            name: "골드 체인 팔찌3",
+            price: "10,000원",
+            desc: "고급스러운 골드 체인 팔찌",
+            image: "../img/products/bracelet/b1.png",
+            link: "/shop/bracelet/1"
+        },
+        {
+            id: 4,
+            name: "골드 체인 팔찌4",
+            price: "20,000원",
+            desc: "고급스러운 골드 체인 팔찌",
+            image: "../img/products/bracelet/b1.png",
+            link: "/shop/bracelet/1"
+        },
+        {
+            id: 5,
+            name: "골드 체인 팔찌5",
+            price: "23,000원",
+            desc: "고급스러운 골드 체인 팔찌",
+            image: "../img/products/bracelet/b1.png",
+            link: "/shop/bracelet/1"
+        },
+        {
+            id: 6,
+            name: "골드 체인 팔찌6",
+            price: "20,000원",
+            desc: "고급스러운 골드 체인 팔찌",
+            image: "../img/products/bracelet/b1.png",
+            link: "/shop/bracelet/1"
+        },]
 
-                    $.each(data, function(index, dto) {
-                    html += `
-                        <div>
-                            <input id="pid" type="hidden" name="productId" value="${dto.productId}">
-                            <div>
-                                <img src="${dto.imageUrl}" alt="제품사진">
-                            </div>
-                            <div>
-                                <span>${dto.productName}</span>
-                            </div>
-                            <div>
-                                <span>${dto.price}</span><span> 원</span>
-                            </div>
-                            <div>
-                                <span>${dto.productDesc}</span>
-                            </div>
-                        </div>
-                    `;
-                });
-                    $newProducts.html(html);
-                },
-                error: (xhr, status, error)=>{
-                    console.error("오류: " + status, "내용: " + error);
-                }
-            });
-        };
+    const saleProducts = [{
+            id: 1,
+            name: "루비 실버 물방울 귀걸이",
+            price: "20,000원",
+            discount: "15% OFF",
+            image: "../img/products/earring/e4.png",
+            link: "/shop/bracelet/1"
+        },
+        {
+            id: 2,
+            name: "더블링 실버 반지",
+            price: "25,000원",
+            discount: "5% OFF",
+            image: "../img/products/ring/r4.png",
+            link: "/shop/bracelet/1"
+        },
+        {
+            id: 3,
+            name: "골드 LOVE 목걸이",
+            price: "10,000원",
+            discount: "15% OFF",
+            image: "../img/products/necklace/n3.png",
+            link: "/shop/bracelet/1"
+        },]
 
-        pageLoaded();
-    </script>
-    
+    $(document).ready(function () {
+        // 신상품
+        const $newItemList = $('#new-list');
+
+        $.each(products, function (i, product) {
+            const itemHtml = `
+				<div class="new-item">
+					<div class="new-image">
+						<a href="${product.link}"><img src="${product.image}" alt="new-item" /></a>
+					</div>
+					<div class="new-name">${product.name}</div>
+					<div class="new-price">${product.price}</div>
+					<div class="new-desc">${product.desc}</div>
+				</div>
+				`
+            $newItemList.append(itemHtml);
+        })
+
+        // 할인 상품
+        const $saleItemList = $('#sale-list');
+
+        $.each(saleProducts, function (i, product) {
+            const itemHtml = `
+				<div class="sale-item" style="background-image: url('${product.image}')">
+					<div class="sale-info-wrap">
+						<div class="sale-info">
+							<div class="sale-discount">${product.discount}</div>
+							<div class="sale-name">${product.name}</div>
+							<div class="sale-price">${product.price}</div>
+						</div>
+						<a href="${product.link}" class="sale-link">바로가기</a>
+					</div>
+				</div>
+				`
+            $saleItemList.append(itemHtml);
+        })
+    })
+</script>
 </body>
-
 </html>
