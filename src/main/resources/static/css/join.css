@@ -81,3 +81,14 @@
 .btn-submit {
     margin-top: 10px;
 }
+
+/* 로그인 화면 */
+.login-wrapper {
+    width: 600px;
+    margin: 0 auto;
+    margin-bottom: 250px;
+}
+
+.login-save {
+    font-family: 'Inter';
+}
