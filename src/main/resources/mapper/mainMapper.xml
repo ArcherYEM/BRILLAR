@@ -11,4 +11,17 @@
         FROM orderStatus
     </select>
 
+    <select id="getNewProduct" resultType="kr.co.brillar.dto.MainDto">
+            SELECT 
+                product_id,
+                product_name,
+                product_desc,
+                imageURL,
+                price,
+                created_at
+            FROM product
+            ORDER BY created_at DESC
+            LIMIT 6;
+    </select>
+
 </mapper>
