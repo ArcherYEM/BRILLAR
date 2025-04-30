@@ -19,7 +19,7 @@
                 imageURL,
                 price,
                 createdAt
-            FROM product
+            FROM product 
             ORDER BY createdAt DESC
             LIMIT 6;
     </select>
