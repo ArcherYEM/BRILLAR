@@ -194,3 +194,32 @@
         font-size: 16px;
     }
 }
+
+/* 에디터 */
+.toastui-editor-defaultUI {
+    border-color: var(--c-green-3) !important;
+    border-radius: 0 !important;
+}
+
+.toastui-editor-defaultUI-toolbar {
+    border-radius: 0 !important;
+    background-color: var(--c-green-4) !important;
+    border-color: var(--c-green-3) !important;
+}
+
+.toastui-editor-toolbar-icons {
+    border-color: var(--c-green-4) !important;
+
+    &:hover {
+        background-color: var(--c-green-3) !important;
+    }
+}
+
+.toastui-editor-toolbar-divider {
+    background-color: var(--c-green-3) !important;
+}
+
+.toastui-editor-contents {
+    font-family: 'Inter' !important;
+    font-size: 16px !important;
+}
