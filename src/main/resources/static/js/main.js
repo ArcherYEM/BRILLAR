@@ -128,7 +128,7 @@ $(document).ready(function () {
 
 const pageLoaded = () => {
     $.ajax({
-        url: '/get/products',
+        url: '/api/main/getProducts',
         method: 'GET',
         dataType: 'json',
         success: (data)=>{
@@ -147,12 +147,13 @@ const pageLoaded = () => {
                     </div>
                 `;
             });
-                $newList.html(html);
-            },
-            error: (xhr, status, error)=>{
-                console.error(status, error);
-            }
-        });
-    };
 
-    pageLoaded();
+            $newList.html(html);
+        },
+        error: (xhr, status, error)=>{
+            console.error(status, error);
+        }
+    });
+};
+
+pageLoaded();
