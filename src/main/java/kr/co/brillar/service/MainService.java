@@ -17,13 +17,6 @@ public class MainService {
 
     private final MainMapper mainMapper;
 
-    @Autowired
-
-    // 테스트
-    public String getTest() {
-        return "test";
-    }
-
     // 신상품 리스트
     public List<MainDto> getNewList() {
         return mainMapper.getNewProduct();
