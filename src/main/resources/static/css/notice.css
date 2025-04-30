@@ -37,7 +37,7 @@
 
 .notice-col {
     padding: 12px 10px;
-    min-width: 60px;
+    min-width: 70px;
 
     &.col-date {
         width: 200px;
