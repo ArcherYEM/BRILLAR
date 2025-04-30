@@ -49,14 +49,14 @@
 
 .qna-col {
     padding: 12px 10px;
-    min-width: 60px;
+    min-width: 70px;
 
     &.col-state {
-        width: 90px;
+        width: 100px;
     }
 
     &.col-date {
-        width: 200px;
+        width: 150px;
     }
 
     &.col-title {

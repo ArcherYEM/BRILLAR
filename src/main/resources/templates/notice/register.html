@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+    <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/notice.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+</head>
+<body>
+<!-- 헤더 -->
+<header th:replace="fragments/header :: common-header"></header>
+
+<div class="container notice-container">
+    <p class="title-lg">
+        NOTICE
+    </p>
+    <div class="notice-wrapper">
+        <div class="editor-wrapper">
+            <div id="NoticeEditor"></div>
+            <div class="btn-list">
+                <button class="btn-primary">등록</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 푸터 -->
+<footer th:replace="fragments/footer :: common-footer"></footer>
+
+<script>
+    // 에디터 설정
+    function initEditor() {
+        const editorElement = document.querySelector('#NoticeEditor');
+        if (editorElement) {
+            const content = editorElement.dataset.contents || '';
+            const editor = new toastui.Editor({
+                el: editorElement,
+                height: '450px',
+                initialEditType: 'wysiwyg',
+                previewStyle: 'vertical',
+                initialValue: content,
+                hideModeSwitch: true,
+            });
+            window.noticeEditor = editor;
+        }
+    }
+
+    $(document).ready(function () {
+        initEditor();
+    })
+</script>
+</body>
+</html>
