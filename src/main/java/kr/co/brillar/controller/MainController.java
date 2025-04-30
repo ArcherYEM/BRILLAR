@@ -24,8 +24,7 @@ public class MainController {
     // 메인페이지 조회
     @GetMapping("/")
     public String index() {
-    String name = mainService.getTest();
-    return "main/index";
+        return "main/index";
     }
 
     // REST API
