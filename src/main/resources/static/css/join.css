@@ -62,8 +62,14 @@
 
 .checkbox-group {
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 
     input[type="checkbox"] {
+        margin: 0;
+        width: 16px;
+        height: 16px;
         accent-color: var(--c-purple-1);
     }
 
@@ -85,8 +91,7 @@
 /* 로그인 화면 */
 .login-wrapper {
     width: 600px;
-    margin: 0 auto;
-    margin-bottom: 250px;
+    margin: 0 auto 250px;
 }
 
 .login-save {
