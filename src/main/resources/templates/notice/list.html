@@ -3,106 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+
     <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
     <link rel="stylesheet" type="text/css" href="/css/common/style.css">
     <link rel="stylesheet" type="text/css" href="/css/common/common.css">
     <link rel="stylesheet" type="text/css" href="/css/notice.css">
-    <title>공지사항</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-<!-- 헤더 -->
-<header th:replace="fragments/header :: common-header"></header>
-<div class="container notice-container">
-    <p class="title-lg">
-        NOTICE
-    </p>
-    <div class="notice-wrapper">
-        <div class="notice-header">
-            <div class="notice-col">번호</div>
-            <div class="notice-col col-title">제목</div>
-            <div class="notice-col col-date">등록일</div>
-            <div class="notice-col">조회수</div>
-        </div>
-        <div id="notice-content" class="content-wrapper">
-        </div>
-        <div class="pagination notice-pagination">
-            <button class="page-btn disabled"><img src="/img/icons/icon-first.svg" /></button>
-            <button class="page-btn disabled"><img src="/img/icons/icon-prev.svg" /></button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <button class="page-btn">4</button>
-            <button class="page-btn">5</button>
-            <button class="page-btn"><img src="/img/icons/icon-next.svg" /></button>
-            <button class="page-btn"><img src="/img/icons/icon-last.svg" /></button>
+    <!-- 헤더 -->
+    <header th:replace="fragments/header :: common-header"></header>
+
+    <div class="container notice-container">
+        <p class="title-lg">
+            NOTICE
+        </p>
+        <div class="notice-wrapper">
+            <div class="notice-header">
+                <div class="notice-col">번호</div>
+                <div class="notice-col col-title">제목</div>
+                <div class="notice-col col-date">등록일</div>
+            </div>
+            <div id="notice-content" class="content-wrapper">
+            </div>
+            <div class="pagination notice-pagination">
+                <button class="page-btn disabled"><img src="/img/icons/icon-first.svg" /></button>
+                <button class="page-btn disabled"><img src="/img/icons/icon-prev.svg" /></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn"><img src="/img/icons/icon-next.svg" /></button>
+                <button class="page-btn"><img src="/img/icons/icon-last.svg" /></button>
+            </div>
         </div>
     </div>
-</div>
-<!-- 푸터 -->
-<footer th:replace="fragments/footer :: common-footer"></footer>
-<script>
-    // 더미데이터
-    const notices = [{
-        id: 40,
-        title: "긴급 점검 공지",
-        date: "2025-05-10",
-        view: "40",
-        comment: "1"
-    }, {
-        id: 39,
-        title: "긴급 개되방 공지",
-        date: "2025-05-10",
-        view: "10",
-        comment: "2"
-    }, {
-        id: 38,
-        title: "긴급 머왕님 공지",
-        date: "2025-05-10",
-        view: "20",
-        comment: "0"
-    }, {
-        id: 37,
-        title: "김자반 정처기 공지",
-        date: "2025-05-10",
-        view: "40",
-        comment: "0"
-    }, {
-        id: 36,
-        title: "긴급 점검 공지",
-        date: "2025-05-10",
-        view: "50",
-        comment: "0"
-    }, {
-        id: 35,
-        title: "긴급 점검 공지",
-        date: "2025-05-10",
-        view: "42",
-        comment: "0"
-    }, {
-        id: 34,
-        title: "긴급 점검 공지",
-        date: "2025-05-10",
-        view: "40",
-        comment: "0"
-    }, {
-        id: 33,
-        title: "긴급 점검 공지",
-        date: "2025-05-10",
-        view: "40",
-        comment: "0"
-    }, {
-        id: 32,
-        title: "긴급 점검 공지",
-        date: "2025-05-10",
-        view: "40",
-        comment: "0"
-    }, {
-        id: 31,
-        title: "긴급 점검 공지",
-        date: "2025-05-10",
-        view: "40",
-        comment: "0"
-    }]
-</script>
+
+    <!-- 푸터 -->
+    <footer th:replace="fragments/footer :: common-footer"></footer>
+
+    <script th:src="@{/js/notice.js}"></script>
 </body>
 </html>
