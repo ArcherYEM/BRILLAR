@@ -107,7 +107,7 @@ $(document).ready(function () {
     // })
 
     // 할인 상품
-    const $saleItemList = $('#sale-list');
+    const $saleItemList = $('#SaleList');
 
     $.each(saleProducts, function (i, product) {
         const itemHtml = `
@@ -132,12 +132,12 @@ const pageLoaded = () => {
         method: 'GET',
         dataType: 'json',
         success: (data)=>{
-            const $newList = $('#new-list')
+            const $newList = $('#NewList')
             let html = '';
             $.each(data, function(index, dto) {
                 html += `
                     <div class="new-item">
-                        <input id="pid" type="hidden" name="productId" value="${dto.productId}">
+                        <input id="PSeq" type="hidden" name="productId" value="${dto.productId}">
                         <div class="new-image">
                             <a href=""><img src="${dto.imageUrl}" alt="new-item" /></a>
                         </div>
