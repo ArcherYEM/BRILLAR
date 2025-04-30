@@ -1,100 +1,103 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
-    <link rel="stylesheet" type="text/css" href="/css/common/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <title>BRILLAR</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/common/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/common/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
-<!-- 헤더 -->
-<header th:replace="fragments/header :: common-header"></header>
+    <header th:replace="fragments/header :: common-header"></header>
 
-<div class="main-container">
-    <!-- 배너 슬라이드 -->
-    <div class="swiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="../img/sample/slide-1.png"/>
+    <div class="main-container">
+        <!-- 배너 슬라이드 -->
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="../img/sample/slide-1.png"/>
+                </div>
+                <div class="swiper-slide">
+                    <img src="../img/sample/slide-2.png"/>
+                </div>
+                <div class="swiper-slide">
+                    <img src="../img/sample/slide-3.png"/>
+                </div>
             </div>
-            <div class="swiper-slide">
-                <img src="../img/sample/slide-2.png"/>
-            </div>
-            <div class="swiper-slide">
-                <img src="../img/sample/slide-3.png"/>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- 신상품 -->
+        <div class="new-item-wrapper inner-wrapper">
+            <div class="title-lg">What Is New?</div>
+            <div id="new-list" class="new-item-list"></div>
+            <div class="shop-link">
+                <span class="btn-basic-sm"><a href="/shop/ring">쇼핑하기&nbsp;&#8594;</a></span>
             </div>
         </div>
-        <div class="swiper-pagination"></div>
-    </div>
-    <!-- 신상품 -->
-    <div class="new-item-wrapper inner-wrapper">
-        <div class="title-lg">What Is New?</div>
-        <div id="new-list" class="new-item-list"></div>
-        <div class="shop-link">
-            <span class="btn-basic-sm"><a href="/shop/ring">쇼핑하기&nbsp;&#8594;</a></span>
-        </div>
-    </div>
-    <!-- 귀걸이 컬렉션 -->
-    <div class="collection-wrapper">
-        <div class="main-info-section inner-wrapper">
-            <div class="main-info-image collection-image">
-                <img src="../img/sample/main-img1.png"/>
-                <div class="collection-frame"></div>
-            </div>
-            <div class="main-info">
-                <p class="main-sub-title">BRILLAR EARRINGS</p>
-                <p class="main-title">브릴라 귀걸이 컬렉션</p>
-                <p class="main-desc">
-                    BRILLAR의 귀걸이 컬렉션은 일상 속 자연스러운 아름다움부터 특별한 날의 우아함까지 아우릅니다.
-                    고급 소재와 섬세한 디테일을 기반으로, 오직 당신만의 빛을 더욱 돋보이게 할 디자인을 담았습니다. 클래식한 감성과
-                    현대적인 세련미를 조화롭게 풀어낸 우리의 컬렉션은, 시간이 지나도 변치 않는 가치를 선사합니다.
-                    지금, 당신의 이야기를 더욱 특별하게 완성하세요.
-                </p>
-                <div class="earring-link">
-                    <span class="btn-white-sm"><a href="/shop/earring">보러가기&nbsp;&#8594;</a></span>
+
+        <!-- 귀걸이 컬렉션 -->
+        <div class="collection-wrapper">
+            <div class="main-info-section inner-wrapper">
+                <div class="main-info-image collection-image">
+                    <img src="../img/sample/main-img1.png"/>
+                    <div class="collection-frame"></div>
+                </div>
+                <div class="main-info">
+                    <p class="main-sub-title">BRILLAR EARRINGS</p>
+                    <p class="main-title">브릴라 귀걸이 컬렉션</p>
+                    <p class="main-desc">
+                        BRILLAR의 귀걸이 컬렉션은 일상 속 자연스러운 아름다움부터 특별한 날의 우아함까지 아우릅니다.
+                        고급 소재와 섬세한 디테일을 기반으로, 오직 당신만의 빛을 더욱 돋보이게 할 디자인을 담았습니다. 클래식한 감성과
+                        현대적인 세련미를 조화롭게 풀어낸 우리의 컬렉션은, 시간이 지나도 변치 않는 가치를 선사합니다.
+                        지금, 당신의 이야기를 더욱 특별하게 완성하세요.
+                    </p>
+                    <div class="earring-link">
+                        <span class="btn-white-sm"><a href="/shop/earring">보러가기&nbsp;&#8594;</a></span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- 브랜드 소개 -->
-    <div class="brand-wrapper">
-        <div class="main-info-section inner-wrapper">
-            <div class="main-info">
-                <p class="main-sub-title">VALUE OF BRILLAR</p>
-                <p class="main-title">최고의 선택</p>
-                <p class="main-desc">
-                    진정한 아름다움은 시간이 지나도 변하지 않습니다.
-                    BRILLAR는 일시적인 유행을 따르지 않고,
-                    한 점 한 점 정성스럽고 고집스럽게 완성된 액세서리로
-                    소중한 순간을 영원히 간직할 수 있도록 합니다.
-                    품질, 디자인, 의미를 모두 갖춘 BRILLAR의 액세서리는 단순한 소비를 넘어, 당신만의 가치를 완성하는 현명한 결정입니다.
-                </p>
-            </div>
-            <div class="main-info-image brand-image">
-                <img src="../img/sample/main-img2.png"/>
-                <div class="brand-frame"></div>
+
+        <!-- 브랜드 소개 -->
+        <div class="brand-wrapper">
+            <div class="main-info-section inner-wrapper">
+                <div class="main-info">
+                    <p class="main-sub-title">VALUE OF BRILLAR</p>
+                    <p class="main-title">최고의 선택</p>
+                    <p class="main-desc">
+                        진정한 아름다움은 시간이 지나도 변하지 않습니다.
+                        BRILLAR는 일시적인 유행을 따르지 않고,
+                        한 점 한 점 정성스럽고 고집스럽게 완성된 액세서리로
+                        소중한 순간을 영원히 간직할 수 있도록 합니다.
+                        품질, 디자인, 의미를 모두 갖춘 BRILLAR의 액세서리는 단순한 소비를 넘어, 당신만의 가치를 완성하는 현명한 결정입니다.
+                    </p>
+                </div>
+                <div class="main-info-image brand-image">
+                    <img src="../img/sample/main-img2.png"/>
+                    <div class="brand-frame"></div>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- 할인 상품 -->
-    <div class="sale-item-wrapper">
-        <div class="title-lg">ON SALE</div>
-        <div id="sale-list" class="sale-item-list"></div>
-    </div>
-</div>
 
-<!-- 푸터 -->
-<footer th:replace="fragments/footer :: common-footer"></footer>
+        <!-- 할인 상품 -->
+        <div class="sale-item-wrapper">
+            <div class="title-lg">ON SALE</div>
+            <div id="sale-list" class="sale-item-list"></div>
+        </div>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+    <footer th:block th:replace="fragments/footer :: common-footer"></footer>
 </body>
-
 </html>

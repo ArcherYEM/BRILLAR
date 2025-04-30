@@ -40,8 +40,6 @@
 </div>
 <!-- 푸터 -->
 <footer th:replace="fragments/footer :: common-footer"></footer>
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
     // 더미데이터
     const notices = [{
@@ -104,26 +102,7 @@
         date: "2025-05-10",
         view: "40",
         comment: "0"
-    },
-    ]
-
-    $(document).ready(function () {
-        const $noticeList = $('#notice-content');
-
-        $.each(notices, function (i, notice) {
-            const noticeHtml = `
-					<div class="notice-list">
-						<div class="notice-col">${notice.id}</div>
-						<div class="notice-col col-title">
-							<a href="/notice/${notice.id}">${notice.title}<span class="comment-count">&nbsp;[${notice.comment}]</span></a>
-						</div>
-						<div class="notice-col col-date">${notice.date}</div>
-						<div class="notice-col">${notice.view}</div>
-					</div>
-				`
-            $noticeList.append(noticeHtml);
-        })
-    })
+    }]
 </script>
 </body>
 </html>
