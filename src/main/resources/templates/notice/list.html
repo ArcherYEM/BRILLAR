@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="/css/notice.css">
     <title>공지사항</title>
 </head>
-
 <body>
 <!-- 헤더 -->
 <header th:replace="fragments/header :: common-header"></header>
@@ -113,10 +112,10 @@
 
         $.each(notices, function (i, notice) {
             const noticeHtml = `
-					<div class="notice-content">
+					<div class="notice-list">
 						<div class="notice-col">${notice.id}</div>
 						<div class="notice-col col-title">
-							<p>${notice.title}<span class="comment-count">&nbsp;[${notice.comment}]</span></p>
+							<a href="/notice/${notice.id}">${notice.title}<span class="comment-count">&nbsp;[${notice.comment}]</span></a>
 						</div>
 						<div class="notice-col col-date">${notice.date}</div>
 						<div class="notice-col">${notice.view}</div>
@@ -127,5 +126,4 @@
     })
 </script>
 </body>
-
 </html>
