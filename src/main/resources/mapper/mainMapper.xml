@@ -6,16 +6,16 @@
 <mapper namespace="kr.co.brillar.mapper.MainMapper">
 
     <select id="getNewProduct" resultType="kr.co.brillar.dto.MainDto">
-            SELECT 
-                productSeq,
-                productName,
-                productDesc,
-                imageURL,
-                price,
-                createdAt
-            FROM product
-            ORDER BY createdAt DESC
-            LIMIT 6;
+        SELECT
+            productSeq,
+            productName,
+            productDesc,
+            imageURL,
+            price,
+            createdAt
+        FROM product
+        ORDER BY createdAt DESC
+        LIMIT 6;
     </select>
 
 </mapper>
