@@ -1,45 +1,89 @@
 package kr.co.brillar.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import kr.co.brillar.dto.JoinRequest;
-import kr.co.brillar.service.user.JoinService;
+import kr.co.brillar.dto.MemberDto;
+import kr.co.brillar.mapper.UserMapper;
+import kr.co.brillar.service.JoinServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
 
-    private final JoinService joinService;
+    private final UserMapper userMapper;
+    private JoinServiceImpl joinService;
+   public UserController(JoinServiceImpl joinService, UserMapper userMapper) {
+       this.joinService = joinService;
+       this.userMapper = userMapper;
+   }
 
-    public UserController(JoinService joinService){
-        this.joinService = joinService;
+   //로그인 get
+    @GetMapping("/login")
+    public String login(){
+       return "join/login";
+    }
+    //로그인 Post
+    @PostMapping("/login")
+    public String login(@ModelAttribute MemberDto memberDto,
+                        HttpServletRequest request,
+                        Model model){
+       try{
+           MemberDto loginUser = joinService.login(memberDto.getUserId(), memberDto.getUserPassword());
+           request.getSession().setAttribute("loginUser", loginUser);
+           return "redirect:/";
+       }catch (IllegalArgumentException e){
+           model.addAttribute("error", e.getMessage());
+           return "join/login";
+       }
     }
 
-    //회원가입
+    //회원가입 id중복확인 api
+    @GetMapping("/check/userId")
+    @ResponseBody
+    public boolean checkUserId(@RequestParam String value){
+       MemberDto user = userMapper.findByUserId(value);
+       return user != null;
+    }
+    //회원가입 - Email Check
+    @GetMapping("/check/email")
+    @ResponseBody
+    public boolean checkEmail(@RequestParam String value){
+       return joinService.findByEmail(value);
+    }
+
+    @GetMapping("/check/phone")
+    @ResponseBody
+    public boolean checkPhone(@RequestParam String value){
+       return joinService.findByPhone(value);
+    }
+
+
+    //회원가입 get
     @GetMapping("/join")
     public String joinForm(Model model){
-        model.addAttribute("joinRequest", new JoinRequest());
+        model.addAttribute("joinRequestDto", new MemberDto());
         return "join/register";
     }
 
     //회원가입 Post
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute("joinRequest")JoinRequest joinRequest, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            //유효성 검증실패하면 -> 다시 회원가입 폼 보여주기
-            return "join/register";
-        }
+    public String join(@Valid @ModelAttribute("joinRequestDto") MemberDto memberDto,
+                       BindingResult bindingResult){
+       if(bindingResult.hasErrors()){
+           return "join/register";
+       }
 
-        //유효성 통과 -> 회원가입 처리
-        joinService.register(joinRequest);
-
-        //회원가입 완료 -> 로그인 페이지로 이동
-        return "redirect:/login";
+       try{
+           joinService.register(memberDto);
+       }catch (IllegalArgumentException e){
+           bindingResult.reject("passwordMismatch", e.getMessage());
+           return "join/register";
+       }
+       return "redirect:/login";
     }
 
 

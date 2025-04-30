@@ -4,26 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
-public class Member {
+public class MemberDto {
 
-
-    private Integer userId;
-    private String loginId;
-    private String userPassword;    //Bcrypt hash
+    private String userId;
+    private String userPassword;
+    private String userPasswordConfirm;
     private String userName;
     private LocalDate userBirth;
-    // M, F
     private String userGender;
     private String userPhone;
     private String userAddr1;
     private String userAddr2;
-    private Integer userRole;
     private String userEmail;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
+    private String userRoleCode;
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+        <meta charset="UTF-8">
+        <title>로그인 페이지</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+<h2>로그인</h2>
+<div>
+        <input type="text" id="userId" placeholder="아이디"/>
+</div>
+<div>
+        <input type="password" id="userPassword" placeholder="비밀번호"/>
+</div>
+<div>
+        <button id="loginBtn">로그인</button>
+</div>
+<p id="error-msg" style="color: red;"></p>
+
+
+<script>
+        $(document).ready(function (){
+                $('#loginBtn').on('click', function (){
+                        const userId = $('#userId').val().trim();
+                        const userPassword = $('#userPassword').val().trim();
+
+                        if (!userId || !userPassword) {
+                                $('#error-msg').text('아이디와 비밀번호를 입력하세요');
+                                return;
+                        }
+                        $.ajax({
+                                url: '/login',
+                                method: 'post',
+                                data: {
+                                        userId: userId,
+                                        userPassword: userPassword
+                                },
+                                success: function () {
+                                        window.location.href = '/login'; //이동할 사이트
+                                },
+                        error: function (xhr){
+                                        //서버가 에러 메시지를 model에 담아 보내지만 여기선 JSON응답이 아님
+                                $('#error-msg').text("아이디 또는 비밀번호가 올바르지 않습니다");
+
+                        }
+                        });
+                });
+        });
+</script>
+</body>
+</html>

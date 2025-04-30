@@ -48,55 +48,52 @@
     <div class="join-wrapper">
         <p class="title-md join-title">회원가입</p>
         <p class="login-link">계정이 있으신가요? <a href="/login">로그인</a></p>
-        <form id="join-form" class="join-form">
+        <form id="JoinForm" class="JoinForm" action="/join" method="post">
             <div class="input-group">
-                <input id="join-userid" type="text" name="userid" placeholder="아이디" required />
-                <button id="duplicate-userid" type="button" class="btn-duplicate">중복확인</button>
-                <p id="userid-msg" class="validation-message"></p>
+                <input id="JoinUserId" name="userId" type="text" placeholder="아이디" required />
+                <button id="DuplicateUserId" type="button" class="btn-duplicate">중복확인</button>
             </div>
+
             <div class="input-group">
-                <input id="join-pwd" name="password" type="password" placeholder="비밀번호" required />
+                <input id="JoinPwd" name="userPassword" type="password" placeholder="비밀번호" required />
                 <button type="button" class="btn-eye">
                     <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
                 </button>
-                <p id="password-msg" class="validation-message"></p>
             </div>
+
             <div class="input-group">
-                <input id="join-pwd-chk" name="password-check" type="password" placeholder="비밀번호 확인" required />
+                <input id="JoinPwdChk" name="userPasswordConfirm" type="password" placeholder="비밀번호 확인" required />
                 <button type="button" class="btn-eye">
                     <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
                 </button>
-                <p id="password-check-msg" class="validation-message"></p>
             </div>
 
             <div class="input-group">
-                <input id="join-username" type="text" name="username" placeholder="이름" required />
-                <p id="username-msg" class="validation-message"></p>
+                <input id="JoinUserName" name="userName" type="text" placeholder="이름" required />
             </div>
 
             <div class="input-group">
-                <input id="join-email" type="email" name="email" placeholder="이메일 주소" required />
-                <button id="duplicate-email" type="button" class="btn-duplicate">중복확인</button>
-                <p id="email-msg" class="validation-message"></p>
+                <input id="JoinEmail" name="userEmail" type="email" placeholder="이메일 주소" required />
+                <button id="DuplicateEmail" type="button" class="btn-duplicate">중복확인</button>
             </div>
 
             <div class="input-group">
-                <input id="join-phone" type="text" name="phone" inputmode="numeric" placeholder="휴대폰 번호" required />
-                <button id="duplicate-phone" type="button" class="btn-duplicate">중복확인</button>
-                <p id="phone-msg" class="validation-message"></p>
+                <input id="JoinPhone" name="userPhone" type="text" inputmode="numeric" placeholder="휴대폰 번호" required />
+                <button id="DuplicatePhone" type="button" class="btn-duplicate">중복확인</button>
             </div>
 
             <div class="checkbox-group">
-                <input id="join-check" type="checkbox" />
-                <span id="term-text" class="term-text">개인정보 수집 및 이용약관</span>에 동의합니다.
+                <input id="JoinCheck" type="checkbox" />
+                <span id="TermText" class="term-text">개인정보 수집 및 이용약관</span>에 동의합니다.
             </div>
+
             <button type="submit" class="btn-submit btn-wide">회원가입</button>
         </form>
     </div>
     <!-- 약관 모달 -->
-    <div class="modal" id="join-terms-modal">
+    <div class="modal" id="JoinTermModal">
         <div class="modal-wrapper">
-            <span id="join-modal-close" class="modal-close">&times;</span>
+            <span id="JoinModalClose" class="modal-close">&times;</span>
             <p class="modal-title">개인정보 수집 및 이용약관</p>
             <p class="modal-content">
                 본 약관은 회원가입 시 수집하는 개인정보의 항목, 수집 목적, 이용 방법 등에 대해 설명합니다.<br />
@@ -106,8 +103,8 @@
                 자세한 내용은 본 약관 전문을 참고하시기 바랍니다.
             </p>
             <div class="modal-buttons">
-                <button type="button" id="join-term-confirm" class="btn-primary">eh</button>
-                <button type="button" id="join-term-close" class="btn-warning">닫기</button>
+                <button type="button" id="JoinTermConfirm" class="btn-primary">eh</button>
+                <button type="button" id="JoinTermClose" class="btn-warning">닫기</button>
             </div>
         </div>
     </div>
@@ -155,185 +152,188 @@
 </footer>
 <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script>
-    $(document).ready(function () {
-        // 중복확인 여부
-        let isUserIdChecked = false;
-        let isEmailChecked = false;
-        let isPhoneChecked = false;
+<script src="/js/join.js"></script>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        // 중복확인 여부-->
+<!--        let isUserIdChecked = false;-->
+<!--        let isEmailChecked = false;-->
+<!--        let isPhoneChecked = false;-->
 
-        // 값 수정 시 중복확인 여부 초기화
-        $('#join-userid').on('input', function () {
-            isUserIdChecked = false;
-        });
-        $('#join-email').on('input', function () {
-            isEmailChecked = false;
-        });
+<!--        // 값 수정 시 중복확인 여부 초기화-->
+<!--        $('#join-userid').on('input', function () {-->
+<!--            isUserIdChecked = false;-->
+<!--        });-->
+<!--        $('#join-email').on('input', function () {-->
+<!--            isEmailChecked = false;-->
+<!--        });-->
 
-        // 비밀번호 보기 토글
-        $('.btn-eye').on('click', function () {
-            const $input = $(this).siblings('input');
-            const $icon = $(this).find('img');
-            const isPassword = $input.attr('type') === 'password';
+<!--        // 비밀번호 보기 토글-->
+<!--        $('.btn-eye').on('click', function () {-->
+<!--            const $input = $(this).siblings('input');-->
+<!--            const $icon = $(this).find('img');-->
+<!--            const isPassword = $input.attr('type') === 'password';-->
 
-            $input.attr('type', isPassword ? 'text' : 'password');
-            $icon.attr('src', isPassword ? '/img/icons/icon-visible.svg' : '/img/icons/icon-invisible.svg');
-        });
+<!--            $input.attr('type', isPassword ? 'text' : 'password');-->
+<!--            $icon.attr('src', isPassword ? '/img/icons/icon-visible.svg' : '/img/icons/icon-invisible.svg');-->
+<!--        });-->
 
-        // 휴대폰 번호 포맷
-        $('#join-phone').on('input', function () {
-            let phoneNoValue = $(this).val().replace(/[^0-9]/g, '');
-            phoneNoValue = phoneNoValue.slice(0, 11);
+<!--        // 휴대폰 번호 포맷-->
+<!--        $('#join-phone').on('input', function () {-->
+<!--            let phoneNoValue = $(this).val().replace(/[^0-9]/g, '');-->
+<!--            phoneNoValue = phoneNoValue.slice(0, 11);-->
 
-            if (phoneNoValue.length <= 3) {
-                $(this).val(phoneNoValue);
-            } else if (phoneNoValue.length <= 7) {
-                $(this).val(phoneNoValue.replace(/(\d{3})(\d+)/, '$1-$2'));
-            } else {
-                $(this).val(phoneNoValue.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3'));
-            }
+<!--            if (phoneNoValue.length <= 3) {-->
+<!--                $(this).val(phoneNoValue);-->
+<!--            } else if (phoneNoValue.length <= 7) {-->
+<!--                $(this).val(phoneNoValue.replace(/(\d{3})(\d+)/, '$1-$2'));-->
+<!--            } else {-->
+<!--                $(this).val(phoneNoValue.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3'));-->
+<!--            }-->
 
-            // 번호 수정시 중복확인 상태 초기화
-            isPhoneChecked = false;
-            $(this).get(0).setCustomValidity('');
-        });
-
-
-        // 아이디 중복확인
-        $('#duplicate-userid').on('click', function () {
-            const $input = $('#join-userid');
-            const value = $input.val().trim();
-
-            if (!value) {
-                alert('아이디를 입력해주세요.');
-                return;
-            }
-
-            setTimeout(() => {
-                if (value.toLowerCase() === 'test') {
-                    alert('이미 사용중인 아이디입니다.');
-                } else {
-                    alert('사용 가능한 아이디입니다.');
-                    isUserIdChecked = true;
-                }
-            }, 300);
-        });
-
-        // 이메일 중복확인
-        $('#duplicate-email').on('click', function () {
-            const $input = $('#join-email');
-            const value = $input.val().trim();
-
-            if (!value) {
-                alert('이메일 주소를 입력해주세요.');
-                return;
-            }
-
-            if (!$input.get(0).checkValidity()) {
-                $input.get(0).reportValidity();
-                return;
-            }
-
-            setTimeout(() => {
-                if (value.toLowerCase() === 'test@test.com') {
-                    alert('이미 사용중인 이메일 주소입니다.');
-                } else {
-                    alert('사용 가능한 이메일 주소입니다.');
-                    isEmailChecked = true;
-                }
-            }, 300);
-        });
-
-        // 휴대폰 번호 중복확인
-        $('#duplicate-phone').on('click', function () {
-            const $input = $('#join-phone');
-            const value = $input.val().replace(/-/g, '');
-
-            if (!value) {
-                alert('휴대폰 번호를 입력해주세요.');
-                return;
-            }
-
-            if (value.length < 11) {
-                $input.get(0).setCustomValidity('휴대폰 번호를 올바른 형식으로 입력해주세요.');
-                $input.get(0).reportValidity();
-                return;
-            }
-
-            setTimeout(() => {
-                if (value === '00000000000') {
-                    alert('이미 사용중인 휴대폰 번호입니다.');
-                } else {
-                    alert('사용 가능한 휴대폰 번호입니다.');
-                    isPhoneChecked = true;
-                }
-            }, 300);
-        });
+<!--            // 번호 수정시 중복확인 상태 초기화-->
+<!--            isPhoneChecked = false;-->
+<!--            $(this).get(0).setCustomValidity('');-->
+<!--        });-->
 
 
-        // 비밀번호
-        const $password = $('#join-pwd');
-        const $passwordConfirm = $('#join-pwd-chk');
+<!--        // 아이디 중복확인-->
+<!--        $('#duplicate-userid').on('click', function () {-->
+<!--            const $input = $('#join-userid');-->
+<!--            const value = $input.val().trim();-->
 
-        // 비밀번호 유효성 검사
-        $password.on('input', function () {
-            if ($password.val().length < 8) {
-                $password.get(0).setCustomValidity('비밀번호는 8자 이상이어야 합니다.');
-            } else {
-                $password.get(0).setCustomValidity('');
-            }
-            $password.get(0).reportValidity();
-        })
+<!--            if (!value) {-->
+<!--                alert('아이디를 입력해주세요.');-->
+<!--                return;-->
+<!--            }-->
 
-        // 비밀번호 확인 일치 체크
-        $passwordConfirm.on('input', function () {
-            if ($passwordConfirm.val() !== $password.val()) {
-                $passwordConfirm.get(0).setCustomValidity('비밀번호가 일치하지 않습니다.');
-            } else {
-                $passwordConfirm.get(0).setCustomValidity('');
-            }
-            $passwordConfirm.get(0).reportValidity();
-        });
+<!--            setTimeout(() => {-->
+<!--                if (value.toLowerCase() === 'test') {-->
+<!--                    alert('이미 사용중인 아이디입니다.');-->
+<!--                } else {-->
+<!--                    alert('사용 가능한 아이디입니다.');-->
+<!--                    isUserIdChecked = true;-->
+<!--                }-->
+<!--            }, 300);-->
+<!--        });-->
 
-        // 폼 제출
-        $('#join-form').on('submit', function (e) {
-            const $form = $(this);
-            let isValid = true;
+<!--        // 이메일 중복확인-->
+<!--        $('#duplicate-email').on('click', function () {-->
+<!--            const $input = $('#join-email');-->
+<!--            const value = $input.val().trim();-->
 
-            if (!isUserIdChecked) {
-                alert('아이디 중복확인을 완료해주세요.');
-                e.preventDefault();
-                return;
-            }
-            if (!isEmailChecked) {
-                alert('이메일 중복확인을 완료해주세요.');
-                e.preventDefault();
-                return;
-            }
-            if (!isPhoneChecked) {
-                alert('휴대폰 번호 중복확인을 완료해주세요.');
-                e.preventDefault();
-                return;
-            }
+<!--            if (!value) {-->
+<!--                alert('이메일 주소를 입력해주세요.');-->
+<!--                return;-->
+<!--            }-->
 
-            // 약관 동의 체크
-            const isChecked = $form.find('#join-check').is(':checked');
-            if (!isChecked) {
-                alert('개인정보 수집 및 이용약관에 동의해주세요.');
-                e.preventDefault();
-                return;
-            }
+<!--            if (!$input.get(0).checkValidity()) {-->
+<!--                $input.get(0).reportValidity();-->
+<!--                return;-->
+<!--            }-->
 
-            // 휴대폰 번호 하이픈 제거
-            const $phoneInput = $('#join-phone');
-            const purePhone = $phoneInput.val().replace(/-/g, '');
-        });
+<!--            setTimeout(() => {-->
+<!--                if (value.toLowerCase() === 'test@test.com') {-->
+<!--                    alert('이미 사용중인 이메일 주소입니다.');-->
+<!--                } else {-->
+<!--                    alert('사용 가능한 이메일 주소입니다.');-->
+<!--                    isEmailChecked = true;-->
+<!--                }-->
+<!--            }, 300);-->
+<!--        });-->
 
-        // 약관 모달 열기
-        $('#term-text').on('click', function (e) {
-            e.preventDefault();
-            $('#join-terms-modal').fadeIn(200);
-        });
+<!--        // 휴대폰 번호 중복확인-->
+<!--        $('#duplicate-phone').on('click', function () {-->
+<!--            const $input = $('#join-phone');-->
+<!--            const value = $input.val().replace(/-/g, '');-->
+
+<!--            if (!value) {-->
+<!--                alert('휴대폰 번호를 입력해주세요.');-->
+<!--                return;-->
+<!--            }-->
+
+<!--            if (value.length < 11) {-->
+<!--                $input.get(0).setCustomValidity('휴대폰 번호를 올바른 형식으로 입력해주세요.');-->
+<!--                $input.get(0).reportValidity();-->
+<!--                return;-->
+<!--            }-->
+
+<!--            setTimeout(() => {-->
+<!--                if (value === '00000000000') {-->
+<!--                    alert('이미 사용중인 휴대폰 번호입니다.');-->
+<!--                } else {-->
+<!--                    alert('사용 가능한 휴대폰 번호입니다.');-->
+<!--                    isPhoneChecked = true;-->
+<!--                }-->
+<!--            }, 300);-->
+<!--        });-->
+
+
+<!--        // 비밀번호-->
+<!--        const $password = $('#join-pwd');-->
+<!--        const $passwordConfirm = $('#join-pwd-chk');-->
+
+<!--        // 비밀번호 유효성 검사-->
+<!--        $password.on('input', function () {-->
+<!--            if ($password.val().length < 8) {-->
+<!--                $password.get(0).setCustomValidity('비밀번호는 8자 이상이어야 합니다.');-->
+<!--            } else {-->
+<!--                $password.get(0).setCustomValidity('');-->
+<!--            }-->
+<!--            $password.get(0).reportValidity();-->
+<!--        })-->
+
+<!--        // 비밀번호 확인 일치 체크-->
+<!--        $passwordConfirm.on('input', function () {-->
+<!--            if ($passwordConfirm.val() !== $password.val()) {-->
+<!--                $passwordConfirm.get(0).setCustomValidity('비밀번호가 일치하지 않습니다.');-->
+<!--            } else {-->
+<!--                $passwordConfirm.get(0).setCustomValidity('');-->
+<!--            }-->
+<!--            $passwordConfirm.get(0).reportValidity();-->
+<!--        });-->
+
+<!--        // 폼 제출-->
+<!--        $('#join-form').on('submit', function (e) {-->
+<!--            const $form = $(this);-->
+<!--            let isValid = true;-->
+
+<!--            if (!isUserIdChecked) {-->
+<!--                alert('아이디 중복확인을 완료해주세요.');-->
+<!--                e.preventDefault();-->
+<!--                return;-->
+<!--            }-->
+<!--            if (!isEmailChecked) {-->
+<!--                alert('이메일 중복확인을 완료해주세요.');-->
+<!--                e.preventDefault();-->
+<!--                return;-->
+<!--            }-->
+<!--            if (!isPhoneChecked) {-->
+<!--                alert('휴대폰 번호 중복확인을 완료해주세요.');-->
+<!--                e.preventDefault();-->
+<!--                return;-->
+<!--            }-->
+
+<!--            // 약관 동의 체크-->
+<!--            const isChecked = $form.find('#join-check').is(':checked');-->
+<!--            if (!isChecked) {-->
+<!--                alert('개인정보 수집 및 이용약관에 동의해주세요.');-->
+<!--                e.preventDefault();-->
+<!--                return;-->
+<!--            }-->
+
+<!--            // 휴대폰 번호 하이픈 제거-->
+<!--            const $phoneInput = $('#join-phone');-->
+<!--            const purePhone = $phoneInput.val().replace(/-/g, '');-->
+<!--        });-->
+
+<!--        // 약관 모달 열기-->
+<!--        $('#term-text').on('click', function (e) {-->
+<!--            e.preventDefault();-->
+<!--            $('#join-terms-modal').fadeIn(200);-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
 </body>
 </html>

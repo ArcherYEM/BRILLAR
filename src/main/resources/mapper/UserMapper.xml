@@ -5,23 +5,56 @@
 
 <mapper namespace="kr.co.brillar.mapper.UserMapper">
 
+    <select id="findByUserId" parameterType="string" resultType="kr.co.brillar.dto.MemberDto">
+        select
+            userSeq,
+            userRoleCode,
+            userId,
+            userPassword,
+            userEmail,
+            userName,
+            userBirth,
+            userGender,
+            userPhone,
+            userAddr1,
+            userAddr2,
+            createdAt,
+            updatedAt
+        from user
+        where userId = #{userId}
+    </select>
+
+<!--    userEmail 중복체크-->
+    <select id="findByEmail" parameterType="String" resultType="int">
+        select count(*)
+        from user
+        where userEmail = #{email}
+    </select>
+
+<!--    phone 중복 Check-->
+    <select id="findByPhone" parameterType="String" resultType="int">
+        select ifnull(count(*),0)
+        from user
+        where userPhone = #{phone}
+    </select>
+
     <!-- 테스트용 -->
-    <insert id="insertUser" parameterType="kr.co.brillar.dto.Member">
+    <insert id="insertUser" parameterType="kr.co.brillar.dto.MemberDto">
         insert into user(
-                         user_loginUser,
-                         user_password,
-                         user_name,
-                         user_birth,
-                         user_gender,
-                         user_phone,
-                         user_addr1,
-                         user_addr2,
-                         user_role,
-                         user_email,
-                         created_at,
-                         updated_at
+                         userId,
+                         userPassword,
+                         userName,
+                         userBirth,
+                         userGender,
+                         userPhone,
+                         userAddr1,
+                         userAddr2,
+                         userRoleCode,
+                         userEmail,
+                         createdAt,
+                         updatedAt
         ) values (
-                  #{loginId},
+                  #{userId},
                   #{userPassword},
                   #{userName},
                   #{userBirth},
@@ -29,7 +62,7 @@
                   #{userPhone},
                   #{userAddr1},
                   #{userAddr2},
-                  #{userRole},
+                  #{userRoleCode},
                   #{userEmail},
                   Now(),
                   Now()
