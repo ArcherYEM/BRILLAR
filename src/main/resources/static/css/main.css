@@ -1,5 +1,5 @@
 .main-container {
-    width: 100vw;
+    width: 100%;
     margin: 0 auto;
     padding: 30px 0;
 }
@@ -92,13 +92,13 @@
 
 /* 귀걸이 컬렉션, 브랜드 소개 */
 .collection-wrapper {
-    width: 100vw;
+    width: 100%;
     background-color: var(--c-purple-1);
     padding: 100px 0;
 }
 
 .brand-wrapper {
-    width: 100vw;
+    width: 100%;
     background-color: var(--c-green-2);
     padding: 100px 0;
 }
