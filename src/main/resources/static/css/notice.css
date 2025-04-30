@@ -1,0 +1,179 @@
+.notice-container {
+    padding-top: 65px;
+}
+
+.notice-wrapper {
+    font-family: 'Inter';
+    margin: 65px 0;
+}
+
+.notice-header,
+.notice-list {
+    width: 100%;
+    display: flex;
+}
+
+.notice-header {
+    background-color: var(--c-green-2);
+    color: var(--c-white);
+    font-weight: 500;
+    text-align: center;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: var(--c-green-2);
+
+    .col-title {
+        text-align: left;
+    }
+
+    .comment-count {
+        color: var(--c-green-3);
+    }
+}
+
+.notice-col {
+    padding: 12px 10px;
+    min-width: 60px;
+
+    &.col-date {
+        width: 200px;
+    }
+
+    &.col-title {
+        flex: 1;
+    }
+}
+
+.notice-list {
+    border-bottom: 1px solid var(--c-green-2);
+
+    &:hover {
+        background-color: var(--c-gray-3);
+    }
+}
+
+.notice-pagination {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+/* 상세보기 */
+.notice-view {
+    border: 1px solid var(--c-green-2);
+    padding: 30px;
+
+    .btn-list {
+        margin-top: 40px;
+        display: flex;
+        gap: 5px;
+        justify-content: end;
+    }
+}
+
+.notice-top {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notice-title {
+    font-size: 24px;
+    color: var(--c-green-2);
+    font-weight: 600;
+}
+
+.notice-meta {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--c-green-3);
+
+    .notice-date {
+        font-size: 14px;
+        color: var(--c-green-3);
+    }
+}
+
+.notice-content {
+    padding: 20px 0;
+    line-height: 1.5;
+}
+
+.comment-wrapper {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-register {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    width: 100%;
+
+    textarea {
+        width: 100%;
+        height: 80px;
+        border-radius: 0;
+    }
+}
+
+.comment-limit {
+    font-size: 12px;
+    color: var(--c-green-3);
+}
+
+.comment-header {
+    margin-top: 30px;
+    font-size: 20px;
+    color: var(--c-green-2);
+    font-weight: 600;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--c-green-2);
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--c-green-3);
+    line-height: 1.5;
+
+    .comment-meta {
+        display: flex;
+        align-items: flex-end;
+        gap: 5px;
+    }
+
+    .comment-author {
+        color: var(--c-green-2);
+        font-weight: 600;
+    }
+
+    .comment-date {
+        font-size: 12px;
+        color: var(--c-green-3);
+    }
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.no-comment {
+    color: var(--c-green-3);
+}

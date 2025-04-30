@@ -21,7 +21,8 @@
     --c-green-1: #0E1513;
     --c-green-2: #102D26;
     --c-green-3: #98B0A9;
-    --c-green-4: #00A985;
+    --c-green-4: #d4dbd9;
+    --c-green-5: #00A985;
     --c-purple-1: #2D2439;
     --c-purple-2: #5B5168;
     --c-red-1: #50051E;
@@ -60,6 +61,16 @@ input {
     outline: none;
 }
 
+textarea {
+    padding: 10px;
+    border: 1px solid var(--c-gray-2);
+    border-radius: 5px;
+    outline: none;
+    resize: none;
+    font-size: 16px;
+    font-family: 'Inter';
+}
+
 button {
     border: 1px solid var(--c-purple-1);
     outline: none;
@@ -89,6 +100,7 @@ button {
     text-align: center;
 }
 
+/* 버튼 */
 .btn-basic-sm {
     padding: 10px 20px;
     border: 1px solid var(--c-green-1);
@@ -174,6 +186,35 @@ button {
     &:hover {
         border-color: var(--c-red-2);
         background-color: var(--c-red-2);
+        color: var(--c-white);
+    }
+}
+
+/* 페이지네이션 */
+.pagination {
+    display: flex;
+    gap: 5px;
+}
+
+.page-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid var(--c-green-3);
+    color: var(--c-green-3);
+    border-radius: 8px;
+    padding: 7px;
+
+    &.active {
+        background-color: var(--c-green-2);
+        border-color: var(--c-green-2);
+        color: var(--c-white);
+    }
+
+    &.disabled {
+        background-color: var(--c-green-4);
+        border-color: var(--c-green-4);
         color: var(--c-white);
     }
 }
