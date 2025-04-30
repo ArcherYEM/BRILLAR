@@ -40,7 +40,7 @@
     min-width: 70px;
 
     &.col-date {
-        width: 200px;
+        width: 150px;
     }
 
     &.col-title {
@@ -176,4 +176,21 @@
 
 .no-comment {
     color: var(--c-green-3);
+}
+
+/* 공지 작성 */
+.editor-wrapper {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.btn-list {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+        padding: 8px 20px;
+        font-size: 16px;
+    }
 }
