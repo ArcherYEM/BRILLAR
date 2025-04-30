@@ -5,7 +5,7 @@
 
 <mapper namespace="kr.co.brillar.mapper.UserMapper">
 
-    <select id="findByUserId" parameterType="string" resultType="kr.co.brillar.dto.MemberDto">
+    <select id="findByUserId" parameterType="string" resultType="kr.co.brillar.dto.UserDto">
         select
             userSeq,
             userRoleCode,
@@ -39,7 +39,7 @@
     </select>
 
     <!-- 테스트용 -->
-    <insert id="insertUser" parameterType="kr.co.brillar.dto.MemberDto">
+    <insert id="insertUser" parameterType="kr.co.brillar.dto.UserDto">
         insert into user(
                          userId,
                          userPassword,

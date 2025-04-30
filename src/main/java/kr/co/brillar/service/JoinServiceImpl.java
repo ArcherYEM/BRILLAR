@@ -1,6 +1,6 @@
 package kr.co.brillar.service;
 
-import kr.co.brillar.dto.MemberDto;
+import kr.co.brillar.dto.UserDto;
 import kr.co.brillar.mapper.UserMapper;
 import kr.co.brillar.security.PasswordEncryptor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +23,8 @@ public class JoinServiceImpl {
     }
 
     //로그인
-    public MemberDto login(String userId, String rawPassword){
-        MemberDto user = userMapper.findByUserId(userId);
+    public UserDto login(String userId, String rawPassword){
+        UserDto user = userMapper.findByUserId(userId);
 
         if(user == null){
             throw new IllegalArgumentException("존재하지 않는 아이디입니다.");
@@ -48,18 +48,18 @@ public class JoinServiceImpl {
 
 
 
-    public void register(MemberDto memberDto) {
+    public void register(UserDto userDto) {
 
-        if (!memberDto.getUserPassword().equals(memberDto.getUserPasswordConfirm())) {
+        if (!userDto.getUserPassword().equals(userDto.getUserPasswordConfirm())) {
             throw new IllegalArgumentException("비밀번호와 확인이 일치하지 않습니다.");
         }
         //비밀번호 암호화
-        String encodedPwd = passwordEncryptor.encode(memberDto.getUserPassword());
-        memberDto.setUserPassword(encodedPwd);
+        String encodedPwd = passwordEncryptor.encode(userDto.getUserPassword());
+        userDto.setUserPassword(encodedPwd);
 
-        memberDto.setUserRoleCode("Silver");   //룩업 테이블
+        userDto.setUserRoleCode("Silver");   //룩업 테이블
         //DB 저장
-        userMapper.insertUser(memberDto);
+        userMapper.insertUser(userDto);
 
     }
 }

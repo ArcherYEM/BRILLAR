@@ -3,7 +3,7 @@ package kr.co.brillar.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import kr.co.brillar.dto.MemberDto;
+import kr.co.brillar.dto.UserDto;
 import kr.co.brillar.mapper.UserMapper;
 import kr.co.brillar.service.JoinServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -28,11 +28,11 @@ public class UserController {
     }
     //로그인 Post
     @PostMapping("/login")
-    public String login(@ModelAttribute MemberDto memberDto,
+    public String login(@ModelAttribute UserDto userDto,
                         HttpServletRequest request,
                         Model model){
        try{
-           MemberDto loginUser = joinService.login(memberDto.getUserId(), memberDto.getUserPassword());
+           UserDto loginUser = joinService.login(userDto.getUserId(), userDto.getUserPassword());
            request.getSession().setAttribute("loginUser", loginUser);
            return "redirect:/";
        }catch (IllegalArgumentException e){
@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping("/check/userId")
     @ResponseBody
     public boolean checkUserId(@RequestParam String value){
-       MemberDto user = userMapper.findByUserId(value);
+       UserDto user = userMapper.findByUserId(value);
        return user != null;
     }
     //회원가입 - Email Check
@@ -65,20 +65,20 @@ public class UserController {
     //회원가입 get
     @GetMapping("/join")
     public String joinForm(Model model){
-        model.addAttribute("joinRequestDto", new MemberDto());
+        model.addAttribute("joinRequestDto", new UserDto());
         return "join/register";
     }
 
     //회원가입 Post
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute("joinRequestDto") MemberDto memberDto,
+    public String join(@Valid @ModelAttribute("joinRequestDto") UserDto userDto,
                        BindingResult bindingResult){
        if(bindingResult.hasErrors()){
            return "join/register";
        }
 
        try{
-           joinService.register(memberDto);
+           joinService.register(userDto);
        }catch (IllegalArgumentException e){
            bindingResult.reject("passwordMismatch", e.getMessage());
            return "join/register";
