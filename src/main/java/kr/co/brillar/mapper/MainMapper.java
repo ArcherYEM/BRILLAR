@@ -9,7 +9,5 @@ import kr.co.brillar.dto.MainDto;
 @Mapper
 public interface MainMapper {
 
-    String getTest();
-
     List<MainDto> getNewProduct();
 }

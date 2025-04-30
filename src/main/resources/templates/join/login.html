@@ -1,53 +1,84 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-        <meta charset="UTF-8">
-        <title>로그인 페이지</title>
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/join.css">
+    <title>로그인</title>
 </head>
+
 <body>
-
-<h2>로그인</h2>
-<div>
-        <input type="text" id="userId" placeholder="아이디"/>
+<!-- 헤더 -->
+<header th:replace="fragments/header :: common-header"></header>
+<div class="container">
+    <div class="login-wrapper">
+        <p class="title-md join-title">로그인</p>
+        <p class="login-link">계정이 없으신가요? <a href="/join">가입하기</a></p>
+        <form id="login-form" class="join-form">
+            <div class="input-group">
+                <input id="login-userid" type="text" name="userid" placeholder="아이디" required />
+            </div>
+            <div class="input-group">
+                <input id="login-pwd" name="password" type="password" placeholder="비밀번호" required />
+                <button type="button" class="btn-eye">
+                    <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
+                </button>
+            </div>
+            <div class="checkbox-group">
+                <input id="login-check" type="checkbox" />
+                <span class="login-save">자동 로그인</span>
+            </div>
+            <button type="submit" class="btn-submit btn-wide">로그인</button>
+        </form>
+    </div>
 </div>
-<div>
-        <input type="password" id="userPassword" placeholder="비밀번호"/>
-</div>
-<div>
-        <button id="loginBtn">로그인</button>
-</div>
-<p id="error-msg" style="color: red;"></p>
-
-
+<!-- 푸터 -->
+<footer th:replace="fragments/footer :: common-footer"></footer>
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
-        $(document).ready(function (){
-                $('#loginBtn').on('click', function (){
-                        const userId = $('#userId').val().trim();
-                        const userPassword = $('#userPassword').val().trim();
+    $(document).ready(function () {
+        // 비밀번호 보기 토글
+        $('.btn-eye').on('click', function () {
+            const $input = $(this).siblings('input');
+            const $icon = $(this).find('img');
+            const isPassword = $input.attr('type') === 'password';
+            $(document).ready(function (){
+                $('#LoginBtn').on('click', function (){
+                    const userId = $('#UserId').val().trim();
+                    const userPassword = $('#UserPassword').val().trim();
 
-                        if (!userId || !userPassword) {
-                                $('#error-msg').text('아이디와 비밀번호를 입력하세요');
-                                return;
-                        }
-                        $.ajax({
-                                url: '/login',
-                                method: 'post',
-                                data: {
-                                        userId: userId,
-                                        userPassword: userPassword
-                                },
-                                success: function () {
-                                        window.location.href = '/login'; //이동할 사이트
-                                },
-                        error: function (xhr){
-                                        //서버가 에러 메시지를 model에 담아 보내지만 여기선 JSON응답이 아님
-                                $('#error-msg').text("아이디 또는 비밀번호가 올바르지 않습니다");
-
-                        }
-                        });
+                    $input.attr('type', isPassword ? 'text' : 'password');
+                    $icon.attr('src', isPassword ? '/img/icons/icon-visible.svg' : '/img/icons/icon-invisible.svg');
                 });
+            });
+
+            if (!userId || !userPassword) {
+                $('#ErrorMsg').text('아이디와 비밀번호를 입력하세요');
+                return;
+            }
+            $.ajax({
+                url: '/login',
+                method: 'post',
+                data: {
+                        userId: userId,
+                        userPassword: userPassword
+                },
+                success: function () {
+                    window.location.href = '/login'; //이동할 사이트
+                },
+                error: function (xhr){
+                    //서버가 에러 메시지를 model에 담아 보내지만 여기선 JSON응답이 아님
+                    $('#ErrorMsg').text("아이디 또는 비밀번호가 올바르지 않습니다");
+                }
+            });
         });
+    });
 </script>
 </body>
+
 </html>
