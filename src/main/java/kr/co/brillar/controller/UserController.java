@@ -21,26 +21,6 @@ public class UserController {
        this.userMapper = userMapper;
    }
 
-   //로그인 get
-    @GetMapping("/login")
-    public String login(){
-       return "join/login";
-    }
-    //로그인 Post
-    @PostMapping("/login")
-    public String login(@ModelAttribute UserDto userDto,
-                        HttpServletRequest request,
-                        Model model){
-       try{
-           UserDto loginUser = joinService.login(userDto.getUserId(), userDto.getUserPassword());
-           request.getSession().setAttribute("loginUser", loginUser);
-           return "redirect:/";
-       }catch (IllegalArgumentException e){
-           model.addAttribute("error", e.getMessage());
-           return "join/login";
-       }
-    }
-
     //회원가입 id중복확인 api
     @GetMapping("/check/userId")
     @ResponseBody
