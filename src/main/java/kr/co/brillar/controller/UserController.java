@@ -5,34 +5,36 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kr.co.brillar.dto.UserDto;
 import kr.co.brillar.mapper.UserMapper;
-import kr.co.brillar.service.JoinServiceImpl;
+import kr.co.brillar.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/login")
 public class UserController {
 
     private final UserMapper userMapper;
-    private JoinServiceImpl joinService;
-   public UserController(JoinServiceImpl joinService, UserMapper userMapper) {
-       this.joinService = joinService;
+    private UserService userService;
+   public UserController(UserService userService, UserMapper userMapper) {
+       this.userService = userService;
        this.userMapper = userMapper;
    }
 
    //로그인 get
-    @GetMapping("/login")
+    @GetMapping("")
     public String login(){
        return "join/login";
     }
+
     //로그인 Post
-    @PostMapping("/login")
+    @PostMapping("")
     public String login(@ModelAttribute UserDto userDto,
                         HttpServletRequest request,
                         Model model){
        try{
-           UserDto loginUser = joinService.login(userDto.getUserId(), userDto.getUserPassword());
+           UserDto loginUser = userService.login(userDto.getUserId(), userDto.getUserPassword());
            request.getSession().setAttribute("loginUser", loginUser);
            return "redirect:/";
        }catch (IllegalArgumentException e){
@@ -52,13 +54,13 @@ public class UserController {
     @GetMapping("/check/email")
     @ResponseBody
     public boolean checkEmail(@RequestParam String value){
-       return joinService.findByEmail(value);
+       return userService.findByEmail(value);
     }
 
     @GetMapping("/check/phone")
     @ResponseBody
     public boolean checkPhone(@RequestParam String value){
-       return joinService.findByPhone(value);
+       return userService.findByPhone(value);
     }
 
 
@@ -78,7 +80,7 @@ public class UserController {
        }
 
        try{
-           joinService.register(userDto);
+           userService.register(userDto);
        }catch (IllegalArgumentException e){
            bindingResult.reject("passwordMismatch", e.getMessage());
            return "join/register";

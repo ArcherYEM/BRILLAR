@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class JoinServiceImpl {
+public class UserService {
 
     private final PasswordEncryptor passwordEncryptor;
     private final UserMapper userMapper;
 
-    public JoinServiceImpl(BCryptPasswordEncoder pwdEncoder,
-                           PasswordEncryptor passwordEncryptor,
-                           UserMapper userMapper)
+    public UserService(BCryptPasswordEncoder pwdEncoder,
+                       PasswordEncryptor passwordEncryptor,
+                       UserMapper userMapper)
     {
         this.passwordEncryptor = passwordEncryptor;
         this.userMapper = userMapper;
