@@ -408,15 +408,12 @@
         });
 
         // 폼 제출
-        $('#AccountSubmit').on('click', function (e) {
+        $submitBtn.on('click', function (e) {
             isChanged = false;
             $submitBtn
                 .removeClass('active')
                 .addClass('disabled')
                 .prop('disabled', true);
-
-            const $form = $(this);
-            let isValid = true;
 
             if (isEmailChanged && !isEmailChecked) {
                 alert('이메일 중복확인을 완료해주세요.');
