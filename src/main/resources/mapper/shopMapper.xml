@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.ShopMapper">
+
+    <select id="getProductDTOList" resultType="kr.co.brillar.dto.ProductDTO" parameterType="map">
+        SELECT  DISTINCT
+                A.productSeq,
+                A.discountSeq,
+                A.groupId,
+                A.productName,
+                A.productDesc,
+                A.price,
+                A.imageURL,
+                A.score,
+                A.isClose
+        FROM product A
+            LEFT JOIN material B
+            ON A.productSeq = B.productSeq
+        WHERE groupId = #{dto.groupId}
+        <if test="dto.text != null and dto.text != ''">
+            AND A.productName LIKE CONCAT('%', #{dto.text}, '%')
+        </if>
+        <if test="dto.materialList != null and dto.materialList.size() > 0">
+            AND B.materialCode IN
+            <foreach collection="dto.materialList" item="material" open="(" separator="," close=")">
+                #{material}
+            </foreach>
+        </if>
+        <if test="dto.minPrice != null and dto.maxPrice != null">
+            AND A.price BETWEEN #{dto.minPrice} and #{dto.maxPrice}
+        </if>
+        <if test="dto.minPrice != null and dto.maxPrice == null">
+            AND A.price &gt;= #{dto.minPrice}
+        </if>
+        <if test="dto.minPrice == null and dto.maxPrice != null">
+            AND A.price &lt;= #{dto.maxPrice}
+        </if>
+        <choose>
+            <when test="dto.sortValue == 0">
+                ORDER BY A.score DESC, A.productSeq DESC
+            </when>
+            <when test="dto.sortValue == 1">
+                ORDER BY A.score ASC, A.productSeq DESC
+            </when>
+            <when test="dto.sortValue == 3">
+                ORDER BY A.price DESC, A.productSeq DESC
+            </when>
+            <when test="dto.sortValue == 4">
+                ORDER BY A.price ASC, A.productSeq DESC
+            </when>
+        </choose>
+        LIMIT #{offset} , 9
+    </select>
+
+</mapper>
