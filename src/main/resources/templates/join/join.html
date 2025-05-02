@@ -39,7 +39,6 @@
                         <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
                     </button>
                 </div>
-                <p id="pwdMatchMsg"></p>
 
                 <div class="input-group">
                     <input id="JoinUserName" type="text" placeholder="이름" required />
@@ -47,6 +46,11 @@
 
                 <div class="input-group">
                     <input id="JoinBirth" type="text" placeholder="생년월일" required />
+                </div>
+
+                <div class="input-group">
+                    <button id="JoinGenderM" type="button" class="btn-duplicate" onclick="myGender('M')"/>남자</button>
+                    <button id="JoinGenderF" type="button" class="btn-duplicate" onclick="myGender('F')"/>여자</button>
                 </div>
 
                 <div class="input-group">

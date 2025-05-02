@@ -7,6 +7,9 @@ import java.util.Map;
 
 @Mapper
 public interface JoinMapper {
+    // 중복확인
     int isDuplicate(Map<String, Object> param);
+    
+    // 회원가입
     void register(UserDto user);
 }

@@ -23,6 +23,7 @@ public class JoinService {
     // 회원가입
     public String register(UserDto user) {
         try {
+            user.setUserRoleCode("SILVER");
             joinMapper.register(user);
 
             return SUCCESS;

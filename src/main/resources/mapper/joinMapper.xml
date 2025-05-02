@@ -22,4 +22,30 @@
         </where>
     </select>
 
+    <insert id="register" parameterType="map">
+        INSERT INTO user (
+                          userRoleCode,
+                          userId,
+                          userPassword,
+                          userEmail,
+                          userName,
+                          userBirth,
+                          userGender,
+                          userPhone,
+                          userAddr1,
+                          userAdr2,
+        ) VALUES (
+                  #{userRoleCode},
+                  #{userId},
+                  #{userPassword},
+                  #{userEmail},
+                  #{userName},
+                  #{userBirth},
+                  #{userGender},
+                  #{userPhone},
+                  #{userAddr1},
+                  #{userAddr2}
+        )
+    </insert>
+
 </mapper>
