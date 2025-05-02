@@ -371,7 +371,7 @@
 							<img src="${review.image}" alt="${review.product}" class="review-image">
 							<span class="review-title">${review.product}</span>
 							<div class="review-stars">${'★'.repeat(review.score)}${'☆'.repeat(5 - review.score)}</div>
-							<img src="/img/icons/icon-arrow.svg" id="ReviewArrow" class="review-arrow" data-index="${index}">
+							<img src="/img/icons/icon-arrow.svg" class="review-arrow" data-index="${index}">
 						</div>
 						<div id="ReviewDetail" class="review-detail" style="display: none;">
 							<div class="detail-content">
@@ -396,7 +396,7 @@
         });
 
         // 리뷰 상세 아코디언
-        $container.on('click', '#ReviewArrow', function () {
+        $container.on('click', '.review-arrow', function () {
             const $arrow = $(this);
             const $detail = $arrow.closest('#ReviewItem').find('#ReviewDetail');
 
