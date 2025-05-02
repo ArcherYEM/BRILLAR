@@ -1,0 +1,41 @@
+<div class="modal pwd-modal" id="ChangePwdModal">
+    <div class="modal-wrapper">
+        <span id="PwdModalClose" class="modal-close">&times;</span>
+        <p class="modal-title">비밀번호 변경</p>
+        <p class="modal-subtitle">현재 비밀번호와 새로운 비밀번호를 입력하세요</p>
+        <div class="modal-content">
+            <div class="pwd-modal-wrap">
+                <div class="pwd-title">
+                    <span>현재 비밀번호</span>
+                </div>
+                <div class="input-group">
+                    <input id="OldPwd" name="password" type="password" placeholder="비밀번호" required />
+                    <button type="button" class="btn-eye">
+                        <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
+                    </button>
+                </div>
+            </div>
+            <div class="pwd-modal-wrap">
+                <div class="pwd-title">
+                    <span>새 비밀번호</span>
+                </div>
+                <div class="input-group">
+                    <input id="NewPwd" name="password" type="password" placeholder="비밀번호" required />
+                    <button type="button" class="btn-eye">
+                        <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
+                    </button>
+                </div>
+                <div class="input-group">
+                    <input id="NewPwdChk" name="password" type="password" placeholder="비밀번호 확인" required />
+                    <button type="button" class="btn-eye">
+                        <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-buttons">
+            <button type="button" id="ChangePwd" class="btn-primary">변경하기</button>
+            <button type="button" id="ChangePwdClose" class="btn-warning">취소</button>
+        </div>
+    </div>
+</div>

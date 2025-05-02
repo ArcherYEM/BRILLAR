@@ -1,0 +1,16 @@
+<!-- fragments/modal/commonModal.html -->
+<div th:fragment="modalFragment(modalId, modalTitle, modalSub, modalContent, confirm, close)"
+     class="modal" th:id="${modalId}">
+    <div class="modal-wrapper">
+        <span id="PwdModalClose" class="modal-close">&times;</span>
+        <p class="modal-title">[[${modalTitle}]]</p>
+        <p class="modal-subtitle">[[${modalSub}]]</p>
+        <div class="modal-content">
+            [[${modalContent}]]
+        </div>
+        <div class="modal-buttons">
+            <button type="button" id="DelAcct" class="btn-primary">[[${confirm}]]</button>
+            <button type="button" id="DelAcctClose" class="btn-warning">[[${close}]]</button>
+        </div>
+    </div>
+</div>
