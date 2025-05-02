@@ -195,6 +195,12 @@
     }
 }
 
+.admin-btn {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
 /* 에디터 */
 .toastui-editor-defaultUI {
     border-color: var(--c-green-3) !important;
