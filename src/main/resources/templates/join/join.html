@@ -48,9 +48,11 @@
                     <input id="JoinUserBirth" type="text" placeholder="생년월일" required />
                 </div>
 
-                <div class="input-group">
-                    <button id="JoinGenderM" type="button" class="btn-duplicate" onclick="myGender('M')"/>남자</button>
-                    <button id="JoinGenderF" type="button" class="btn-duplicate" onclick="myGender('F')"/>여자</button>
+                <div class="gender-group">
+                    <input id="JoinGenderM" type="radio" name="gender" value="male" checked />
+                    <label for="JoinGenderM" onclick="myGender('M')">남자</label>
+                    <input id="JoinGenderF" type="radio" name="gender" value="female" />
+                    <label for="JoinGenderF" onclick="myGender('F')">여자</label>
                 </div>
 
                 <div class="input-group">
