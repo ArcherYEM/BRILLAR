@@ -1,16 +1,26 @@
 // 전역변수
+let currentPage = 1;
+const pageSize = 10;
 
 // 페이지로드
 $(document).ready(function () {
     getList(); // 리스트 조회
-})
+
+    //페이지네이션
+    $(document).on('click', '.page-btn', function () {
+        const selectedPage = $(this).data('page');
+        currentPage = selectedPage;
+        getList(currentPage);
+    })
+});
 
 /*********************************/
 
 // 리스트 조회
 function getList(){
     $.ajax({
-        url : '/api/notice/getList',
+        // url : '/api/notice/getList',
+        url : `/api/notice/list?page=${currentPage}&size=${pageSize}`,
         method : 'GET',
         dataType : 'json',
 
@@ -33,9 +43,28 @@ function getList(){
 
                 $noticeList.append(html);
             });
+            //페이징
+            const totalCount = data.length > 0 ? data[0].totalCount: 0;
+            getPagination(totalCount, currentPage);
         },
         error : function(xhr, status, error){
             console.error('공지사항 조회 실패:', status, error);
         }
     })
+}
+
+
+function getPagination(totalCount, currentPage){
+    const totalPage = Math.ceil(totalCount / pageSize);
+    const $pagination = $(`.pagination`);
+    $pagination.empty();
+
+    for (let i = 1; i <= totalPage; i++){
+        const btn = `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">
+                            ${i}
+                            </button>`;
+        $pagination.append(btn)
+    }
+
+
 }

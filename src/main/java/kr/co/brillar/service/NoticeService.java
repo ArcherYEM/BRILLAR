@@ -17,4 +17,16 @@ public class NoticeService {
     public List<NoticeDto> getList() {
         return noticeMapper.getList();
     }
+
+
+    public List<NoticeDto> getPageList(int page, int size){
+        int offset = (page - 1) * size;
+        List<NoticeDto> list = noticeMapper.getPageList(offset, size);
+        int totalCount = noticeMapper.getTotalCount();
+
+        if(!list.isEmpty()){
+            list.get(0).setTotalCount(totalCount);
+        }
+        return list;
+    }
 }
