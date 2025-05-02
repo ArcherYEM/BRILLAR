@@ -19,47 +19,45 @@
         <div class="join-wrapper">
             <p class="title-md join-title">회원가입</p>
             <p class="login-link">계정이 있으신가요? <a href="/login">로그인</a></p>
-            <form id="JoinForm" class="JoinForm" action="/join" method="post">
-                <div class="input-group">
-                    <input id="JoinUserId" name="userId" type="text" placeholder="아이디" required />
-                    <button id="DuplicateUserId" type="button" class="btn-duplicate">중복확인</button>
-                </div>
+            <div class="input-group">
+                <input id="JoinUserId" name="userId" type="text" placeholder="아이디" required />
+                <button id="DuplicateUserId" type="button" class="btn-duplicate">중복확인</button>
+            </div>
 
-                <div class="input-group">
-                    <input id="JoinPwd" name="userPassword" type="password" placeholder="비밀번호" required />
-                    <button type="button" class="btn-eye">
-                        <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
-                    </button>
-                </div>
+            <div class="input-group">
+                <input id="JoinPwd" name="userPassword" type="password" placeholder="비밀번호" required />
+                <button type="button" class="btn-eye">
+                    <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
+                </button>
+            </div>
 
-                <div class="input-group">
-                    <input id="JoinPwdChk" name="userPasswordConfirm" type="password" placeholder="비밀번호 확인" required />
-                    <button type="button" class="btn-eye">
-                        <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
-                    </button>
-                </div>
+            <div class="input-group">
+                <input id="JoinPwdChk" name="userPasswordConfirm" type="password" placeholder="비밀번호 확인" required />
+                <button type="button" class="btn-eye">
+                    <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기" />
+                </button>
+            </div>
 
-                <div class="input-group">
-                    <input id="JoinUserName" name="userName" type="text" placeholder="이름" required />
-                </div>
+            <div class="input-group">
+                <input id="JoinUserName" name="userName" type="text" placeholder="이름" required />
+            </div>
 
-                <div class="input-group">
-                    <input id="JoinEmail" name="userEmail" type="email" placeholder="이메일 주소" required />
-                    <button id="DuplicateEmail" type="button" class="btn-duplicate">중복확인</button>
-                </div>
+            <div class="input-group">
+                <input id="JoinEmail" name="userEmail" type="email" placeholder="이메일 주소" required />
+                <button id="DuplicateEmail" type="button" class="btn-duplicate">중복확인</button>
+            </div>
 
-                <div class="input-group">
-                    <input id="JoinPhone" name="userPhone" type="text" inputmode="numeric" placeholder="휴대폰 번호" required />
-                    <button id="DuplicatePhone" type="button" class="btn-duplicate">중복확인</button>
-                </div>
+            <div class="input-group">
+                <input id="JoinPhone" name="userPhone" type="text" inputmode="numeric" placeholder="휴대폰 번호" required />
+                <button id="DuplicatePhone" type="button" class="btn-duplicate">중복확인</button>
+            </div>
 
-                <div class="checkbox-group">
-                    <input id="JoinCheck" type="checkbox" />
-                    <span id="TermText" class="term-text">개인정보 수집 및 이용약관</span>에 동의합니다.
-                </div>
+            <div class="checkbox-group">
+                <input id="JoinCheck" type="checkbox" />
+                <span id="TermText" class="term-text">개인정보 수집 및 이용약관</span>에 동의합니다.
+            </div>
 
-                <button type="submit" class="btn-submit btn-wide">회원가입</button>
-            </form>
+            <button type="submit" class="btn-submit btn-wide">회원가입</button>
         </div>
         <!-- 약관 모달 -->
         <div class="modal" id="JoinTermModal">
