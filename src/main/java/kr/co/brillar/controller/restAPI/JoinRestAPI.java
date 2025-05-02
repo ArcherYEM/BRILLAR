@@ -1,5 +1,6 @@
 package kr.co.brillar.controller.restAPI;
 
+import kr.co.brillar.dto.UserDto;
 import kr.co.brillar.service.JoinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class JoinRestAPI {
     private final JoinService joinService;
 
+    // 중복확인
     @GetMapping("/duplicate")
     @ResponseBody
     public int isDuplicate(@RequestParam("data") String data,
@@ -25,6 +27,14 @@ public class JoinRestAPI {
         if (0 < flag && flag < 4){
             rst = joinService.isDuplicate(param);
         }
+
+        return rst;
+    }
+
+    // 회원가입
+    @PostMapping("/register")
+    public String register(UserDto user){
+        String rst = joinService.register(user);
 
         return rst;
     }

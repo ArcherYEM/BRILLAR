@@ -1,14 +1,15 @@
 // 전역변수
-let idDuple = false;
-let emailDuple = false;
-let phoneDuple = false;
+let idDuple = false;    // id 중복여부
+let emailDuple = false; // 이메일 중복여부
+let phoneDuple = false; // 휴대폰 중복여부
+let isAgree = false;    // 약관 동의 여부
 
 // 페이지로드
 $(document).ready(function () {
     // 비밀번호 보기 토글
     $('.btn-eye').on('click', function () {
         const $input = $(this).siblings('input');
-        const $icon = $(this).find('img');
+        const $icon  = $(this).find('img');
         const isPassword = $input.attr('type') === 'password';
 
         $input.attr('type', isPassword ? 'text' : 'password');
@@ -17,9 +18,9 @@ $(document).ready(function () {
 
     // 비밀번호 일치여부
     $('#JoinPwd, #JoinPwdChk').on('input', function () {
-        const pwd = $('#JoinPwd').val().trim();
-        const pwdChk = $('#JoinPwdChk').val().trim();
-        const $msg = $('#pwdMatchMsg');
+        const pwd    = $('#JoinPwd'     ).val().trim();
+        const pwdChk = $('#JoinPwdChk'  ).val().trim();
+        const $msg   = $('#pwdMatchMsg' );
 
         if (pwd === '' || pwdChk === '') {
             $msg.text('두 비밀번호가 일치하지 않습니다').css('color', 'red');
@@ -28,6 +29,23 @@ $(document).ready(function () {
         } else {
             $msg.text('두 비밀번호가 일치하지 않습니다').css('color', 'red');
         }
+    });
+
+    // 생년월일 유효성
+    $('#JoinBirth').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);
+    });
+
+    // 약관 체크
+    $('#JoinCheck').on('change', function () {
+        isAgree = $(this).is(':checked');
+    });
+
+    // 약관 동의
+    $('#JoinTermConfirm').on('click', function () {
+        $('#JoinCheck').prop('checked', true);
+        isAgree = true;
+        $('#JoinTermModal').fadeOut(200);
     });
 
     // 약관 모달 열기
@@ -52,8 +70,9 @@ $(document).ready(function () {
 
 // 중복확인
 function isDuplicate(type) {
-    let flag = 0;
     let data = '';
+    let flag = 0;
+
     if (type === 'id') {
         data = $('#JoinUserId').val().trim();
         flag = 1;
@@ -67,27 +86,24 @@ function isDuplicate(type) {
 
     if (flag !== 0 && data !== ''){
         $.ajax({
-            url : `/api/join/duplicate?data=${data}&flag=${flag}`,
-            method : 'GET',
+            url     : `/api/join/duplicate?data=${data}&flag=${flag}`,
+            method  : 'GET',
             success : function(result){
                 const isAvailable = result === 0;
 
                 switch (flag){
                     case 1 :
-                        idDuple = isAvailable;
+                        idDuple     = isAvailable;
                         break;
                     case 2 :
-                        emailDuple = isAvailable;
+                        emailDuple  = isAvailable;
                         break;
                     case 3 :
-                        phoneDuple = isAvailable;
+                        phoneDuple  = isAvailable;
                         break;
                 }
-                console.log('아이디 사용 가능 여부:', idDuple);
-                console.log('이메일 사용 가능 여부:', emailDuple);
-                console.log('전화번호 사용 가능 여부:', phoneDuple);
             },
-            error : function (xhr, status, error){
+            error   : function (xhr, status, error){
                 console.warn('중복확인 로직 에러 발생 : ', error);
             }
         });
@@ -95,4 +111,46 @@ function isDuplicate(type) {
         console.warn('flag 값 이상 : ', flag);
         return;
     }
+}
+
+// 회원가입
+function register(){
+    if (!idDuple || !emailDuple || !phoneDuple || !isAgree){
+        console.warn('확인사항 누락');
+        return;
+    }
+
+    let userId       = $('#JoinUserId'   ).val().trim();
+    let userPassword = $('#JoinPwd'      ).val().trim();
+    let userName     = $('#JoinUserName' ).val().trim();
+    let userBirth    = $('#JoinUserBirth').val().trim();
+    let userEmail    = $('#JoinEmail'    ).val().trim();
+    let userPhone    = $('#JoinPhone'    ).val().trim();
+
+    const data = {
+        userId       : userId,
+        userPassword : userPassword,
+        userName     : userName,
+        userBirth    : userBirth,
+        userEmail    : userEmail,
+        userPhone    : userPhone
+    };
+
+    $.ajax({
+        url : '/api/join/register',
+        method : 'POST',
+        data : data,
+
+        success : function (result){
+            if (result === 'SUCCESS'){
+                // 성공
+
+            } else {
+                // 실패
+            }
+        },
+        error : function (xhr, status, error){
+            console.warn('회원가입중 에러발생 : ', error);
+        }
+    });
 }
