@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/join.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+<header th:replace="fragments/header :: common-header"></header>
+
+<div class="container">
+    <div class="login-wrapper">
+        <p class="title-md join-title">로그인</p>
+        <p class="login-link">계정이 없으신가요? <a href="/join">가입하기</a></p>
+        <div id="LoginForm" class="join-form">
+            <div class="input-group">
+                <input id="login-userid" type="text" name="userid" placeholder="아이디" required/>
+            </div>
+            <div class="input-group">
+                <input id="login-pwd" name="password" type="password" placeholder="비밀번호" required/>
+                <button type="button" class="btn-eye">
+                    <img src="/img/icons/icon-invisible.svg" alt="비밀번호 보기"/>
+                </button>
+            </div>
+            <div class="checkbox-group">
+                <input id="login-check" type="checkbox"/>
+                <span class="login-save">자동 로그인</span>
+            </div>
+            <button id="LoginSubmit" type="button" class="btn-submit btn-wide">로그인</button>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/footer :: common-footer"></footer>
+
+<script th:src="@{/js/login.js}"></script>
+</body>
+</html>
