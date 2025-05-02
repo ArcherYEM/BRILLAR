@@ -1,0 +1,29 @@
+<!-- fragments/sidebar.html -->
+<div th:fragment="sidebarFragment(activeMenu, userName, purchaseCount)" class="sidebar">
+    <div id="UserInfo" class="user-info">
+        <p class="user-name">[[${userName}]]</p>
+        <p class="user-state">
+            지금까지 <span class="pur-count">[[${purchaseCount}]]</span>회 구매하셨어요!
+        </p>
+    </div>
+    <div class="side-menu">
+        <ul>
+            <li th:class="${activeMenu == 'mypage'} ? 'active' : null">
+                <div class="icon-wrapper icon-user"></div>
+                내 정보
+            </li>
+            <li th:class="${activeMenu == 'status'} ? 'active' : null">
+                <div class="icon-wrapper icon-truck"></div>
+                주문현황
+            </li>
+            <li th:class="${activeMenu == 'history'} ? 'active' : null">
+                <div class="icon-wrapper icon-purchase"></div>
+                주문내역
+            </li>
+        </ul>
+    </div>
+    <div class="logout-wrapper">
+        <img src="/img/icons/icon-logout.svg" alt="로그아웃" />
+        로그아웃
+    </div>
+</div>

@@ -200,9 +200,12 @@
 }
 
 .modal-wrapper {
+    display: flex;
+    flex-direction: column;
     background-color: var(--c-white);
     margin: 10% auto;
     padding: 30px;
+    min-height: 300px;
     border-radius: 8px;
     width: 600px;
     font-family: 'Inter';
@@ -210,16 +213,21 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 
     .modal-content {
+        margin-top: 20px;
         font-size: 16px;
         line-height: 1.5;
         word-break: keep-all;
     }
 
     .modal-title {
-        margin-top: 0;
-        margin-bottom: 20px;
         font-size: 24px;
         font-weight: bold;
+    }
+
+    .modal-subtitle {
+        margin-top: 10px;
+        font-size: 14px;
+        color: var(--c-gray-2);
     }
 }
 
@@ -236,9 +244,10 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: auto;
 }
 
 .modal-buttons button {
     padding: 8px 20px;
+    margin-top: auto;
 }
