@@ -13,4 +13,5 @@ public class JoinController {
     public String join() {
         return "join/join";
     }
+
 }

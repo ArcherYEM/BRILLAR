@@ -1,3 +1,9 @@
+// 전역변수
+let idDuple = false;
+let emailDuple = false;
+let phoneDuple = false;
+
+// 페이지로드
 $(document).ready(function () {
     // 비밀번호 보기 토글
     $('.btn-eye').on('click', function () {
@@ -14,7 +20,7 @@ $(document).ready(function () {
         e.preventDefault();
         $('#JoinTermModal').fadeIn(200);
     });
-    
+
     // 약관 모달 닫기
     $('#JoinTermClose, #JoinModalClose').on('click', function () {
         $('#JoinTermModal').fadeOut(200);
@@ -27,4 +33,51 @@ $(document).ready(function () {
     });
 });
 
+/*********************************/
 
+// 중복확인
+function isDuplicate(type) {
+    let flag = 0;
+    let data = '';
+    if (type === 'id') {
+        data = $('#JoinUserId').val().trim();
+        flag = 1;
+    } else if (type === 'email') {
+        data = $('#JoinEmail').val().trim();
+        flag = 2;
+    } else if (type === 'phone') {
+        data = $('#JoinPhone').val().trim();
+        flag =3;
+    }
+
+    if (flag !== 0 && data !== ''){
+        $.ajax({
+            url : `/api/join/duplicate?data=${data}&flag=${flag}`,
+            method : 'GET',
+            success : function(result){
+                const isAvailable = result === 0;
+
+                switch (flag){
+                    case 1 :
+                        idDuple = isAvailable;
+                        break;
+                    case 2 :
+                        emailDuple = isAvailable;
+                        break;
+                    case 3 :
+                        phoneDuple = isAvailable;
+                        break;
+                }
+                console.log('아이디 사용 가능 여부:', idDuple);
+                console.log('이메일 사용 가능 여부:', emailDuple);
+                console.log('전화번호 사용 가능 여부:', phoneDuple);
+            },
+            error : function (xhr, status, error){
+                console.warn('중복확인 로직 에러 발생 : ', error);
+            }
+        });
+    } else {
+        console.warn('flag 값 이상 : ', flag);
+        return;
+    }
+}
