@@ -99,14 +99,6 @@ $(document).ready(function () {
 
 /*********************************/
 
-// 성별체크
-function myGender(type){
-    if (type === ''){
-        console.warn('성별 체크 이상 : ', type);
-    }
-
-}
-
 // 중복확인
 function isDuplicate(type) {
     let data = '';
@@ -173,6 +165,7 @@ function register(){
     let userId       = $('#JoinUserId'   ).val().trim();
     let userPassword = $('#JoinPwd'      ).val().trim();
     let userName     = $('#JoinUserName' ).val().trim();
+    let userGender   = $(":input:radio[name=gender]:checked").val();
     let userBirth    = $('#JoinUserBirth').val().trim();
     let userEmail    = $('#JoinEmail'    ).val().trim();
     let userPhone    = $('#JoinPhone'    ).val().trim();
@@ -181,6 +174,7 @@ function register(){
         userId       : userId,
         userPassword : userPassword,
         userName     : userName,
+        userGender   : userGender,
         userBirth    : userBirth,
         userEmail    : userEmail,
         userPhone    : userPhone
