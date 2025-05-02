@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
+  <link rel="stylesheet" type="text/css" href="/css/common/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/qna.css">
+  <title>Q&A</title>
+</head>
+
+<body>
+<!-- 헤더 -->
+<header th:replace="fragments/header :: common-header"></header>
+
+<div class="container qna-container">
+  <p class="title-lg">
+    Q&A
+  </p>
+  <div class="qna-wrapper">
+    <div class="question-register">
+      <form class="question-form">
+        <input type="text" placeholder="제목을 입력하세요." />
+        <div class="textarea-wrapper">
+          <textarea id="QuestText" maxlength="1000" placeholder="질문을 입력하세요."></textarea>
+          <div class="question-limit comment-limit">
+            <span id="QuestCount">0</span>/1000
+          </div>
+        </div>
+        <div class="btn-list">
+          <button type="submit" class="btn-primary">등록</button>
+          <button type="button" class="btn-warning">취소</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer th:replace="fragments/footer :: common-footer"></footer>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {
+    // 글자수 카운트
+    $('#QuestText').on('input', function () {
+      let content = $(this).val();
+      $('#QuestCount').text(content.length);
+    });
+  });
+</script>
+</body>
+
+</html>
