@@ -17,7 +17,9 @@ public class UserRestAPI {
 
     //로그인 API
     @PostMapping("/login")
-    public
+    public void login(){
+
+    }
 
 
 }
