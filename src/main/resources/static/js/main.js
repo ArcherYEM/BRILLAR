@@ -142,7 +142,7 @@ const pageLoaded = () => {
                             <a href=""><img src="${dto.imageUrl}" alt="new-item" /></a>
                         </div>
                         <div class="new-name">${dto.productName}</div>
-                        <div class="new-price">${dto.price}</div>
+                        <div class="new-price">${dto.price} 원</div>
                         <div class="new-desc">${dto.productDesc}</div>
                     </div>
                 `;

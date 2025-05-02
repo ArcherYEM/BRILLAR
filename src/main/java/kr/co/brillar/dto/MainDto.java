@@ -21,4 +21,5 @@ public class MainDto {
     private int price;
     private String productDesc;
     private String imageUrl;
+    private String discountSeq;
 }
