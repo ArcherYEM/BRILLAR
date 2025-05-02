@@ -15,6 +15,21 @@ $(document).ready(function () {
         $icon.attr('src', isPassword ? '/img/icons/icon-visible.svg' : '/img/icons/icon-invisible.svg');
     });
 
+    // 비밀번호 일치여부
+    $('#JoinPwd, #JoinPwdChk').on('input', function () {
+        const pwd = $('#JoinPwd').val().trim();
+        const pwdChk = $('#JoinPwdChk').val().trim();
+        const $msg = $('#pwdMatchMsg');
+
+        if (pwd === '' || pwdChk === '') {
+            $msg.text('두 비밀번호가 일치하지 않습니다').css('color', 'red');
+        } else if (pwd === pwdChk) {
+            $msg.text('두 비밀번호가 일치합니다').css('color', 'green');
+        } else {
+            $msg.text('두 비밀번호가 일치하지 않습니다').css('color', 'red');
+        }
+    });
+
     // 약관 모달 열기
     $('#TermText').on('click', function (e) {
         e.preventDefault();
