@@ -136,12 +136,27 @@ function isDuplicate(type) {
                 switch (flag){
                     case 1 :
                         idDuple     = isAvailable;
+                        if (idDuple){
+                            alert('사용 가능');    
+                        } else {
+                            alert('중복 아이디');
+                        }
                         break;
                     case 2 :
                         emailDuple  = isAvailable;
+                        if (emailDuple){
+                            alert('사용 가능');
+                        } else {
+                            alert('중복 이메일');
+                        }
                         break;
                     case 3 :
                         phoneDuple  = isAvailable;
+                        if (phoneDuple){
+                            alert('사용 가능');
+                        } else {
+                            alert('중복 휴대폰');
+                        }
                         break;
                 }
             },
