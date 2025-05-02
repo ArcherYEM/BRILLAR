@@ -12,7 +12,6 @@ public class UserDto {
 
     private String userId;
     private String userPassword;
-    private String userPasswordConfirm;
     private String userName;
     private String userBirth;
     private String userGender;

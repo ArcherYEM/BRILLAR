@@ -4,6 +4,7 @@ import kr.co.brillar.dto.UserDto;
 import kr.co.brillar.mapper.JoinMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class JoinService {
     }
 
     // 회원가입
+    @Transactional(rollbackFor = Exception.class)
     public String register(UserDto user) {
         try {
             user.setUserRoleCode("SILVER");
@@ -28,6 +30,9 @@ public class JoinService {
 
             return SUCCESS;
         } catch (Exception e){
+            org.springframework.transaction.interceptor.TransactionAspectSupport
+                    .currentTransactionStatus().setRollbackOnly();
+
             return FAIL;
         }
     }

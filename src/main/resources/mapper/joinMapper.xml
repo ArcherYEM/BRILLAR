@@ -33,7 +33,7 @@
                           userGender,
                           userPhone,
                           userAddr1,
-                          userAdr2,
+                          userAddr2
         ) VALUES (
                   #{userRoleCode},
                   #{userId},

@@ -3,6 +3,7 @@ package kr.co.brillar.controller.restAPI;
 import kr.co.brillar.dto.UserDto;
 import kr.co.brillar.service.JoinService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 @RequestMapping("/api/join")
 public class JoinRestAPI {
     private final JoinService joinService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     // 중복확인
     @GetMapping("/duplicate")
@@ -34,6 +36,9 @@ public class JoinRestAPI {
     // 회원가입
     @PostMapping("/register")
     public String register(UserDto user){
+        String encodedPwd = passwordEncoder.encode(user.getUserPassword());
+        user.setUserPassword(encodedPwd);
+
         String rst = joinService.register(user);
 
         return rst;

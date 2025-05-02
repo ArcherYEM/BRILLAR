@@ -193,10 +193,11 @@ function register(){
 
         success : function (result){
             if (result === 'SUCCESS'){
-                // 성공
-
+                alert('회원가입 성공');
+                window.location.href = '/login';
             } else {
-                // 실패
+                alert('회원가입 실패');
+                console.warn('회원가입 실패 : ', result)
             }
         },
         error : function (xhr, status, error){
