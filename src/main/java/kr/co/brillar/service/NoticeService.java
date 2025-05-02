@@ -13,7 +13,7 @@ public class NoticeService {
 
     private final NoticeMapper noticeMapper;
 
-    // 신상품 리스트
+    // 공지사항 리스트
     public List<NoticeDto> getList() {
         return noticeMapper.getList();
     }

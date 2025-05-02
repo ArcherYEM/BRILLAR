@@ -14,3 +14,29 @@ $(document).ready(function () {
 })
 
 /*********************************/
+// 유저 로그인
+$("#LoginSubmit").on("click", function(){
+    const userId = $("#LoginUserid").val();
+    const userPassword = $("#LoginPwd").val();
+
+    $.ajax({
+        url: '/login/login',
+        type: 'GET',
+        data: {
+            userId: userId,
+            userPassword: userPassword
+        },
+        success: function(user){
+
+            if (!user || !user.userId) {
+                alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+                return;
+            }
+
+            window.location.href = "/";
+        },
+        error: function(xhr, status, error){
+            console.warn('로그인 에러발생 : ', error);
+        }
+    })
+})
