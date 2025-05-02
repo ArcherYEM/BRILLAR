@@ -95,6 +95,17 @@ $(document).ready(function () {
             $('#JoinTermModal').fadeOut(200);
         }
     });
+
+    // 주소검색
+    $('#SearchAddrAPI').on('click', function () {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                $('#JoinAddr1').val(data.address);
+                $('#JoinAddr2').focus();
+            }
+        }).open();
+    });
+
 });
 
 /*********************************/
@@ -184,6 +195,8 @@ function register(){
     let userBirth    = $('#JoinUserBirth').val().trim();
     let userEmail    = $('#JoinEmail'    ).val().trim();
     let userPhone    = $('#JoinPhone'    ).val().trim();
+    let userAddr1    = $('#JoinAddr1'    ).val().trim();
+    let userAddr2    = $('#JoinAddr2'    ).val().trim();
 
     const data = {
         userId       : userId,
@@ -192,7 +205,9 @@ function register(){
         userGender   : userGender,
         userBirth    : userBirth,
         userEmail    : userEmail,
-        userPhone    : userPhone
+        userPhone    : userPhone,
+        userAddr1    : userAddr1,
+        userAddr2    : userAddr2
     };
 
     $.ajax({
