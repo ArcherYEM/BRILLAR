@@ -48,6 +48,38 @@
     }
 }
 
+.gender-group {
+    display: flex;
+    gap: 5px;
+
+    label {
+        width: 50%;
+        font-family: 'Inter';
+        font-size: 14px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: 1px solid var(--c-green-3);
+        background-color: var(--c-green-3);
+        color: var(--c-white);
+        transition: all 0.2s linear;
+        cursor: pointer;
+
+        &:hover {
+            border-color: var(--c-green-2);
+            background-color: var(--c-green-2);
+        }
+    }
+
+    input[type="radio"] {
+        display: none;
+
+        &:checked+label {
+            border-color: var(--c-green-2);
+            background-color: var(--c-green-2);
+        }
+    }
+}
+
 .btn-eye {
     background-color: transparent;
     border: none;

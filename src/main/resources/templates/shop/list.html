@@ -1,10 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRILLAR</title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/common/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/common/common.css}" />
+    <link rel="stylesheet" type="text/css" href="/css/shop.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+<header th:replace="fragments/header :: common-header"></header>
+<div class="shop-item-wrapper inner-wrapper">
+    <div class="shop-left-wrap">
+        <div class="search-wrap">
+            <label for="ShopSearch" class="shop-item-search">검색</label>
+            <input id="ShopSearch" type="text">
+        </div>
+        <div class="shop-select-wrapper">
+            <label for="ShopSelect">정렬</label>
+            <select class="shop-select" id="ShopSelect">
+                <option value="0">평점 높은 순</option>
+                <option value="1">평점 낮은 순</option>
+                <option value="2">인기순</option>
+                <option value="3">가격 높은 순</option>
+                <option value="4">가격 낮은 순</option>
+            </select>
+        </div>
+        <div class="shop-checkbox-wrapper" id="MaterialCheckbox">
+            <p>소재</p>
+            <label class="shop-checkbox-label">
+                <input type="checkbox" value="G"> 골드
+            </label>
+            <label class="shop-checkbox-label">
+                <input type="checkbox" value="S"> 실버
+            </label>
+            <label class="shop-checkbox-label">
+                <input type="checkbox" value="RG"> 로즈골드
+            </label>
+            <label class="shop-checkbox-label">
+                <input type="checkbox" value="14K"> 14K
+            </label>
+            <label class="shop-checkbox-label">
+                <input type="checkbox" value="18K"> 18K
+            </label>
+            <label class="shop-checkbox-label">
+                <input type="checkbox" value="24K"> 24K
+            </label>
+            <label class="shop-checkbox-label">
+                <input type="checkbox" value="BG"> 백금
+            </label>
+            <label class="shop-checkbox-label">
+                <input type="checkbox" value="ETC"> 기타
+            </label>
+        </div>
+        <div class="shop-price-wrapper">
+            <label for="ShopPrice">가격대</label>
+            <div class="shop-price" id="ShopPrice">
+                <input type="text" id="MinPrice" placeholder="최소금액">
+                <input type="text" id="MaxPrice" placeholder="최대금액">
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="ItemList" class="shop-item-list">
+
+        </div>
+    </div>
+</div>
+
+<footer th:block th:replace="fragments/footer :: common-footer"></footer>
+<script th:src="@{/js/shop.js}"></script>
 </body>
 </html>

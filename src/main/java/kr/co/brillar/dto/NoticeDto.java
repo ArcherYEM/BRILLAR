@@ -16,4 +16,8 @@ public class NoticeDto {
     private String contents;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+
+    //페이징
+    private Integer totalCount;
 }

@@ -95,17 +95,20 @@ $(document).ready(function () {
             $('#JoinTermModal').fadeOut(200);
         }
     });
+
+    // 주소검색
+    $('#SearchAddrAPI').on('click', function () {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                $('#JoinAddr1').val(data.address);
+                $('#JoinAddr2').focus();
+            }
+        }).open();
+    });
+
 });
 
 /*********************************/
-
-// 성별체크
-function myGender(type){
-    if (type === ''){
-        console.warn('성별 체크 이상 : ', type);
-    }
-
-}
 
 // 중복확인
 function isDuplicate(type) {
@@ -144,12 +147,27 @@ function isDuplicate(type) {
                 switch (flag){
                     case 1 :
                         idDuple     = isAvailable;
+                        if (idDuple){
+                            alert('사용 가능');    
+                        } else {
+                            alert('중복 아이디');
+                        }
                         break;
                     case 2 :
                         emailDuple  = isAvailable;
+                        if (emailDuple){
+                            alert('사용 가능');
+                        } else {
+                            alert('중복 이메일');
+                        }
                         break;
                     case 3 :
                         phoneDuple  = isAvailable;
+                        if (phoneDuple){
+                            alert('사용 가능');
+                        } else {
+                            alert('중복 휴대폰');
+                        }
                         break;
                 }
             },
@@ -173,17 +191,23 @@ function register(){
     let userId       = $('#JoinUserId'   ).val().trim();
     let userPassword = $('#JoinPwd'      ).val().trim();
     let userName     = $('#JoinUserName' ).val().trim();
+    let userGender   = $(":input:radio[name=gender]:checked").val();
     let userBirth    = $('#JoinUserBirth').val().trim();
     let userEmail    = $('#JoinEmail'    ).val().trim();
     let userPhone    = $('#JoinPhone'    ).val().trim();
+    let userAddr1    = $('#JoinAddr1'    ).val().trim();
+    let userAddr2    = $('#JoinAddr2'    ).val().trim();
 
     const data = {
         userId       : userId,
         userPassword : userPassword,
         userName     : userName,
+        userGender   : userGender,
         userBirth    : userBirth,
         userEmail    : userEmail,
-        userPhone    : userPhone
+        userPhone    : userPhone,
+        userAddr1    : userAddr1,
+        userAddr2    : userAddr2
     };
 
     $.ajax({

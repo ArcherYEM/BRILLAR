@@ -10,6 +10,7 @@
     <title>회원가입</title>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
     <!-- 헤더 -->
@@ -48,9 +49,11 @@
                     <input id="JoinUserBirth" type="text" placeholder="생년월일" required />
                 </div>
 
-                <div class="input-group">
-                    <button id="JoinGenderM" type="button" class="btn-duplicate" onclick="myGender('M')"/>남자</button>
-                    <button id="JoinGenderF" type="button" class="btn-duplicate" onclick="myGender('F')"/>여자</button>
+                <div class="gender-group">
+                    <input id="JoinGenderM" type="radio" name="gender" value="M" checked />
+                    <label for="JoinGenderM" >남자</label>
+                    <input id="JoinGenderF" type="radio" name="gender" value="F" />
+                    <label for="JoinGenderF" >여자</label>
                 </div>
 
                 <div class="input-group">
@@ -61,6 +64,15 @@
                 <div class="input-group">
                     <input id="JoinPhone" type="text" inputmode="numeric" placeholder="휴대폰 번호" required />
                     <button id="DuplicatePhone" type="button" class="btn-duplicate" onclick="isDuplicate('phone')">중복확인</button>
+                </div>
+
+                <div class="input-group">
+                    <input id="JoinAddr1" type="text" placeholder="기본주소" required readonly />
+                    <button id="SearchAddrAPI" type="button" class="btn-duplicate" required>주소검색</button>
+                </div>
+
+                <div class="input-group">
+                    <input id="JoinAddr2" type="text" placeholder="상세주소" required />
                 </div>
 
                 <div class="checkbox-group">

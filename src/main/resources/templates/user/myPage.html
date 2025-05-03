@@ -26,17 +26,17 @@
                 <div id="AccounForm" class="account-wrapper">
                     <div class="account-item">
                         <label>아이디</label>
-                        <input id="AccountId" class="info-userid" type="text" value="devyem" readonly/>
+                        <input id="AccountId" class="info-userid" type="text" value="devyem" readonly />
                     </div>
                     <div class="account-item">
                         <label>이름</label>
-                        <input id="AccountName" type="text" value="김머왕"/>
+                        <input id="AccountName" type="text" value="김머왕" />
                     </div>
                     <div class="account-item">
                         <label>이메일 주소</label>
                         <div class="input-group">
                             <input id="AccountEmail" type="email" name="email" value="devyem@dev.com"
-                                   placeholder="이메일 주소" required/>
+                                   placeholder="이메일 주소" required />
                             <button id="AccountEmailChk" type="button" class="btn-duplicate">중복확인</button>
                         </div>
                     </div>
@@ -44,15 +44,14 @@
                         <label>핸드폰 번호</label>
                         <div class="input-group">
                             <input id="AccountPhone" type="text" name="phone" inputmode="numeric"
-                                   value="010-1111-2222" placeholder="휴대폰 번호" required/>
+                                   value="010-1111-2222" placeholder="휴대폰 번호" required />
                             <button id="AccountPhoneChk" type="button" class="btn-duplicate">중복확인</button>
                         </div>
                     </div>
                     <div class="submit-btn">
                         <button id="AccountSubmit" type="button" class="btn-secondary btn-submit disabled"
                                 disabled>변경사항
-                            저장
-                        </button>
+                            저장</button>
                     </div>
                 </div>
             </div>
@@ -66,14 +65,12 @@
                     <span id="ChangeAddress" class="change-address">편집</span>
                 </div>
                 <div id="AddressContent" class="address-content view-mode">
-                    <div class="edit-address-group">
-                        <input id="EditPostcode" type="text" value="(0111111)" readonly/>
+                    <div class="adderess-group">
+                        <input id="EditAddrOne" type="text" value="서울특별시 강남구 무슨동" readonly />
                         <button id="SerachPostcode" class="search-postcode btn-secondary"
-                                type="button">주소검색
-                        </button>
+                                type="button">주소검색</button>
                     </div>
-                    <input id="EditAddrOne" type="text" value="서울특별시 강남구 무슨동" readonly/>
-                    <input id="EditAddrTwo" type="text" value="무슨아파트 101동 101호" readonly/>
+                    <input id="EditAddrTwo" type="text" value="무슨아파트 101동 101호" readonly />
                 </div>
             </div>
             <div class="info-item delete-account">
@@ -90,15 +87,15 @@
             </p>
             <div id="ReviewContainer" class="review-container"></div>
             <div class="pagination review-pagination">
-                <button class="page-btn disabled"><img src="/img/icons/icon-first.svg"/></button>
-                <button class="page-btn disabled"><img src="/img/icons/icon-prev.svg"/></button>
+                <button class="page-btn disabled"><img src="/img/icons/icon-first.svg" /></button>
+                <button class="page-btn disabled"><img src="/img/icons/icon-prev.svg" /></button>
                 <button class="page-btn active">1</button>
                 <button class="page-btn">2</button>
                 <button class="page-btn">3</button>
                 <button class="page-btn">4</button>
                 <button class="page-btn">5</button>
-                <button class="page-btn"><img src="/img/icons/icon-next.svg"/></button>
-                <button class="page-btn"><img src="/img/icons/icon-last.svg"/></button>
+                <button class="page-btn"><img src="/img/icons/icon-next.svg" /></button>
+                <button class="page-btn"><img src="/img/icons/icon-last.svg" /></button>
             </div>
         </div>
     </div>
@@ -374,7 +371,7 @@
 							<img src="${review.image}" alt="${review.product}" class="review-image">
 							<span class="review-title">${review.product}</span>
 							<div class="review-stars">${'★'.repeat(review.score)}${'☆'.repeat(5 - review.score)}</div>
-							<img src="/img/icons/icon-arrow.svg" id="ReviewArrow" class="review-arrow" data-index="${index}">
+							<img src="/img/icons/icon-arrow.svg" class="review-arrow" data-index="${index}">
 						</div>
 						<div id="ReviewDetail" class="review-detail" style="display: none;">
 							<div class="detail-content">
@@ -399,7 +396,7 @@
         });
 
         // 리뷰 상세 아코디언
-        $container.on('click', '#ReviewArrow', function () {
+        $container.on('click', '.review-arrow', function () {
             const $arrow = $(this);
             const $detail = $arrow.closest('#ReviewItem').find('#ReviewDetail');
 

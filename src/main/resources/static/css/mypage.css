@@ -223,7 +223,7 @@
     justify-content: center;
     gap: 5px;
 
-    .edit-address-group {
+    .adderess-group {
         display: flex;
         align-items: center;
         gap: 5px;
@@ -231,6 +231,7 @@
 
     input {
         font-size: 16px;
+        flex: 1;
     }
 
     .search-postcode {
@@ -275,7 +276,6 @@
     width: 60px;
     height: 60px;
     object-fit: cover;
-    border-radius: 4px;
     margin-right: 12px;
 }
 
@@ -384,6 +384,11 @@
         gap: 5px;
     }
 }
+
+.pwd-modal .modal-buttons {
+    margin-top: 10px;
+}
+
 
 .btn-eye {
     background-color: transparent;
