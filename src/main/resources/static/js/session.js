@@ -1,4 +1,4 @@
-const headerLoad = function(){
+$(document).ready(function(){
     $.ajax({
         url: '/login/userInfo',
         type: 'GET',
@@ -18,7 +18,7 @@ const headerLoad = function(){
             console.warn('로그인 에러발생 : ', error);
         }
     })
-}
+})
 
 $(document).on("click", "#LogoutButton", function (e) {
     e.preventDefault();
@@ -35,5 +35,3 @@ $(document).on("click", "#LogoutButton", function (e) {
         }
     });
 });
-
-headerLoad()

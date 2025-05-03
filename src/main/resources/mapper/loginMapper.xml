@@ -6,19 +6,13 @@
 
 <mapper namespace="kr.co.brillar.mapper.LoginMapper">
 
-  <select id="login" resultType="kr.co.brillar.dto.UserDto">
-    SELECT 
-        userRoleCode,
-        userId,
-        userPassword,
-        userEmail,
-        userName,
-        userBirth,
-        userGender,
-        userPhone,
-        userAddr1,
-        userAddr2
-    FROM user 
-    WHERE userId = #{userId}
+  <select id="login" parameterType="String" resultType="kr.co.brillar.dto.UserDto">
+SELECT 
+    userRoleCode,
+    userId,
+    userName,
+    userPassword
+FROM user 
+WHERE userId = #{userId}
   </select>
 </mapper>
