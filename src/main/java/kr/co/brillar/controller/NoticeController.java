@@ -2,6 +2,7 @@ package kr.co.brillar.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -16,7 +17,8 @@ public class NoticeController {
 
     //상세보기 페이지
     @GetMapping("/{noticeSeq}")
-    public String viewPage(){return "notice/view"; }
+    public String viewPage(@PathVariable String noticeSeq){
+        return "notice/view"; }
 
 
 }

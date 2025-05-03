@@ -18,13 +18,15 @@ public class NoticeRestAPI {
     @GetMapping("/list")
     public List<NoticeDto> getPageList(@RequestParam(defaultValue = "1")int page,
                                        @RequestParam(defaultValue = "10")int size){
-        return noticeService.getPageList(page, size);
+        List<NoticeDto> listPage = noticeService.getPageList(page, size);
+        return listPage;
     }
 
     //글 상세보기 페이지
     @GetMapping("/{noticeSeq}")
     public NoticeDto getReadPage(@PathVariable int noticeSeq){
-        return noticeService.getNoticeById(noticeSeq);
-    };
+        NoticeDto noticeDetail = noticeService.getNoticeById(noticeSeq);
+        return noticeDetail;
+    }
 
 }
