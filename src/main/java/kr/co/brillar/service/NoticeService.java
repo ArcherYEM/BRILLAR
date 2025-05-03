@@ -27,6 +27,7 @@ public class NoticeService {
 
     //viewPage
     public NoticeDto getNoticeById(int noticeSeq){
-        return noticeMapper.getNoticeById(noticeSeq);
+        NoticeDto nDetail = noticeMapper.getNoticeById(noticeSeq);
+        return nDetail;
     }
 }
