@@ -12,11 +12,9 @@ $(document).ready(function(){
                 <a href="#" id="LogoutButton">로그아웃</a>
             `;
 
+            
             $userButton.html(html);
         },
-        error: function(xhr, status, error){
-            console.warn('로그인 에러발생 : ', error);
-        }
     })
 })
 
