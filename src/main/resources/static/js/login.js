@@ -35,8 +35,5 @@ $("#LoginSubmit").on("click", function(){
 
             window.location.href = "/";
         },
-        error: function(xhr, status, error){
-            console.warn('로그인 에러발생 : ', error);
-        }
     })
 })

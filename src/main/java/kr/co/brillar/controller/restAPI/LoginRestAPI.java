@@ -37,7 +37,7 @@ public class LoginRestAPI {
     
     @GetMapping("/userInfo")
     public ResponseEntity<?> getUserInfo(HttpSession session) {
-        UserDto user = (UserDto) session.getAttribute("loginUser");
+        SessionDto user = (SessionDto) session.getAttribute("loginUser");
 
         if (user != null) {
             return ResponseEntity.ok(user);
