@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
+import kr.co.brillar.dto.SessionDto;
 import kr.co.brillar.dto.UserDto;
 import kr.co.brillar.service.LoginService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ public class LoginRestAPI {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public UserDto getMethodName(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
-        UserDto user = loginService.login(userId, userPassword);
+    public SessionDto getMethodName(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
+        SessionDto user = loginService.login(userId, userPassword);
 
         if (user != null) {
             session.setAttribute("loginUser", user);
