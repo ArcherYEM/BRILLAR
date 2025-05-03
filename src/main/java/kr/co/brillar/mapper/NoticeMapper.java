@@ -14,4 +14,7 @@ public interface NoticeMapper {
 
     //전체 게시글 수 조회
     int getTotalCount();
+
+    //글 상세보기 페이지(View)
+    NoticeDto getNoticeById(int noticeSeq);
 }

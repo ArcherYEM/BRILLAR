@@ -24,4 +24,16 @@
         FROM notice
     </select>
 
+<!--    글 상세보기 조회-->
+    <select id="getNoticeById" resultType="kr.co.brillar.dto.NoticeDto">
+        SELECT noticeSeq
+             , userId
+             , title
+             , contents
+             , createdAt
+             , updatedAt
+        FROM notice
+        WHERE noticeSeq = #{noticeSeq}
+    </select>
+
 </mapper>

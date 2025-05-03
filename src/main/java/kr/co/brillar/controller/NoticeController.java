@@ -13,4 +13,10 @@ public class NoticeController {
     public String notice() {
         return "notice/list";
     }
+
+    //상세보기 페이지
+    @GetMapping("/{noticeSeq}")
+    public String viewPage(){return "notice/view"; }
+
+
 }

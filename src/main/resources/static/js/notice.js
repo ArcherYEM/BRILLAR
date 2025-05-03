@@ -68,3 +68,28 @@ function getPagination(totalCount, currentPage){
 
 
 }
+//글 상세보기 함수
+function getNoticeDetail(noticeSeq){
+    $.ajax({
+        url : `/api/notice/${noticeSeq}`,
+        method : `GET`,
+        dataType : 'json',
+        success : function (notice){
+            const createdDate = notice.createdAt.split(`T`)[0];
+            const noticeHTML = `
+            <div class="notice-top">
+                <div class="notice-title">${notice.title}</div>
+                <div class="notice-meta">
+                    <span>${notice.userId}</span>
+                    <span class="notice-date">${createdDate}</span>
+                </div>
+            </div>
+            <div class="notice-content">${notice.contents}</div>
+            `;
+            $('#notice-detail').html(noticeHTML);
+        },
+        error : function (xhr, status, error){
+            console.error(`공지사항 상세조회 실패`, status, error);
+        }
+    })
+}
