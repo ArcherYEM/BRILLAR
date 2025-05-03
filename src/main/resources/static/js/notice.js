@@ -2,7 +2,7 @@
 let currentPage = 1;
 const pageSize = 10;
 
-// 페이지로드
+// 페이지로드 - 페이지 로드 시  공지사항 리스트 조회 + 페이지 버튼 클릭 이벤트 설정
 $(document).ready(function () {
     getList(); // 리스트 조회
 
@@ -19,7 +19,6 @@ $(document).ready(function () {
 // 리스트 조회
 function getList(){
     $.ajax({
-        // url : '/api/notice/getList',
         url : `/api/notice/list?page=${currentPage}&size=${pageSize}`,
         method : 'GET',
         dataType : 'json',
@@ -43,7 +42,7 @@ function getList(){
 
                 $noticeList.append(html);
             });
-            //페이징
+            //페이징 버튼 생성
             const totalCount = data.length > 0 ? data[0].totalCount: 0;
             getPagination(totalCount, currentPage);
         },
@@ -54,6 +53,7 @@ function getList(){
 }
 
 
+//페이징 버튼 생성 함수
 function getPagination(totalCount, currentPage){
     const totalPage = Math.ceil(totalCount / pageSize);
     const $pagination = $(`.pagination`);
