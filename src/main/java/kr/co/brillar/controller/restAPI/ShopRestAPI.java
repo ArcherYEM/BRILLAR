@@ -14,7 +14,7 @@ import java.util.List;
 public class ShopRestAPI {
 
     private final ShopService shopService;
-    @GetMapping("/getProducts/{groupId}")
+    @GetMapping("/getProducts")
     public List<ProductDTO> getShopList(@ModelAttribute ProductParamDTO paramDTO){
         List<ProductDTO> productDTOList = shopService.getShopListByCategory(paramDTO);
         return productDTOList;

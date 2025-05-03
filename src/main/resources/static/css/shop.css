@@ -3,11 +3,6 @@
     margin: 0 auto;
 }
 
-.shop-left-wrap{
-    gap: 20px;
-    display: grid;
-}
-
 .search-wrap{
     display: grid;
     gap: 5px;

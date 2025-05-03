@@ -15,7 +15,7 @@ $(document).ready(function(){
 
 function getShopList(){
     const text = $('#ShopSearch').val().trim();
-    const groupId = window.location.pathname.split('/')[2];
+    let groupId = window.location.pathname.split('/')[2];
     let materialList = [];
     $('#MaterialCheckbox').find('input[type="checkbox"]:checked').each(function(){
         materialList.push(this.value);
@@ -24,11 +24,12 @@ function getShopList(){
     const maxPrice = $('#MaxPrice').val().trim();
     const sortValue = $('#ShopSelect').val();
     $.ajax({
-        url : '/api/shop/getProducts/' + groupId,
+        url : '/api/shop/getProducts',
         method : 'GET',
-        data: {text: text, materialList: materialList, minPrice: minPrice, maxPrice: maxPrice, sortValue: sortValue},
+        data: {groupId: groupId, text: text, materialList: materialList, minPrice: minPrice, maxPrice: maxPrice, sortValue: sortValue},
         dataType : 'json',
         success: function(data){
+        console.log(data);
             const $itemList = $('#ItemList');
             $itemList.empty();
             $.each(data, function(index, product) {
