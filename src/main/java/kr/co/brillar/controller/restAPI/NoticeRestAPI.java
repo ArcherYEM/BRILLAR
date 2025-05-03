@@ -20,4 +20,11 @@ public class NoticeRestAPI {
                                        @RequestParam(defaultValue = "10")int size){
         return noticeService.getPageList(page, size);
     }
+
+    //글 상세보기 페이지
+    @GetMapping("/{noticeSeq}")
+    public NoticeDto getReadPage(@PathVariable int noticeSeq){
+        return noticeService.getNoticeById(noticeSeq);
+    };
+
 }

@@ -24,4 +24,9 @@ public class NoticeService {
         }
         return list;
     }
+
+    //viewPage
+    public NoticeDto getNoticeById(int noticeSeq){
+        return noticeMapper.getNoticeById(noticeSeq);
+    }
 }
