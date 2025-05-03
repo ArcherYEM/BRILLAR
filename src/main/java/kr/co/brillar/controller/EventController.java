@@ -2,13 +2,15 @@ package kr.co.brillar.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class MainController {
+@RequestMapping("/events")
+public class EventController {
 
-    // 메인페이지 조회
+    // 이벤트 페이지
     @GetMapping({ "", "/" })
     public String index() {
-        return "main/index";
+        return "events/list";
     }
 }
