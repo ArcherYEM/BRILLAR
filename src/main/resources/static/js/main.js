@@ -136,31 +136,4 @@ $(document).ready(function () {
             `
         $saleItemList.append(itemHtml);
     })
-
-    const userId = $("#LoginUserid").val();
-    const userPassword = $("#LoginPwd").val();
-
-    $.ajax({
-        url: '/login/userInfo',
-        type: 'GET',
-        data: {
-            userId: userId,
-            userPassword: userPassword
-        },
-        success: function(user){
-            const $userButton = $('#UserButton'); 
-            $userButton.empty()
-            
-            const html = `
-                <a href="/mainpage">환영합니다 ${user.userName}님</a>
-                <a href="">${user.userRoleCode}등급</a>
-                <a href="#" id="LogoutButton">로그아웃</a>
-            `;
-
-            $userButton.html(html);
-        },
-        error: function(xhr, status, error){
-            console.warn('로그인 에러발생 : ', error);
-        }
-    })
 })

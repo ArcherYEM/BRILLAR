@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserDto {
 
+    private String userRoleCode;
     private String userId;
     private String userPassword;
     private String userName;
@@ -18,5 +19,4 @@ public class UserDto {
     private String userAddr1;
     private String userAddr2;
     private String userEmail;
-    private String userRoleCode;
 }

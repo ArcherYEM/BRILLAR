@@ -15,6 +15,7 @@ public class LoginService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final LoginMapper loginMapper;
 
+    // 로그인시 비밀번호일치 확인 후 user정보 sessionDto에 담아 전달
     public SessionDto login(String userId, String userPassword){
         
         UserDto userInfo = loginMapper.login(userId);

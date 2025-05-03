@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.UserMapper">
+
+    <select id="getUser" resultType="kr.co.brillar.dto.UserDto">
+        SELECT 
+            userRoleCode,
+            userId,
+            userEmail,
+            userName,
+            userBirth,
+            userGender,
+            userPhone,
+            userAddr1,
+            userAddr2
+        FROM user 
+        WHERE userId = #{userId}
+    </select>
+</mapper>

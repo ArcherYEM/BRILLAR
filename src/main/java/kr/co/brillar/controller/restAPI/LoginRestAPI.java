@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.brillar.dto.SessionDto;
-import kr.co.brillar.dto.UserDto;
 import kr.co.brillar.service.LoginService;
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +22,7 @@ public class LoginRestAPI {
 
     private final LoginService loginService;
 
+    // 로그인 API
     @GetMapping("/login")
     public SessionDto getMethodName(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
         SessionDto user = loginService.login(userId, userPassword);
@@ -35,6 +35,7 @@ public class LoginRestAPI {
         }
     }
     
+    // user정보 session에서 불러오기
     @GetMapping("/userInfo")
     public ResponseEntity<?> getUserInfo(HttpSession session) {
         SessionDto user = (SessionDto) session.getAttribute("loginUser");
@@ -46,6 +47,7 @@ public class LoginRestAPI {
         }
     }
 
+    // 로그아웃 API
     @PostMapping("/logout")
     public String logout(HttpSession session) {
     session.invalidate(); 
