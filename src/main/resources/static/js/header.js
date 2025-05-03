@@ -1,3 +1,4 @@
+// 로그인시 header 문구변경
 $(document).ready(function(){
     $.ajax({
         url: '/login/userInfo',
@@ -7,17 +8,17 @@ $(document).ready(function(){
             $userButton.empty()
             
             const html = `
-                <a href="/mainpage">환영합니다 ${user.userName}님</a>
-                <a href="">${user.userRoleCode}등급</a>
+                <a href="/user">환영합니다 ${user.userName}님</a>
+                <a href="#">(등급: ${user.userRoleCode})</a>
                 <a href="#" id="LogoutButton">로그아웃</a>
             `;
 
-            
             $userButton.html(html);
         },
     })
 })
 
+// logout
 $(document).on("click", "#LogoutButton", function (e) {
     e.preventDefault();
 

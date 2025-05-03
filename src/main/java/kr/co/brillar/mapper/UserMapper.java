@@ -5,9 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import kr.co.brillar.dto.UserDto;
 
 @Mapper
-public interface LoginMapper {
-
-    // 로그인
-    UserDto login(String userId);  
+public interface UserMapper {
+    
+    UserDto getUser(String userId);
     
 }

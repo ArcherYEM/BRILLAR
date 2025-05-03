@@ -9,5 +9,6 @@ import kr.co.brillar.dto.MainDto;
 @Mapper
 public interface MainMapper {
 
+    // 메인화면 신상품순 불러오기
     List<MainDto> getNewProduct();
 }
