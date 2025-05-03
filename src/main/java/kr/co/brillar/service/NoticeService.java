@@ -13,12 +13,7 @@ public class NoticeService {
 
     private final NoticeMapper noticeMapper;
 
-    // 신상품 리스트
-    public List<NoticeDto> getList() {
-        return noticeMapper.getList();
-    }
-
-
+      //신상품 리스트 + 페이지네이션 ( 총 게시글 개수를  NoticeDTO의 totalCount에 설정)
     public List<NoticeDto> getPageList(int page, int size){
         int offset = (page - 1) * size;
         List<NoticeDto> list = noticeMapper.getPageList(offset, size);
