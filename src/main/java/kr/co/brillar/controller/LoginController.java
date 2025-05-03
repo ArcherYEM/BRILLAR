@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/login")
 public class LoginController {
 
-    //공지사항 리스트 페이지
+    // 로그인 페이지
     @GetMapping({ "", "/" })
     public String login() {
         return "login/login";

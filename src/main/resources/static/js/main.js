@@ -90,43 +90,6 @@ const saleProducts = [{
 
 $(document).ready(function () {
     // 신상품
-    // const $newItemList = $('#new-list');
-
-    // $.each(products, function (i, product) {
-    //     const itemHtml = `
-    //         <div class="new-item">
-    //             <div class="new-image">
-    //                 <a href="${product.link}"><img src="${product.image}" alt="new-item" /></a>
-    //             </div>
-    //             <div class="new-name">${product.name}</div>
-    //             <div class="new-price">${product.price}</div>
-    //             <div class="new-desc">${product.desc}</div>
-    //         </div>
-    //         `
-    //     $newItemList.append(itemHtml);
-    // })
-
-    // 할인 상품
-    const $saleItemList = $('#SaleList');
-
-    $.each(saleProducts, function (i, product) {
-        const itemHtml = `
-            <div class="sale-item" style="background-image: url('${product.image}')">
-                <div class="sale-info-wrap">
-                    <div class="sale-info">
-                        <div class="sale-discount">${product.discount}</div>
-                        <div class="sale-name">${product.name}</div>
-                        <div class="sale-price">${product.price}</div>
-                    </div>
-                    <a href="${product.link}" class="sale-link">바로가기</a>
-                </div>
-            </div>
-            `
-        $saleItemList.append(itemHtml);
-    })
-})
-
-const pageLoaded = () => {
     $.ajax({
         url: '/api/main/getProducts',
         method: 'GET',
@@ -153,7 +116,51 @@ const pageLoaded = () => {
         error: (xhr, status, error)=>{
             console.error(status, error);
         }
-    });
-};
+    })
 
-pageLoaded();
+    // 할인 상품
+    const $saleItemList = $('#SaleList');
+
+    $.each(saleProducts, function (i, product) {
+        const itemHtml = `
+            <div class="sale-item" style="background-image: url('${product.image}')">
+                <div class="sale-info-wrap">
+                    <div class="sale-info">
+                        <div class="sale-discount">${product.discount}</div>
+                        <div class="sale-name">${product.name}</div>
+                        <div class="sale-price">${product.price}</div>
+                    </div>
+                    <a href="${product.link}" class="sale-link">바로가기</a>
+                </div>
+            </div>
+            `
+        $saleItemList.append(itemHtml);
+    })
+
+    const userId = $("#LoginUserid").val();
+    const userPassword = $("#LoginPwd").val();
+
+    $.ajax({
+        url: '/login/userInfo',
+        type: 'GET',
+        data: {
+            userId: userId,
+            userPassword: userPassword
+        },
+        success: function(user){
+            const $userButton = $('#UserButton'); 
+            $userButton.empty()
+            
+            const html = `
+                <a href="/mainpage">환영합니다 ${user.userName}님</a>
+                <a href="">${user.userRoleCode}등급</a>
+                <a href="#" id="LogoutButton">로그아웃</a>
+            `;
+
+            $userButton.html(html);
+        },
+        error: function(xhr, status, error){
+            console.warn('로그인 에러발생 : ', error);
+        }
+    })
+})
