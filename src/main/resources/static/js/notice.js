@@ -119,9 +119,10 @@ function getCmt(){
         method : 'GET',
 
         success : function(result){
-            const $commentList = $('#notice-cm-list');
+            const $commentList  = $('#notice-cm-list');
             const $commentCount = $('#notice-cm-count');
-            $commentList.empty();
+            
+            $commentList.empty(); // 초기화
 
             if (result.length === 0) {
                 $commentList.html('<p class="no-comment">등록된 댓글이 없습니다.</p>');
@@ -160,7 +161,7 @@ function getCmt(){
 
 // 댓글작성
 function insertCmt(){
-    const comment = $('#NoticeCmt').val().trim();
+    const comment   = $('#NoticeCmt').val().trim();
     const noticeSeq = $('#notice-seq-hidden').val();
 
     if (comment === null){
@@ -169,12 +170,13 @@ function insertCmt(){
 
     if (!noticeSeq || isNaN(noticeSeq)) {
         alert('게시번호 이상');
+
         return;
     }
 
     const data = {
         noticeSeq : noticeSeq,
-        comment : comment
+        comment   : comment
     }
 
     $.ajax({
