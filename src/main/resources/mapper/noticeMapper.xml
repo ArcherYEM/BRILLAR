@@ -36,4 +36,28 @@
         WHERE noticeSeq = #{noticeSeq}
     </select>
 
+<!--    공지사항 글쓰기 Post 글쓰고나서 자동 noticeSeq 반환 -->
+    <insert id="registerNotice"
+            parameterType="kr.co.brillar.dto.NoticeDto"
+            useGeneratedKeys="true"
+            keyProperty="noticeSeq"
+    >
+        INSERT INTO notice(
+                           userId
+                        ,  userName
+                        ,  title
+                        ,  contents
+                        ,  createdAt
+                        ,  updatedAt
+        )
+        VALUES (
+                            #{userId}
+                        ,   #{userName}
+                        ,   #{title}
+                        ,   #{contents}
+                        ,   NOW()
+                        ,   NOW()
+        )
+    </insert>
+
 </mapper>

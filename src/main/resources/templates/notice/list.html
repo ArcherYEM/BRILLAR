@@ -30,7 +30,7 @@
             </div>
             <!-- 관리자용 공지 작성 버튼 -->
             <div class="admin-btn">
-                <button class="btn-primary">작성하기</button>
+                <button id="write-btn" class="btn-primary">작성하기</button>
             </div>
             <div class="pagination notice-pagination">
                 <button class="page-btn disabled"><img src="/img/icons/icon-first.svg" /></button>
@@ -48,6 +48,10 @@
 
     <!-- 푸터 -->
     <footer th:replace="fragments/footer :: common-footer"></footer>
+    <script th:inline="javascript">
+        const userId = /*[[${session.loginUser != null}]]*/ false ? '[[${session.loginUser.userId}]]' : null;
+        const userName = /*[[${session.loginUser != null}]]*/ false ? '[[${session.loginUser.userName}]]' : null;
+    </script>
     <script th:src="@{/js/notice.js}"></script>
 </body>
 </html>

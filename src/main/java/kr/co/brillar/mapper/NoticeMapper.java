@@ -17,4 +17,7 @@ public interface NoticeMapper {
 
     //글 상세보기 페이지(View)
     NoticeDto getNoticeById(int noticeSeq);
+
+    //공지사항 글쓰기 Post
+    void registerNotice(NoticeDto noticeDto);
 }

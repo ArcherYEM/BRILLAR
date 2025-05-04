@@ -3,6 +3,8 @@ package kr.co.brillar.controller.restAPI;
 import kr.co.brillar.dto.NoticeDto;
 import kr.co.brillar.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +22,16 @@ public class NoticeRestAPI {
         List<NoticeDto> listPage = noticeService.getPageList(page, size);
         return listPage;
     }
-
     //글 상세보기 페이지
     @GetMapping("/{noticeSeq}")
     public NoticeDto getReadPage(@PathVariable int noticeSeq){
         NoticeDto noticeDetail = noticeService.getNoticeById(noticeSeq);
         return noticeDetail;
+    }
+    //공지사항 글쓰기 페이지
+    @PostMapping()
+    public ResponseEntity<NoticeDto> registerNotice(@RequestBody NoticeDto noticeDto){
+        NoticeDto registered = noticeService.registerNotice(noticeDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registered);
     }
 }

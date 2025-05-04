@@ -10,6 +10,15 @@ $(document).ready(function () {
     if ((path == '/notice' || path === '/notice/') && parts.length === 2){
         getList();
 
+        //글쓰기 버튼 클릭 시 로그인 체크
+        $('#write-btn').on('click', function (){
+            if(!userId || !userName){
+                alert("로그인이 필요합니다");
+                return;
+            }
+            window.location.href = '/notice/register';
+        })
+
         //페이지네이션
         $(document).on('click', '.page-btn',function (){
             const selectedPage = $(this).data('page');
@@ -22,6 +31,40 @@ $(document).ready(function () {
     else if ( parts[1] === 'notice' && parts.length === 3 && !isNaN(Number(parts[2]))){
         const noticeId = parts[2];
         getNoticeDetail(noticeId);
+    }
+
+    //공지사항 글쓰기 페이지
+    else if(path === '/notice/register'){
+        $('#notice-submit-btn').on('click', function (){
+            const title = $('#notice-title').val();
+            const contents = window.noticeEditor.getMarkdown();
+
+
+            if(!title || !contents){
+                alert("제목과 내용을 입력하세요");
+                return;
+            }
+
+            $.ajax({
+                url: `/api/notice`,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    title: title,
+                    contents: contents,
+                    userId: userId,
+                    userName: userName
+                }),
+                success: function (response){
+                    alert("공지사항 등록완료");
+                    window.location.href=`/notice/${response.noticeSeq}`;
+                },
+                error: function (xhr, status, error){
+                    alert("게시글 등록 실패");
+                    console.log(status, error);
+                }
+            })
+        })
     }
 });
 
@@ -102,3 +145,12 @@ function getNoticeDetail(noticeSeq){
         }
     })
 }
+
+// //공지사항 글쓰기 페이지
+// function getNoticeRegister(){
+//     $('.btn-primary').on('click',function (){
+//         const contents = window.noticeEditor.getMarkdown();
+//
+//     })
+
+// }

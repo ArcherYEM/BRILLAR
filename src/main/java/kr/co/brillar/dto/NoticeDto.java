@@ -12,6 +12,7 @@ public class NoticeDto {
     // 테이블
     private int noticeSeq;
     private String userId;
+    private String userName;
     private String title;
     private String contents;
     private LocalDateTime createdAt;
