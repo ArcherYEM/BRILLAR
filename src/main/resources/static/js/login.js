@@ -11,6 +11,13 @@ $(document).ready(function () {
         $input.attr('type', isPassword ? 'text' : 'password');
         $icon.attr('src', isPassword ? '/img/icons/icon-visible.svg' : '/img/icons/icon-invisible.svg');
     });
+
+    // 엔터키로 로그인
+    $("#LoginUserid, #LoginPwd").on("keydown", function(e) {
+        if (e.key === "Enter") {
+            $("#LoginSubmit").click();
+        }
+    });
 })
 
 /*********************************/

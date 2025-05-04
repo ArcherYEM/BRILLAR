@@ -4,17 +4,21 @@ $(document).ready(function(){
         url: '/login/userInfo',
         type: 'GET',
         success: function(user){
-            const $userButton = $('#UserButton'); 
-            $userButton.empty()
-            
-            const html = `
-                <a href="/user">${user.userName}</a>
-                <a href="#">(등급: ${user.userRoleCode})</a>
-                <a href="#" id="LogoutButton">로그아웃</a>
-            `;
+            if (user) {
+                const $userButton = $('#UserButton');
+                $userButton.empty()
 
-            $userButton.html(html);
+                const html = `
+                    <a href="/user">${user.userName}(등급: ${user.userRoleCode})</a>
+                    <a href="#" id="LogoutButton">로그아웃</a>
+                `;
+
+                $userButton.html(html);
+            }
         },
+        error: function(xhr){
+            console.error("로그인 과정 에러 발생 : ", xhr);
+        }
     })
 })
 

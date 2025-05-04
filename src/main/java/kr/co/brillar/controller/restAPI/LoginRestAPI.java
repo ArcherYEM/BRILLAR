@@ -43,7 +43,7 @@ public class LoginRestAPI {
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인정보 없음");
+            return ResponseEntity.ok(null);
         }
     }
 
