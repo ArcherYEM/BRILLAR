@@ -365,7 +365,7 @@ $(document).ready(function () {
     // 리뷰 상세 아코디언
     $container.on('click', '.review-arrow', function () {
         const $arrow = $(this);
-        const $detail = $arrow.closest('#ReviewItem').find('#ReviewDetail');
+        const $detail = $arrow.closest('.review-item').find('.review-detail');
 
         $detail.stop(true, true).slideToggle(200);
         $arrow.toggleClass('rotated');
