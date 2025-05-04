@@ -85,6 +85,7 @@ function getNoticeDetail(noticeSeq){
         dataType : 'json',
         success : function (notice){
             const createdDate = notice.createdAt.split(`T`)[0];
+            $('#notice-seq-hidden').val(notice.noticeSeq); // seq 할당
             const noticeHTML = `
             <div class="notice-top">
                 <div class="notice-title">${notice.title}</div>
@@ -101,4 +102,45 @@ function getNoticeDetail(noticeSeq){
             console.error(`공지사항 상세조회 실패`, status, error);
         }
     })
+}
+
+// 댓글작성
+function insertCmt(){
+    const comment = $('#NoticeCmt').val().trim();
+    const noticeSeq = $('#notice-seq-hidden').val();
+
+    if (comment === null){
+        alert('댓글을 입력해주세요.');
+    }
+
+    if (!noticeSeq || isNaN(noticeSeq)) {
+        alert('게시번호 이상');
+        return;
+    }
+
+    const data = {
+        noticeSeq : noticeSeq,
+        comment : comment
+    }
+
+    $.ajax({
+        url         : '/api/noticeComment/insertCmt',
+        method      : 'POST',
+        contentType : 'application/json',
+        data        : JSON.stringify(data),
+
+        success     : function (result){
+            if (result === 1) {
+                alert('댓글이 정상등록되었습니다.');
+                getNoticeDetail(noticeSeq);
+            } else if (result === -1){
+                alert('로그인 후 댓글 작성이 가능합니다.');
+            } else {
+                alert('댓글 작성에 실패하였습니다.')
+            }
+        },
+        error       : function (xhr){
+            console.error("댓글작성중 에러 발생 : ", xhr);
+        }
+    });
 }

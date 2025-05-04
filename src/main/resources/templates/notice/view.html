@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/common/common.css">
     <link rel="stylesheet" type="text/css" href="/css/notice.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../../static/js/notice.js"></script>
 </head>
 
 <body>
@@ -29,13 +30,16 @@
             </div>
             <div class="comment-wrapper">
                 <div class="comment-register">
+
                     <div class="comment-limit">
                         <span id="char-count">0</span>/200
                     </div>
-                    <textarea id="notice-cm-text" class="comment-textarea" maxlength="200"
-                              placeholder="댓글을 작성하세요. (200자)"></textarea>
-                    <button id="notice-cm-btn" class="btn-primary">등록</button>
+                    <input type="hidden" id="notice-seq-hidden" value="">
+                    <textarea id="NoticeCmt" class="comment-textarea" maxlength="200" placeholder="댓글을 작성하세요. (200자)"></textarea>
+                    <button id="NoticeCmtBtn" class="btn-primary" onclick="insertCmt()">등록</button>
+
                 </div>
+
                 <div class="comment-header">
                     <span>댓글</span>
                     <span id="notice-cm-count"></span>
