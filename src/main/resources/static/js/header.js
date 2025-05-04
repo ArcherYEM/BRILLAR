@@ -8,7 +8,7 @@ $(document).ready(function(){
             $userButton.empty()
             
             const html = `
-                <a href="/user">환영합니다 ${user.userName}님</a>
+                <a href="/user">${user.userName}</a>
                 <a href="#">(등급: ${user.userRoleCode})</a>
                 <a href="#" id="LogoutButton">로그아웃</a>
             `;
