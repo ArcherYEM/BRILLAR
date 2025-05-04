@@ -24,10 +24,14 @@ public class NoticeService {
         }
         return list;
     }
-
     //viewPage
     public NoticeDto getNoticeById(int noticeSeq){
         NoticeDto nDetail = noticeMapper.getNoticeById(noticeSeq);
         return nDetail;
+    }
+    //공지사항 글쓰기
+    public NoticeDto registerNotice(NoticeDto noticeDto){
+        noticeMapper.registerNotice(noticeDto);
+        return noticeDto;
     }
 }

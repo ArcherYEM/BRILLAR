@@ -7,9 +7,11 @@
     <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
     <link rel="stylesheet" type="text/css" href="/css/common/style.css">
     <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
     <link rel="stylesheet" type="text/css" href="/css/notice.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
 </head>
 <body>
 <!-- 헤더 -->
@@ -21,9 +23,14 @@
     </p>
     <div class="notice-wrapper">
         <div class="editor-wrapper">
+            <input type="text" id="notice-title"
+                   placeholder="제목을 입력하세요"
+                   class="input-title"
+                   style="width: 100%"
+            />
             <div id="NoticeEditor"></div>
             <div class="btn-list">
-                <button class="btn-primary">등록</button>
+                <button class="btn-primary" id="notice-submit-btn">등록</button>
             </div>
         </div>
     </div>
@@ -31,7 +38,6 @@
 
 <!-- 푸터 -->
 <footer th:replace="fragments/footer :: common-footer"></footer>
-
 <script>
     // 에디터 설정
     function initEditor() {
@@ -54,5 +60,11 @@
         initEditor();
     })
 </script>
+<script th:inline="javascript">
+
+    const userId = [[${session.loginUser.userId}]];
+    const userName = [[${session.loginUser.userName}]];
+</script>
+<script src="/js/notice.js"></script>
 </body>
 </html>
