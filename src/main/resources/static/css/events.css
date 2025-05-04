@@ -1,0 +1,73 @@
+.event-container {
+    margin-top: 65px;
+    margin-bottom: 65px;
+}
+
+.event-wrapper {
+    margin-top: 65px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.event-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.event-item {
+    width: 100%;
+}
+
+.event-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.event-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.event-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.event-date {
+    font-size: 14px;
+    color: var(--c-green-5);
+}
+
+.event-desc {
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+/* 종료된 이벤트 */
+.event-item.ended .event-title,
+.event-item.ended .event-date,
+.event-item.ended .event-desc {
+    color: var(--c-green-3);
+}
+
+.event-item.ended img {
+    opacity: 0.5;
+    background-color: var(--c-gray-3);
+}
+
+
+/* 페이지네이션 */
+.event-pagination {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+}
