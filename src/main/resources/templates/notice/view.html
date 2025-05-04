@@ -3,122 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
     <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
     <link rel="stylesheet" type="text/css" href="/css/common/style.css">
     <link rel="stylesheet" type="text/css" href="/css/common/common.css">
     <link rel="stylesheet" type="text/css" href="/css/notice.css">
-    <title>공지사항</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
+
 <body>
-<!-- 헤더 -->
-<header th:replace="fragments/header :: common-header"></header>
-<div class="container notice-container">
-    <p class="title-lg">
-        NOTICE
-    </p>
-    <div class="notice-wrapper">
-        <div class="notice-view">
-            <div id="notice-detail"></div>
-            <div class="btn-list">
-                <button class="btn-primary">목록</button>
-                <button class="btn-primary">수정</button>
-                <button class="btn-warning">삭제</button>
-            </div>
-        </div>
-        <div class="comment-wrapper">
-            <div class="comment-register">
-                <div class="comment-limit">
-                    <span id="char-count">0</span>/200
+    <header th:replace="fragments/header :: common-header"></header>
+
+    <div class="container notice-container">
+        <p class="title-lg">
+            NOTICE
+        </p>
+        <div class="notice-wrapper">
+            <div class="notice-view">
+                <div id="notice-detail"></div>
+                <div class="btn-list">
+                    <button class="btn-primary">목록</button>
+                    <button class="btn-primary">수정</button>
+                    <button class="btn-warning">삭제</button>
                 </div>
-                <textarea id="notice-cm-text" class="comment-textarea" maxlength="200"
-                          placeholder="댓글을 작성하세요. (200자)"></textarea>
-                <button id="notice-cm-btn" class="btn-primary">등록</button>
             </div>
-            <div class="comment-header">
-                <span>댓글</span>
-                <span id="notice-cm-count"></span>
+            <div class="comment-wrapper">
+                <div class="comment-register">
+                    <div class="comment-limit">
+                        <span id="char-count">0</span>/200
+                    </div>
+                    <textarea id="notice-cm-text" class="comment-textarea" maxlength="200"
+                              placeholder="댓글을 작성하세요. (200자)"></textarea>
+                    <button id="notice-cm-btn" class="btn-primary">등록</button>
+                </div>
+                <div class="comment-header">
+                    <span>댓글</span>
+                    <span id="notice-cm-count"></span>
+                </div>
+                <div id="notice-cm-list" class="comment-list"></div>
             </div>
-            <div id="notice-cm-list" class="comment-list"></div>
         </div>
     </div>
-</div>
-<!-- 푸터 -->
-<footer th:replace="fragments/footer :: common-footer"></footer>
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
-<script src="/js/notice.js" ></script>
-<!--<script>-->
+    <footer th:replace="fragments/footer :: common-footer"></footer>
 
-
-<!--    // 더미데이터-->
-<!--    // const noticeContent = [{-->
-<!--    //     id: 40,-->
-<!--    //     title: "공지입니다... 대왕님이 코드를 친다고 합니다",-->
-<!--    //     content: "이 사람 개발 하고 싶어서 몸이 근질근질한 것 같습니다.<br />자꾸 마요에게 프론트 내놓으라고 갈굽니다.<br />마요 지금 피그마도 만들고 프론트도 한다.<br />과로한다.<br />자바나이가 그립다.",-->
-<!--    //     date: "2025-05-10",-->
-<!--    //     author: "관리자",-->
-<!--    //     commentCount: "3",-->
-<!--    //     comment: [-->
-<!--    //         {-->
-<!--    //             author: "김머왕",-->
-<!--    //             date: "2025-05-10",-->
-<!--    //             content: "그것 참 안타까운 일이네요."-->
-<!--    //         }, {-->
-<!--    //             author: "김자반",-->
-<!--    //             date: "2025-05-10",-->
-<!--    //             content: "정처기가 나를 괴롭힌다."-->
-<!--    //         }, {-->
-<!--    //             author: "오튜브",-->
-<!--    //             date: "2025-05-10",-->
-<!--    //             content: "프론트 한명밖에 없다고? 프론트 한명밖에 없다고? 프론트 한명밖에 없다고? 프론트 한명밖에 없다고? 프론트 한명밖에 없다고? 프론트 한명밖에 없다고? 프론트 한명밖에 없다고? 프론트 한명밖에 없다고? 프론트 한명밖에 없다고?"-->
-<!--    //         },-->
-<!--    //     ]-->
-<!--    // },]-->
-
-<!--    $(document).ready(function () {-->
-<!--        const notice = noticeContent[0];-->
-
-<!--        // 공지 상세보기-->
-<!--        const noticeHTML = `-->
-<!--				<div class="notice-top">-->
-<!--					<div class="notice-title">${notice.title}</div>-->
-<!--					<div class="notice-meta"><span>${notice.author}</span><span class="notice-date">${notice.date}</span></div>-->
-<!--				</div>-->
-<!--				<div class="notice-content">${notice.content}</div>-->
-<!--				`;-->
-
-<!--        $('#notice-detail').html(noticeHTML);-->
-
-
-<!--        // 댓글-->
-<!--        const comments = notice.comment;-->
-<!--        const $commentList = $('#notice-cm-list');-->
-
-<!--        // 댓글 수-->
-<!--        $('#notice-cm-count').text(`(${notice.commentCount})`)-->
-
-<!--        // 댓글 리스트-->
-<!--        if (comments.length === 0) {-->
-<!--            $commentList.append(`<div class="comment-item no-comment">아직 댓글이 없습니다.</div>`);-->
-<!--        } else {-->
-<!--            $.each(comments, function (i, comment) {-->
-<!--                const commentHtml = `-->
-<!--				 <div class="comment-item">-->
-<!--					<div class="comment-meta"><span class="comment-author">${comment.author}</span><span class="comment-date">${comment.date}</span></div>-->
-<!--					<div class="comment-content">${comment.content}</div>-->
-<!--				</div>-->
-<!--				`-->
-<!--                $commentList.append(commentHtml);-->
-<!--            })-->
-<!--        }-->
-
-<!--        // 댓글 글자수 카운트-->
-<!--        $('#notice-cm-text').on('input', function () {-->
-<!--            let content = $(this).val();-->
-<!--            $('#char-count').text(content.length);-->
-<!--        });-->
-<!--    })-->
-<!--</script>-->
+    <script th:src="@{/js/notice.js}" ></script>
 </body>
 </html>
