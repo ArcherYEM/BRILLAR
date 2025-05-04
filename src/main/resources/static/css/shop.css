@@ -76,3 +76,10 @@
 .shop-price input[type="text"]{
     width: 150px;
 }
+
+.shop-pagination {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

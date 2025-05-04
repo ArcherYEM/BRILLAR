@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper
 public interface ShopMapper {
     List<ProductDTO> getProductDTOList(@Param("dto")ProductParamDTO dto, @Param("offset")Integer offset);
+
+    Integer getPageCount(@Param("dto") ProductParamDTO dto);
 }

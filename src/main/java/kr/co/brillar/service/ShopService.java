@@ -5,10 +5,12 @@ import kr.co.brillar.dto.ProductParamDTO;
 import kr.co.brillar.mapper.ShopMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ShopService {
 
@@ -19,5 +21,9 @@ public class ShopService {
              offset = (paramDTO.getPage() - 1) * 9;
         }
         return shopMapper.getProductDTOList(paramDTO, offset);
+    }
+
+    public Integer getPageCount(ProductParamDTO paramDTO) {
+       return shopMapper.getPageCount(paramDTO);
     }
 }

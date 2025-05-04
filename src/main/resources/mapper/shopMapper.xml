@@ -61,4 +61,24 @@
         LIMIT #{offset} , 9
     </select>
 
+    <select id="getPageCount" resultType="int" parameterType="map">
+        SELECT COUNT(DISTINCT A.productSeq)
+        FROM product A
+            LEFT JOIN material B
+            ON A.productSeq = B.productSeq
+        <where>
+            <if test="dto.groupId !=null and dto.groupId !=''">
+                A.groupId = #{dto.groupId}
+            </if>
+            <if test="dto.text != null and dto.text != ''">
+                AND A.productName LIKE CONCAT('%', #{dto.text}, '%')
+            </if>
+            <if test="dto.materialList != null and dto.materialList.size() > 0">
+                AND B.materialCode IN
+                <foreach collection="dto.materialList" item="material" open="(" separator="," close=")">
+                    #{material}
+                </foreach>
+            </if>
+        </where>
+    </select>
 </mapper>

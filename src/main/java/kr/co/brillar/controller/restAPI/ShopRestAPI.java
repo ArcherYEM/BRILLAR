@@ -19,4 +19,10 @@ public class ShopRestAPI {
         List<ProductDTO> productDTOList = shopService.getShopListByCategory(paramDTO);
         return productDTOList;
     }
+
+    @GetMapping("/count")
+    public Integer getShopCount(@ModelAttribute ProductParamDTO paramDTO){
+        Integer count = shopService.getPageCount(paramDTO);
+        return count;
+    }
 }
