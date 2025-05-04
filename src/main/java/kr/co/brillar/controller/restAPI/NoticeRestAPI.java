@@ -15,8 +15,8 @@ public class NoticeRestAPI {
 
     // 공지사항 리스트 API - 페이지네이션 처리된 리스트 반환
     @GetMapping("/list")
-    public List<NoticeDto> getPageList(@RequestParam(defaultValue = "1")int page,
-                                       @RequestParam(defaultValue = "10")int size){
+    public List<NoticeDto> getPageList(@RequestParam(name = "page", defaultValue = "1")int page,
+                                       @RequestParam(name = "size", defaultValue = "10")int size){
         List<NoticeDto> listPage = noticeService.getPageList(page, size);
         return listPage;
     }
