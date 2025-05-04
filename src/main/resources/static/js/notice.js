@@ -6,7 +6,6 @@ const pageSize = 10;
 $(document).ready(function () {
     const path = window.location.pathname
     const parts = path.split('/');
-    
 
     if ((path == '/notice' || path === '/notice/') && parts.length === 2){
         getList();
@@ -18,13 +17,12 @@ $(document).ready(function () {
             getList();
         })
     }
+
     //글 상세 페이지 구현
     else if ( parts[1] === 'notice' && parts.length === 3 && !isNaN(Number(parts[2]))){
         const noticeId = parts[2];
         getNoticeDetail(noticeId);
     }
-    
-
 });
 
 /*********************************/
@@ -65,7 +63,6 @@ function getList(){
     })
 }
 
-
 //페이징 버튼 생성
 function getPagination(totalCount, currentPage){
     const totalPage = Math.ceil(totalCount / pageSize);
@@ -78,9 +75,8 @@ function getPagination(totalCount, currentPage){
                             </button>`;
         $pagination.append(btn)
     }
-
-
 }
+
 //글 상세보기
 function getNoticeDetail(noticeSeq){
     $.ajax({

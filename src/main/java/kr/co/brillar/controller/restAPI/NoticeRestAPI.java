@@ -13,7 +13,6 @@ import java.util.List;
 public class NoticeRestAPI {
     private final NoticeService noticeService;
 
-
     // 공지사항 리스트 API - 페이지네이션 처리된 리스트 반환
     @GetMapping("/list")
     public List<NoticeDto> getPageList(@RequestParam(defaultValue = "1")int page,
@@ -28,5 +27,4 @@ public class NoticeRestAPI {
         NoticeDto noticeDetail = noticeService.getNoticeById(noticeSeq);
         return noticeDetail;
     }
-
 }
