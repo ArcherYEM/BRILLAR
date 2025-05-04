@@ -1,7 +1,6 @@
 package kr.co.brillar.controller.restAPI;
 
 import kr.co.brillar.dto.NoticeDto;
-import kr.co.brillar.service.NoticeCommentService;
 import kr.co.brillar.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

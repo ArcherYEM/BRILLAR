@@ -7,6 +7,8 @@ import kr.co.brillar.service.NoticeCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/noticeComment")
@@ -32,5 +34,13 @@ public class NoticeCommentRestAPI {
         } else {
             return 0;
         }
+    }
+
+    // 댓글 조회
+    @GetMapping("/getCmt")
+    public List<NoticeCommentDto> getCmt(@RequestParam int noticeSeq){
+        List<NoticeCommentDto> noticeCmtList = noticeCommentService.getCmt(noticeSeq);
+
+        return noticeCmtList;
     }
 }

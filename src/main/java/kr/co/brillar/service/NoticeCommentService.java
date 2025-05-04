@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NoticeCommentService {
@@ -17,9 +19,21 @@ public class NoticeCommentService {
         try {
 
             return noticeCommentMapper.insertCmt(noticeCmtDto) > 0;
-        } catch(Exception e){
 
+        } catch(Exception e){
             throw new RuntimeException("댓글 등록 실패", e);
+        }
+    }
+
+    // 댓글조회
+    public List<NoticeCommentDto> getCmt(int noticeSeq){
+        try {
+            List<NoticeCommentDto> noticeCmtList = noticeCommentMapper.getCmt(noticeSeq);
+
+            return noticeCmtList;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

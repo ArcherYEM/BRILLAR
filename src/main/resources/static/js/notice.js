@@ -97,11 +97,65 @@ function getNoticeDetail(noticeSeq){
             <div class="notice-content">${notice.contents}</div>
             `;
             $('#notice-detail').html(noticeHTML);
+
+            getCmt(); // 댓글 조회
         },
         error : function (xhr, status, error){
             console.error(`공지사항 상세조회 실패`, status, error);
         }
     })
+}
+
+// 댓글 조회
+function getCmt(){
+    const noticeSeq = $('#notice-seq-hidden').val();
+    if (!noticeSeq || isNaN(noticeSeq)) {
+        alert('게시번호 이상');
+        return;
+    }
+
+    $.ajax({
+        url : `/api/noticeComment/getCmt?noticeSeq=${noticeSeq}`,
+        method : 'GET',
+
+        success : function(result){
+            const $commentList = $('#notice-cm-list');
+            const $commentCount = $('#notice-cm-count');
+            $commentList.empty();
+
+            if (result.length === 0) {
+                $commentList.html('<p class="no-comment">등록된 댓글이 없습니다.</p>');
+                $commentCount.text('(0)');
+                return;
+            }
+
+            $commentCount.text(`(${result.length})`);
+
+            result.forEach(function(comment) {
+                const html = `
+                    <div class="comment-list">
+                        <div class="">
+                            <span class="">${comment.userName}</span>
+                            <span class="">(${comment.userId})</span>
+                        </div>
+                        <div>
+                            <span>${comment.createdAt}</span>
+                        </div>
+                        <div class="">
+                            <span>${comment.comment}</span>
+                            <button type="button">삭제</button>
+                        </div>
+                    </div>
+                    <hr>
+                `;
+
+                $commentList.append(html);
+            });
+        },
+        error : function (xhr){
+            console.warn('댓글 조회중 에러발생', xhr);
+        }
+    });
 }
 
 // 댓글작성
