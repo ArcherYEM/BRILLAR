@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/shop")
 public class ShopController {
 
-    @GetMapping("/{category}")
+    @GetMapping({"/{category}",""})
     public String shopView(){
         return "shop/list";
     }
