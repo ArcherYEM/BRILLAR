@@ -155,8 +155,17 @@
 
     .comment-meta {
         display: flex;
+        justify-content: space-between;
         align-items: flex-end;
         gap: 5px;
+    }
+
+    .comment-userid {
+        color: var(--c-green-3);
+    }
+
+    .comment-content {
+        padding: 5px 0;
     }
 
     .comment-author {
@@ -171,6 +180,11 @@
 
     &:last-child {
         border-bottom: none;
+    }
+
+    .del-button {
+        display: flex;
+        justify-content: flex-end;
     }
 }
 
