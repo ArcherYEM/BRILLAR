@@ -30,4 +30,16 @@ public class LoginService {
         
         return null;
     }
+
+    // 헤더용
+    public SessionDto header(String userId){
+
+        UserDto userInfo = loginMapper.login(userId);
+        
+        SessionDto user = new SessionDto();
+        user.setUserId(userInfo.getUserId());
+        user.setUserName(userInfo.getUserName());
+        user.setUserRoleCode(userInfo.getUserRoleCode());
+        return user;
+    }
 }

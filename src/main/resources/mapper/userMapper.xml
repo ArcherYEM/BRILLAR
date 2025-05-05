@@ -5,6 +5,7 @@
 
 <mapper namespace="kr.co.brillar.mapper.UserMapper">
 
+    <!-- myPage 유저정보 가져오기 -->
     <select id="getUser" resultType="kr.co.brillar.dto.UserDto">
         SELECT 
             userRoleCode,
@@ -19,4 +20,20 @@
         FROM user 
         WHERE userId = #{userId}
     </select>
+
+    <!-- 유저정보 수정 -->
+     <update id="updateUser" parameterType="map">
+        UPDATE user 
+        SET userName = #{userName},
+            userEmail = #{userEmail},
+            userPhone = #{userPhone},
+            updatedAt = NOW()
+        WHERE userId = #{userId}
+     </update>
+
+    <!-- 회원탈퇴 user정보삭제 -->
+     <delete id="deleteUser">
+        DELETE FROM user
+        WHERE userId = #{userId};
+     </delete>
 </mapper>

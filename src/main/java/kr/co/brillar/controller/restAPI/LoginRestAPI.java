@@ -8,8 +8,6 @@ import kr.co.brillar.dto.SessionDto;
 import kr.co.brillar.service.LoginService;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,19 +32,17 @@ public class LoginRestAPI {
             return user;
         }
     }
-    
-    // user정보 session에서 불러오기
-    @GetMapping("/userInfo")
-    public ResponseEntity<?> getUserInfo(HttpSession session) {
+
+    // 헤더 유저 정보띄우기
+    @GetMapping("/header")
+    public SessionDto getMethodName(HttpSession session) {
         SessionDto user = (SessionDto) session.getAttribute("loginUser");
-
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.ok(null);
-        }
+        SessionDto headerUser = loginService.header(user.getUserId());
+        
+        return headerUser;
     }
-
+    
+    
     // 로그아웃 API
     @PostMapping("/logout")
     public String logout(HttpSession session) {

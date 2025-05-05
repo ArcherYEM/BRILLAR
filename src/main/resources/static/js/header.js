@@ -1,7 +1,7 @@
 // 로그인시 header 문구변경
 $(document).ready(function(){
     $.ajax({
-        url: '/login/userInfo',
+        url: '/login/header',
         type: 'GET',
         success: function(user){
             if (user) {
@@ -30,7 +30,9 @@ $(document).on("click", "#LogoutButton", function (e) {
         url: "/login/logout",
         type: "POST",
         success: function () {
-            window.location.href = "/login";
+            if (confirm("로그아웃 하시겠습니까?")) {
+                window.location.href = "/login";
+            }
         },
         error: function (err) {
             console.error("로그아웃 실패: ", err);

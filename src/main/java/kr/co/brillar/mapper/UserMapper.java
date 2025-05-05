@@ -8,5 +8,8 @@ import kr.co.brillar.dto.UserDto;
 public interface UserMapper {
     
     UserDto getUser(String userId);
-    
+
+    int updateUser(UserDto userDto);
+ 
+    int deleteUser(String userId);
 }

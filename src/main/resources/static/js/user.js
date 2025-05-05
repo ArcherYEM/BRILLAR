@@ -55,7 +55,7 @@ const reviewList = [{
 
 $(document).ready(function () {
     $.ajax({
-        url: '/user/user',
+        url: '/user/dtoUser',
         type: 'GET',
         xhrFields: {
             withCredentials: true
@@ -69,7 +69,7 @@ $(document).ready(function () {
                     </p>
                     <div class="info-item account-info">
                         <p class="mypage-title">내 정보</p>
-                        <div id="AccounForm" class="account-wrapper">
+                        <div id="AccountForm" class="account-wrapper">
                             <div class="account-item">
                                 <label>아이디</label>
                                 <input id="AccountId" class="info-userid" type="text" value="${user.userId}" readonly />
@@ -129,23 +129,58 @@ $(document).ready(function () {
                 `;
 
             $myPageInfo.html(html);
+
+            const $submitBtn = $('#AccountSubmit');
+            const $accountName = $('#AccountName');
+            const $accountEmail = $('#AccountEmail');
+            const $accountPhone = $('#AccountPhone');
+            
+            // 내 정보 변경 감지 (버튼 활성화)
+            $(document).on('input','#AccountForm input', function () {
+                if (!$(this).is('#AccountId') && !isChanged) {
+                    $submitBtn.removeClass('disabled').addClass('active').prop('disabled', false);
+                    isChanged = true;
+                }
+            });
+
+            // 폼 제출
+            $submitBtn.on('click', function (e) {
+                if (isEmailChanged && !isEmailChecked) {
+                    alert('이메일 중복확인을 완료해주세요.');
+                    e.preventDefault();
+                    return;
+                }
+                if (isPhoneChanged && !isPhoneChecked) {
+                    alert('휴대폰 번호 중복확인을 완료해주세요.');
+                    e.preventDefault();
+                    return;
+                }
+
+                if (confirm('변경사항을 저장하시겠습니까?')) {
+                    isChanged = false;
+                    $.post("/user/update", {userId:user.userId,
+                                            userName:$accountName.val(),
+                                            userEmail:$accountEmail.val(),
+                                            userPhone:$accountPhone.val()},
+                        function () {
+                                $submitBtn
+                                    .removeClass('active')
+                                    .addClass('disabled')
+                                    .prop('disabled', true);
+                                location.reload()
+                        })
+                }
+            });
         },
         error: (xhr, status, error)=>{
             console.error(status, error);
         }
     })
     
-    // 내 정보 변경 감지 (버튼 활성화)
+    // 페이지 변경 감지용
     let isChanged = false;
-    const $submitBtn = $('#AccountSubmit');
     
-    $(document).on('input','#AccounForm input', function () {
-        if (!$(this).is('#AccountId') && !isChanged) {
-            $submitBtn.removeClass('disabled').addClass('active').prop('disabled', false);
-            isChanged = true;
-        }
-    })
-
+    // 내 정보 변경 감지 후 페이지로드 시 확인
     $(window).on('beforeunload', function () {
         if (isChanged) {
             return '변경사항이 저장되지 않았습니다. 이 페이지를 벗어나시겠습니까?';
@@ -157,6 +192,8 @@ $(document).ready(function () {
     let isEmailChecked = false;
     let isPhoneChanged = false;
     let isPhoneChecked = false;
+    let emailDuple = false; // 이메일 중복여부
+    let phoneDuple = false; // 휴대폰 중복여부
 
     // 값 수정 시 중복확인 여부 초기화
     $(document).on('input','#AccountEmail', function () {
@@ -183,7 +220,69 @@ $(document).ready(function () {
         $(this).get(0).setCustomValidity('');
     });
 
-    // 이메일 중복확인 (임의 중복값: test@test.com)
+    // 중복확인
+    function isDuplicate(type) {
+        let data = '';
+        let flag = 0;
+
+        if (type === 'email') {
+            if (!$('#AccountEmail').get(0).checkValidity()) {
+                $('#AccountEmail').get(0).reportValidity();
+                return;
+            }
+
+            data = $('#AccountEmail').val().trim();
+            flag = 2;
+        } else if (type === 'phone') {
+            data = $('#AccountPhone').val().trim();
+
+            if(data.length < 11){
+                $('#AccountPhone').get(0).setCustomValidity('전화번호 형식이 올바르지 않습니다.');
+                $('#AccountPhone').get(0).reportValidity();
+                return;
+            }
+            flag =3;
+        }
+
+        if (flag !== 0 && data !== ''){
+            $.ajax({
+                url     : `/api/join/duplicate?data=${data}&flag=${flag}`,
+                method  : 'GET',
+                success : function(result){
+                    const isAvailable = result === 0;
+
+                    switch (flag){
+                        case 2 :
+                            emailDuple  = isAvailable;
+                            if (emailDuple){
+                                alert('사용 가능한 이메일 주소입니다.');
+                                isEmailChecked = true; // 이메일 중복 확인 통과 시
+                            } else {
+                                alert('이미 사용중인 이메일 주소입니다.');
+                            }
+                            break;
+                        case 3 :
+                            phoneDuple  = isAvailable;
+                            if (phoneDuple){
+                                alert('사용 가능한 휴대폰 번호입니다.');
+                                isPhoneChecked = true; // 휴대폰 중복 확인 통과 시
+                            } else {
+                                alert('이미 사용중인 휴대폰 번호입니다.');
+                            }
+                            break;
+                    }
+                },
+                error   : function (xhr, status, error){
+                    console.warn('중복확인 로직 에러 발생 : ', error);
+                }
+            });
+        } else {
+            console.warn('flag 값 이상 : ', flag);
+            return;
+        }
+    }
+
+    // 이메일 중복확인
     $(document).on('click', '#AccountEmailChk', function () {
         const $input = $('#AccountEmail');
         const value = $input.val().trim();
@@ -198,17 +297,10 @@ $(document).ready(function () {
             return;
         }
 
-        setTimeout(() => {
-            if (value.toLowerCase() === 'test@test.com') {
-                alert('이미 사용중인 이메일 주소입니다.');
-            } else {
-                alert('사용 가능한 이메일 주소입니다.');
-                isEmailChecked = true;
-            }
-        }, 300);
+        isDuplicate('email')
     });
 
-    // 휴대폰 번호 중복확인 (임의 중복값: 000-0000-0000)
+    // 휴대폰 번호 중복확인
     $(document).on('click', '#AccountPhoneChk', function () {
         const $input = $('#AccountPhone');
         const value = $input.val().replace(/-/g, '');
@@ -224,14 +316,7 @@ $(document).ready(function () {
             return;
         }
 
-        setTimeout(() => {
-            if (value === '00000000000') {
-                alert('이미 사용중인 휴대폰 번호입니다.');
-            } else {
-                alert('사용 가능한 휴대폰 번호입니다.');
-                isPhoneChecked = true;
-            }
-        }, 300);
+        isDuplicate('phone')
     });
 
     // 비밀번호 변경
@@ -311,6 +396,55 @@ $(document).ready(function () {
         $('#DelAcctModal').fadeIn(200);
     });
 
+    // 회원탈퇴 확인
+    $(document).on('click', '#DelAcctModal #DelAcct', function (e){
+        e.preventDefault();
+
+        $.ajax({
+            url: '/user/sessionUser',
+            type: 'GET',
+            success: function (user) {
+                const $DelAcctModal = $('#DelAcctModal')
+                let html = `
+                        <div class="modal-wrapper">
+                            <span id="PwdModalClose" class="modal-close">&times;</span>
+                            <p class="modal-title">회원 탈퇴</p>
+                            <p class="modal-subtitle" style="color: red;">※회원탈퇴를 완료하시려면 비밀번호를 입력해주세요</p>
+                            <div class="modal-content">
+                                탈퇴 시에는 회원 정보(계정 정보, 주문 내역, 리뷰)가 삭제되며, 복구가 불가능합니다. 탈퇴 후에는 서비스의 이용이 불가합니다. 정말로 탈퇴하시겠습니까?
+                                <br>
+                                <input type="password" name="userPassword" id="UserPassword" placeholder="비밀번호" required>
+                            </div>
+                            <div class="modal-buttons">
+                                <button type="button" id="CurrentDelAcct" class="btn-primary">확인</button>
+                                <button type="button" id="DelAcctClose" class="btn-warning">취소</button>
+                            </div>
+                        </div>
+                    `
+
+                $DelAcctModal.html(html);
+
+                const $UserPassword = $('#UserPassword')
+                const $CurrentDelAcct = $('#DelAcctModal #CurrentDelAcct')
+
+                // 비밀번호 입력 후 최종결정
+                $CurrentDelAcct.on('click', function (e){
+                    e.preventDefault();
+
+                    $.post("/user/delete", {userId : user.userId, userPassword : $UserPassword.val()}, function (data) {
+                        if (data != 1) {
+                            alert("비밀번호가 틀렸습니다 확인해주세요")
+                            return
+                        }
+                        alert("회원 탈퇴가 완료되었습니다 이용해주셔서 감사합니다")
+                        $.post("/login/logout")
+                        window.location.href = "/";
+                    })
+                })
+            }
+        })
+    })
+
     // 모달 닫기
     $('#DelAcctClose, .modal-close, #DelAcctModal').on('click', function (e) {
         if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
@@ -369,25 +503,5 @@ $(document).ready(function () {
 
         $detail.stop(true, true).slideToggle(200);
         $arrow.toggleClass('rotated');
-    });
-
-    // 폼 제출
-    $submitBtn.on('click', function (e) {
-        isChanged = false;
-        $submitBtn
-            .removeClass('active')
-            .addClass('disabled')
-            .prop('disabled', true);
-            
-        if (isEmailChanged && !isEmailChecked) {
-            alert('이메일 중복확인을 완료해주세요.');
-            e.preventDefault();
-            return;
-        }
-        if (isPhoneChanged && !isPhoneChecked) {
-            alert('휴대폰 번호 중복확인을 완료해주세요.');
-            e.preventDefault();
-            return;
-        }
     });
 });
