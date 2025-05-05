@@ -1,5 +1,5 @@
 <!-- fragments/modal/commonModal.html -->
-<div th:fragment="modalFragment(modalId, modalTitle, modalSub, modalContent, confirm, close)"
+<div th:fragment="modalFragment(modalId, modalTitle, modalSub, modalContent, confirm, close, confrimId, cancelId)"
      class="modal" th:id="${modalId}">
     <div class="modal-wrapper">
         <span id="PwdModalClose" class="modal-close">&times;</span>
@@ -9,8 +9,8 @@
             [[${modalContent}]]
         </div>
         <div class="modal-buttons">
-            <button type="button" id="DelAcct" class="btn-primary">[[${confirm}]]</button>
-            <button type="button" id="DelAcctClose" class="btn-warning">[[${close}]]</button>
+            <button type="button" th:id="${confrimId}" class="btn-primary">[[${confirm}]]</button>
+            <button type="button" th:id="${cancelId}" class="btn-warning">[[${close}]]</button>
         </div>
     </div>
 </div>
