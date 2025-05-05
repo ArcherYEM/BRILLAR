@@ -194,6 +194,7 @@
     $(document).ready(function () {
         // 주문현황 리스트
         const $container = $('#StateContainer');
+        const stepLabels = ['확인중', '배송중', '배송완료'];
 
         stateList.forEach((state, index) => {
             const stateHtml = `
@@ -201,7 +202,7 @@
 						<div class="state-summary">
 							<div class="state-col col-num">${state.orderNum}</div>
 							<div class="state-col col-date">${state.date}</div>
-							<div class="state-col col-state">${state.state}</div>
+							<div class="state-col col-state">${stepLabels[state.state]}</div>
 							<div class="state-col col-total">${state.total}</div>
 							<div class="state-col col-thumb">
 								${state.products.map(product => `<img src="${product.image}" class="state-photo" alt="상품 이미지">`).join('')}
