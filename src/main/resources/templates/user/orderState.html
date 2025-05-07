@@ -54,11 +54,11 @@
                 </p>
             </div>
             <div class="mypage-state">
-                <div class="state-header">
-                    <div class="state-col col-num">주문번호</div>
-                    <div class="state-col col-date">주문일자</div>
-                    <div class="state-col col-state">상태</div>
-                    <div class="state-col col-total">결제금액</div>
+                <div class="order-header">
+                    <div class="order col-num">주문번호</div>
+                    <div class="order col-date">주문일자</div>
+                    <div class="order col-state">상태</div>
+                    <div class="order col-total">결제금액</div>
                 </div>
                 <div id="StateContainer" class="state-container"></div>
                 <div class="pagination state-pagination">
@@ -203,20 +203,20 @@
 
         stateList.forEach((state, index) => {
             const stateHtml = `
-					<div id="StateItem" class="state-item">
-						<div class="state-summary">
-							<div class="state-col col-num">${state.orderNum}</div>
-							<div class="state-col col-date">${state.date}</div>
-							<div class="state-col col-state">${stepLabels[state.state]}</div>
-							<div class="state-col col-total">${state.total}</div>
-							<div class="state-col col-thumb">
-								${state.products.map(product => `<img src="${product.image}" class="state-photo" alt="상품 이미지">`).join('')}
+					<div id="StateItem" class="order-item">
+						<div class="order-summary">
+							<div class="order-col col-num">${state.orderNum}</div>
+							<div class="order-col col-date">${state.date}</div>
+							<div class="order-col col-state">${stepLabels[state.state]}</div>
+							<div class="order-col col-total">${state.total}</div>
+							<div class="order-col col-thumb">
+								${state.products.map(product => `<img src="${product.image}" class="order-photo" alt="상품 이미지">`).join('')}
 							</div>
-							<img src="/img/icons/icon-arrow.svg" class="state-arrow" data-index="${index}">
+							<img src="/img/icons/icon-arrow.svg" class="order-arrow" data-index="${index}">
 						</div>
-						<div id="StateDetail" class="state-detail" style="display: none;">
-							<div class="state-content">
-								<div class="state-product">
+						<div id="StateDetail" class="order-detail" style="display: none;">
+							<div class="order-content">
+								<div class="order-product">
 									<p class="title-xs title-left">상품 정보</p>
 									<div class="product-wrap">
 									${state.products.map(product => `
@@ -230,7 +230,7 @@
 										</div>`).join('')}
 									</div>
 								</div>
-								<div class="detail-state">
+								<div class="detail-order">
 									<p class="title-xs title-left">배송 정보</p>
 									<div class="product-wrap">
 										<div class="shipping-info">
@@ -245,10 +245,10 @@
 											</div>
 										</div>
 									</div>
-									<div class="shipping-state">
+									<div class="shipping-order">
 										 ${createShippingSteps(state.state)}
 									</div>
-									${state.state < 1 ? (`<div class="delete-state">
+									${state.state < 1 ? (`<div class="delete-order">
 									<button class="btn-warning open-cancel-modal" data-order="${state.orderNum}">주문취소</button>
 									</div>`) : ''}
 								</div>
@@ -261,9 +261,9 @@
 
 
         // 리뷰 상세 아코디언
-        $container.on('click', '.state-arrow', function () {
+        $container.on('click', '.order-arrow', function () {
             const $arrow = $(this);
-            const $detail = $arrow.closest('.state-item').find('.state-detail');
+            const $detail = $arrow.closest('.order-item').find('.order-detail');
 
             $detail.stop(true, true).slideToggle(200);
             $arrow.toggleClass('rotated');
