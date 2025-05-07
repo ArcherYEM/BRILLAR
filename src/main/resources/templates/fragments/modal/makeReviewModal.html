@@ -14,7 +14,12 @@
           <span class="star" data-rating="5">☆</span>
         </div>
       </div>
-      <textarea class="reveiw-textarea"></textarea>
+      <div class="textarea-wrapper">
+        <textarea id="ReviewText" class="reveiw-textarea" maxlength="300"></textarea>
+        <div class="review-limit comment-limit">
+          <span id="ReviewCount">0</span>/300
+        </div>
+      </div>
     </div>
     <div class="modal-buttons">
       <button type="button" id="MakeReview" class="btn-primary">주문 취소</button>

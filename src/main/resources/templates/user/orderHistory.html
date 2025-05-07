@@ -240,13 +240,21 @@
     });
 
     // 리뷰 모달
+    // 작성 시 편의를 위해서 모달 외부 클릭 시 꺼지는 기능은 제외함
     $(document).on('click', '.open-cancel-modal', function () {
         const orderNum = $(this).data('order');
+
+        // 초기화
+        $('#ReviewText').val('');
+        $('#ReviewCount').text(0);
+        selectedRating = 0;
+        updateStars(selectedRating);
+
         $('#ReviewModal').fadeIn(200);
         $('#ReviewModal .modal-subtitle').text(`주문번호 ${orderNum}에 대한 리뷰를 작성하세요`);
     });
 
-    $('#ReviewClose, .modal-close, #ReviewModal').on('click', function (e) {
+    $('#ReviewClose, .modal-close').on('click', function (e) {
         if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
             $('#ReviewModal').fadeOut(200);
         }
@@ -289,6 +297,12 @@
             $(this).text(starVal <= rating ? '★' : '☆');
         });
     }
+
+    // 리뷰 글자수 제한
+    $('#ReviewText').on('input', function () {
+        let content = $(this).val();
+        $('#ReviewCount').text(content.length);
+    });
 
     // 진행현황 html 그리기
     function createShippingSteps(stateVal) {

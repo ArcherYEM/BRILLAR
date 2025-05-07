@@ -652,9 +652,8 @@
 }
 
 .review-modal {
-    .reveiw-textarea {
-        width: 100%;
-        height: 300px;
+    .modal-wrapper {
+        height: 550px;
     }
 
     .review-rate {
@@ -675,5 +674,24 @@
 
     .star.active {
         color: var(--c-green-5);
+    }
+
+    .textarea-wrapper {
+        position: relative;
+    }
+
+    .reveiw-textarea {
+        width: 100%;
+        height: 300px;
+        padding: 15px;
+        position: absolute;
+    }
+
+    .review-limit {
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        font-size: 14px;
+        color: var(--c-green-3);
     }
 }
