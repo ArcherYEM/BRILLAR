@@ -128,8 +128,14 @@
                 <p class="info-title title-total">결제금액:</p>
                 <p class="info-value value-total">₩198,000</p>
             </div>
-            <button class="btn-secondary">결제하기</button>
+            <button id="PayContinue" class="btn-secondary">결제하기</button>
         </div>
+    </div>
+    <!-- 결제 확인 모달-->
+    <div th:replace="~{fragments/modal/confirmModal :: modalFragment(
+        'PayModal', '결제하시겠습니까?',
+        '확인 버튼을 누르면 결제가 완료됩니다.',
+        '결제하기', '취소', 'PayConfirm', 'PayModalClose')}">
     </div>
 </div>
 
@@ -172,6 +178,17 @@
 
             if (isChecked && $receiverName.val().trim() !== '') {
                 $senderName.val($receiverName.val().trim());
+            }
+        });
+
+        // 결제 확인 모달
+        $('#PayContinue').on('click', function (e) {
+            e.preventDefault();
+            $('#PayModal').fadeIn(200);
+        });
+        $('#PayModalClose, .modal-close, #PayModal').on('click', function (e) {
+            if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
+                $('#PayModal').fadeOut(200);
             }
         });
     });
