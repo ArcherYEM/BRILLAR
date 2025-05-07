@@ -411,6 +411,21 @@
     margin-top: 30px;
 }
 
+.title-wrap {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+
+    .title-md {
+        width: 120px;
+    }
+
+    .sub-text {
+        font-size: 14px;
+        color: var(--c-green-3);
+    }
+}
+
 .state-header,
 .state-summary {
     display: flex;
