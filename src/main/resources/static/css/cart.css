@@ -1,10 +1,11 @@
 .cart-container {
-    padding: 65px 0;
+    padding: 30px 0;
 }
 
 .cart-wrapper {
     display: flex;
     gap: 60px;
+    align-items: flex-start;
 
     .title-md {
         width: 100%;
@@ -81,7 +82,7 @@
         font-size: 20px;
     }
 
-    .prdouct-quantity {
+    .product-quantity {
         flex: 1;
         display: flex;
         justify-content: center;
@@ -129,7 +130,7 @@
 }
 
 .shipping-info {
-    margin-top: 100px;
+    margin: 80px 0;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -183,7 +184,7 @@
     flex-direction: column;
     gap: 10px;
 
-    .adderess-group {
+    .address-group {
         display: flex;
         align-items: center;
         gap: 5px;
@@ -195,5 +196,85 @@
         .search-postcode {
             height: 40px;
         }
+    }
+}
+
+/* 완료 페이지 */
+.complete-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 15px 0;
+    border-bottom: 2px solid var(--c-purple-1);
+
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--c-purple-1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .top-title {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        line-height: 1.5;
+        color: var(--c-purple-1);
+    }
+
+    .order-text {
+        font-family: 'Inter';
+        font-size: 14px;
+    }
+
+    .complete-text {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .link-state {
+        font-family: 'Inter';
+        color: var(--c-purple-2);
+        text-decoration: underline;
+    }
+}
+
+.complete-content {
+    padding: 15px 0;
+
+    .complete-title {
+        font-size: 20px;
+        font-weight: 700;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--c-purple-1);
+    }
+
+    .product-quantity {
+        color: var(--c-green-3);
+    }
+
+    .complete-item {
+        margin-bottom: 30px;
+    }
+
+    .complete-desc {
+        padding: 15px 0;
+        line-height: 1.2;
+    }
+}
+
+.complete-bottom {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Inter';
+
+    .link-qna {
+        color: var(--c-green-5);
+        text-decoration: underline;
     }
 }
