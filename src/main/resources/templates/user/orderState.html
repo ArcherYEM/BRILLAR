@@ -45,9 +45,14 @@
     </div>
     <div class="mypage-content">
         <div class="mypage-info">
-            <p class="title-md title-left">
-                주문현황
-            </p>
+            <div class="title-wrap">
+                <p class="title-md title-left">
+                    주문현황
+                </p>
+                <p class="sub-text">
+                    배송 완료 이전 건만 표시됩니다.
+                </p>
+            </div>
             <div class="mypage-state">
                 <div class="state-header">
                     <div class="state-col col-num">주문번호</div>
@@ -81,7 +86,7 @@
 <footer th:replace="fragments/footer :: common-footer"></footer>
 <script>
     // 더미데이터
-    // state 0: 주문확인중, 1: 배송중, 2:완료 로 잡고 작업함
+    // state 0: 주문확인중, 1: 배송중 으로 잡고 작업함
     const stateList = [{
         orderNum: "78A6431D409",
         date: "2025-01-01",
@@ -176,7 +181,7 @@
     }, {
         orderNum: "64VB5540K83",
         date: "2025-01-01",
-        state: 2,
+        state: 1,
         total: "200,000",
         products: [
             {
@@ -194,7 +199,7 @@
     $(document).ready(function () {
         // 주문현황 리스트
         const $container = $('#StateContainer');
-        const stepLabels = ['확인중', '배송중', '배송완료'];
+        const stepLabels = ['확인중', '배송중'];
 
         stateList.forEach((state, index) => {
             const stateHtml = `
@@ -254,6 +259,7 @@
             $container.append(stateHtml);
         });
 
+
         // 리뷰 상세 아코디언
         $container.on('click', '.state-arrow', function () {
             const $arrow = $(this);
@@ -277,7 +283,7 @@
         }
     });
 
-    // 진행현황 (스텝) html 그리기
+    // 진행현황 html 그리기
     function createShippingSteps(stateVal) {
         const stepLabels = ['주문확인', '배송중', '배송완료'];
         let html = '';
