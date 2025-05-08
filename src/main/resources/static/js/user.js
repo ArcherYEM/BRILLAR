@@ -134,6 +134,8 @@ $(document).ready(function () {
             const $accountName = $('#AccountName');
             const $accountEmail = $('#AccountEmail');
             const $accountPhone = $('#AccountPhone');
+            const $EditAddrOne = $('#EditAddrOne');
+            const $EditAddrTwo = $('#EditAddrTwo');
             
             // 내 정보 변경 감지 (버튼 활성화)
             $(document).on('input','#AccountForm input', function () {
@@ -141,6 +143,24 @@ $(document).ready(function () {
                     $submitBtn.removeClass('disabled').addClass('active').prop('disabled', false);
                     isChanged = true;
                 }
+            });
+
+            // 주소 변경 감지 (버튼 활성화)
+            $(document).on('input','#AddressContent input', function () {
+                if (!isChanged) {
+                    $submitBtn.removeClass('disabled').addClass('active').prop('disabled', false);
+                    isChanged = true;
+                }
+            });
+
+            // 주소검색
+            $('#SerachPostcode').on('click', function () {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        $EditAddrOne.val(data.address);
+                        $EditAddrTwo.focus();
+                    }
+                }).open();
             });
 
             // 폼 제출
@@ -161,7 +181,9 @@ $(document).ready(function () {
                     $.post("/user/update", {userId:user.userId,
                                             userName:$accountName.val(),
                                             userEmail:$accountEmail.val(),
-                                            userPhone:$accountPhone.val()},
+                                            userPhone:$accountPhone.val(),
+                                            userAddr1:$EditAddrOne.val(),
+                                            userAddr2:$EditAddrTwo.val()},
                         function () {
                                 $submitBtn
                                     .removeClass('active')
@@ -221,7 +243,7 @@ $(document).ready(function () {
     });
 
     // 중복확인
-    function isDuplicate(type) {
+    function isDuplicate(type, callback) {
         let data = '';
         let flag = 0;
 
@@ -253,22 +275,20 @@ $(document).ready(function () {
 
                     switch (flag){
                         case 2 :
-                            emailDuple  = isAvailable;
+                            emailDuple = isAvailable;
                             if (emailDuple){
                                 alert('사용 가능한 이메일 주소입니다.');
                                 isEmailChecked = true; // 이메일 중복 확인 통과 시
-                            } else {
-                                alert('이미 사용중인 이메일 주소입니다.');
-                            }
+                            } 
+                            if(callback) callback(isAvailable); // 이메일 중복 확인 실패 시 현재 정보와 비교
                             break;
                         case 3 :
-                            phoneDuple  = isAvailable;
+                            phoneDuple = isAvailable;
                             if (phoneDuple){
                                 alert('사용 가능한 휴대폰 번호입니다.');
                                 isPhoneChecked = true; // 휴대폰 중복 확인 통과 시
-                            } else {
-                                alert('이미 사용중인 휴대폰 번호입니다.');
                             }
+                            if(callback) callback(isAvailable); // 휴대폰 중복 확인 실패 시 현재 정보와 비교
                             break;
                     }
                 },
@@ -284,26 +304,50 @@ $(document).ready(function () {
 
     // 이메일 중복확인
     $(document).on('click', '#AccountEmailChk', function () {
-        const $input = $('#AccountEmail');
-        const value = $input.val().trim();
+        const $inputEmail = $('#AccountEmail');
+        const value = $inputEmail.val().trim();
 
         if (!value) {
             alert('이메일 주소를 입력해주세요.');
             return;
         }
 
-        if (!$input.get(0).checkValidity()) {
-            $input.get(0).reportValidity();
+        if (!$inputEmail.get(0).checkValidity()) {
+            $inputEmail.get(0).reportValidity();
             return;
         }
 
-        isDuplicate('email')
+        isDuplicate('email', function (isAvailable) {
+            // 현재 이메일과 비교 후 변경점 확인
+            if (!isAvailable) {
+                $.ajax({
+                    url: '/user/checkMyEmail',
+                    method: 'GET',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data:{
+                        userEmail : value
+                    },
+                    success: function (result) {
+                        if (result == true) {
+                            alert('현재 사용중인 이메일 주소입니다.');
+                            isEmailChecked = true;
+                            return
+                        } else {
+                            alert('이미 사용중인 이메일 주소입니다.');
+                            return
+                        }
+                    }
+                })
+            }
+        })
     });
 
     // 휴대폰 번호 중복확인
     $(document).on('click', '#AccountPhoneChk', function () {
-        const $input = $('#AccountPhone');
-        const value = $input.val().replace(/-/g, '');
+        const $inputPhone = $('#AccountPhone');
+        const value = $inputPhone.val().replace(/-/g, '');
 
         if (!value) {
             alert('휴대폰 번호를 입력해주세요.');
@@ -311,12 +355,36 @@ $(document).ready(function () {
         }
 
         if (value.length < 11) {
-            $input.get(0).setCustomValidity('휴대폰 번호를 올바른 형식으로 입력해주세요.');
-            $input.get(0).reportValidity();
+            $inputPhone.get(0).setCustomValidity('휴대폰 번호를 올바른 형식으로 입력해주세요.');
+            $inputPhone.get(0).reportValidity();
             return;
         }
 
-        isDuplicate('phone')
+        isDuplicate('phone', function (isAvailable) {
+            // 현재 휴대폰 번호와 비교 후 변경점 확인
+            if (!isAvailable) {
+                $.ajax({
+                    url: '/user/checkMyPhone',
+                    method: 'GET',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data:{
+                        userPhone : $inputPhone.val()
+                    },
+                    success: function (result) {
+                        if (result == true) {
+                            alert('현재 사용중인 휴대폰 번호입니다.');
+                            isPhoneChecked = true;
+                            return
+                        } else {
+                            alert('이미 사용중인 휴대폰 번호입니다.');
+                            return
+                        }
+                    }
+                })
+            }
+        })
     });
 
     // 비밀번호 변경
@@ -343,28 +411,69 @@ $(document).ready(function () {
         $icon.attr('src', isPassword ? '/img/icons/icon-visible.svg' : '/img/icons/icon-invisible.svg');
     });
 
-    const $password = $('#NewPwd');
+    const $OldPwd = $('#OldPwd');
+    const $NewPwd = $('#NewPwd');
+    const $NewPwdChk = $('#NewPwdChk');
     const $passwordConfirm = $('#NewPwdChk');
 
     // 비밀번호 유효성 검사
-    $password.on('input', function () {
-        if ($password.val().length < 8) {
-            $password.get(0).setCustomValidity('비밀번호는 8자 이상이어야 합니다.');
+    $NewPwd.on('input', function () {
+        if ($NewPwd.val().length < 8) {
+            $NewPwd.get(0).setCustomValidity('비밀번호는 8자 이상이어야 합니다.');
         } else {
-            $password.get(0).setCustomValidity('');
+            $NewPwd.get(0).setCustomValidity('');
         }
-        $password.get(0).reportValidity();
+        $NewPwd.get(0).reportValidity();
     })
 
     // 비밀번호 확인 일치 체크
     $passwordConfirm.on('input', function () {
-        if ($passwordConfirm.val() !== $password.val()) {
+        if ($passwordConfirm.val() !== $NewPwd.val()) {
             $passwordConfirm.get(0).setCustomValidity('비밀번호가 일치하지 않습니다.');
         } else {
             $passwordConfirm.get(0).setCustomValidity('');
         }
         $passwordConfirm.get(0).reportValidity();
     });
+
+    // 비밀번호 변경 적용
+    $(document).on('click', '#ChangePwd', function (e) {
+        e.preventDefault()
+
+        if (confirm("비밀번호를 변경하시겠습니까?")) {
+            $.ajax({
+                url: '/user/updatePassword',
+                method: 'POST',
+                xhrFields: {
+                    withCredentials: true
+                },
+                data:{
+                    newPassword : $NewPwdChk.val(),
+                    oldPassword : $OldPwd.val(),
+                },
+                success: function (result) {
+                    switch (result) {
+                        case 0:
+                            alert("error : 해당 비밀번호가 존재하지 않습니다")
+                            return
+                        case 2:
+                            alert("새 비밀번호는 기존 비밀번호와 다르게 작성해야합니다")
+                            return
+                        case -1:
+                            alert("기존 비밀번호를 확인해 주세요")
+                            return
+                        case 1:
+                            alert("변경이 완료되었습니다")
+                            location.reload()
+                            break;
+                    }
+                },
+                error: (xhr, status, error)=>{
+                    console.error(status, error);
+                }
+            })
+        }
+    })
 
     // 주소 변경
     $(document).on('click','#ChangeAddress', function () {
