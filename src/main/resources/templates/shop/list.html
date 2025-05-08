@@ -6,9 +6,9 @@
     <title>BRILLAR</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <link rel="stylesheet" th:href="@{/css/common/reset.css}" />
-    <link rel="stylesheet" th:href="@{/css/common/style.css}" />
-    <link rel="stylesheet" th:href="@{/css/common/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/common/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common/common.css}"/>
     <link rel="stylesheet" type="text/css" href="/css/shop.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 
@@ -18,63 +18,83 @@
 
 <body>
 <header th:replace="fragments/header :: common-header"></header>
-<div class="shop-item-wrapper inner-wrapper">
-    <div class="shop-left-wrap">
-        <div class="search-wrap">
-            <label for="ShopSearch" class="shop-item-search">검색</label>
-            <input id="ShopSearch" type="text">
-        </div>
-        <div class="shop-select-wrapper">
-            <label for="ShopSelect">정렬</label>
-            <select class="shop-select" id="ShopSelect">
-                <option value="0">평점 높은 순</option>
-                <option value="1">평점 낮은 순</option>
-                <option value="2">인기순</option>
-                <option value="3">가격 높은 순</option>
-                <option value="4">가격 낮은 순</option>
-            </select>
-        </div>
-        <div class="shop-checkbox-wrapper" id="MaterialCheckbox">
-            <p>소재</p>
-            <label class="shop-checkbox-label">
-                <input type="checkbox" value="G"> 골드
-            </label>
-            <label class="shop-checkbox-label">
-                <input type="checkbox" value="S"> 실버
-            </label>
-            <label class="shop-checkbox-label">
-                <input type="checkbox" value="RG"> 로즈골드
-            </label>
-            <label class="shop-checkbox-label">
-                <input type="checkbox" value="14K"> 14K
-            </label>
-            <label class="shop-checkbox-label">
-                <input type="checkbox" value="18K"> 18K
-            </label>
-            <label class="shop-checkbox-label">
-                <input type="checkbox" value="24K"> 24K
-            </label>
-            <label class="shop-checkbox-label">
-                <input type="checkbox" value="BG"> 백금
-            </label>
-            <label class="shop-checkbox-label">
-                <input type="checkbox" value="ETC"> 기타
-            </label>
-        </div>
-        <div class="shop-price-wrapper">
-            <label for="ShopPrice">가격대</label>
-            <div class="shop-price" id="ShopPrice">
-                <input type="text" id="MinPrice" placeholder="최소금액">
-                <input type="text" id="MaxPrice" placeholder="최대금액">
+<div class="shop-container">
+    <p class="title-lg">SHOP</p>
+    <p class="shop-cat">BRILLAR만의 고풍스러운 컬렉션</p>
+    <div class="shop-item-wrapper inner-wrapper">
+        <div class="shop-left-wrap">
+            <div class="filter-item search-wrap">
+                <label for="ShopSearch" class="filter-title">검색</label>
+                <div class="search-box">
+                    <input class="search-input" id="ShopSearch" type="text">
+                    <img class="search-btn" src="/img/icons/icon-search.svg" alt="검색"/>
+                </div>
+            </div>
+            <div class="filter-item shop-select-wrapper">
+                <label class="filter-title" for="ShopSelect">정렬</label>
+                <select class="shop-select" id="ShopSelect">
+                    <option value="0">평점 높은 순</option>
+                    <option value="1">평점 낮은 순</option>
+                    <option value="2">인기순</option>
+                    <option value="3">가격 높은 순</option>
+                    <option value="4">가격 낮은 순</option>
+                </select>
+            </div>
+            <div class="filter-item shop-checkbox-wrapper" id="MaterialCheckbox">
+                <p class="filter-title">소재</p>
+                <div class="checkbox-list">
+                    <label class="shop-checkbox-label">
+                        <input type="checkbox" value="G"> 골드
+                    </label>
+                    <label class="shop-checkbox-label">
+                        <input type="checkbox" value="S"> 실버
+                    </label>
+                    <label class="shop-checkbox-label">
+                        <input type="checkbox" value="RG"> 로즈골드
+                    </label>
+                    <label class="shop-checkbox-label">
+                        <input type="checkbox" value="14K"> 14K
+                    </label>
+                    <label class="shop-checkbox-label">
+                        <input type="checkbox" value="18K"> 18K
+                    </label>
+                    <label class="shop-checkbox-label">
+                        <input type="checkbox" value="24K"> 24K
+                    </label>
+                    <label class="shop-checkbox-label">
+                        <input type="checkbox" value="BG"> 백금
+                    </label>
+                    <label class="shop-checkbox-label">
+                        <input type="checkbox" value="ETC"> 기타
+                    </label>
+                </div>
+            </div>
+            <div class="filter-item shop-price-wrapper">
+                <div class="filter-top">
+                    <label class="filter-title" for="ShopPrice">가격대</label>
+                    <button id="PriceBtn" class="btn-price">검색</button>
+                </div>
+                <div class="shop-price" id="ShopPrice">
+                    <input type="text" id="MinPrice" placeholder="최소금액">
+                    <input type="text" id="MaxPrice" placeholder="최대금액">
+                </div>
+                <div class="slider-container">
+                    <div class="price-values">
+                        <span id="SliderMin">₩0</span>
+                        <span id="SliderMax">₩500,000</span>
+                    </div>
+                    <div id="PriceSlider" class="slider">
+                        <input type="range" min="0" max="500000" value="0" id="RangeMin">
+                        <input type="range" min="0" max="500000" value="500000" id="RangeMax">
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div>
-        <div id="ItemList" class="shop-item-list">
-
-        </div>
-        <div class="pagination shop-pagination" id="ShopPage">
-
+        <div>
+            <div id="ItemList" class="shop-item-list">
+            </div>
+            <div class="pagination shop-pagination" id="ShopPage">
+            </div>
         </div>
     </div>
 </div>
