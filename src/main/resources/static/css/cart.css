@@ -78,8 +78,19 @@
         background-color: var(--c-gray-3);
     }
 
+    .option-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
     .product-name {
         font-size: 20px;
+    }
+
+    .product-option {
+        font-size: 14px;
+        color: var(--c-green-3);
     }
 
     .product-quantity {
