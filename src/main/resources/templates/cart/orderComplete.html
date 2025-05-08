@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문완료</title>
+    <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/cart.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<!-- 헤더 -->
+<header th:replace="fragments/header :: common-header"></header>
+
+<div class="container cart-container">
+    <div class="complete-top">
+        <div class="top-title">
+            <div class="icon-circle">
+                <img src="/img/icons/icon-check-w.svg" alt="아이콘">
+            </div>
+            <div class="title-text">
+                <p class="order-text">Order&nbsp;<span>#234000</span></p>
+                <p class="complete-text">주문이 완료되었습니다.</p>
+            </div>
+        </div>
+        <div class="top-link">
+            <!-- 링크 url주소 맞춰서 수정 필요 -->
+            <a class="link-state" href="/user/orderstate">주문 현황</a>
+        </div>
+    </div>
+    <div class="complete-content">
+        <div class="complete-item complete-product">
+            <div class="complete-title">품목</div>
+            <!-- 더미데이터 -->
+            <div class="product-wrap">
+                <div class="product-item">
+                    <img src="/img/products/bracelet/b1.png" alt="제품사진" />
+                    <p class="product-name">사실은도금인팔찌</p>
+                    <p class="product-quantity">x&nbsp;<span>2</span></p>
+                </div>
+            </div>
+            <div class="product-wrap">
+                <div class="product-item">
+                    <img src="/img/products/bracelet/b1.png" alt="제품사진" />
+                    <p class="product-name">사실은도금인팔찌</p>
+                    <p class="product-quantity">x&nbsp;<span>1</span></p>
+                </div>
+            </div>
+            <div class="product-wrap">
+                <div class="product-item">
+                    <img src="/img/products/bracelet/b1.png" alt="제품사진" />
+                    <p class="product-name">사실은도금인팔찌</p>
+                    <p class="product-quantity">x&nbsp;<span>1</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="complete-item complete-address">
+            <div class="complete-title">배송 주소</div>
+            <div class="complete-desc">
+                <p>서울특별시 송파구 위례성대로 2</p>
+                <p>장은빌딩 2층</p>
+            </div>
+        </div>
+        <div class="complete-item complete-shipping">
+            <div class="complete-title">받는 분 성함</div>
+            <div class="complete-desc">
+                <p>양머왕</p>
+            </div>
+        </div>
+        <div class="complete-item complete-total">
+            <div class="complete-title">결제금액</div>
+            <div class="complete-desc">
+                <p>₩198,000</p>
+            </div>
+        </div>
+    </div>
+    <div class="complete-bottom">
+        <p>도움이 필요하신가요?</p>
+        <a class="link-qna" href="/qna">질문 남기기</a>
+    </div>
+</div>
+
+<!-- 푸터 -->
+<footer th:replace="fragments/footer :: common-footer"></footer>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/mypage.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<!-- 헤더 -->
+<header th:replace="fragments/header :: common-header"></header>
+<div class="container mypage-container">
+    <!-- 사이드바: 페이지명, 유저이름, 구매횟수 전달 필요 -->
+    <div th:replace="~{fragments/mypageSidebar :: sidebarFragment('history', '김머왕', 10)}"></div>
+    <div class="mypage-content">
+        <div class="mypage-info">
+            <p class="title-md title-left">
+                주문현황
+            </p>
+            <div class="mypage-order">
+                <div class="order-header">
+                    <div class="order-col col-num">주문번호</div>
+                    <div class="order-col col-date">주문일자</div>
+                    <div class="order-col col-state">상태</div>
+                    <div class="order-col col-total">결제금액</div>
+                </div>
+                <div id="StateContainer" class="order-container"></div>
+                <div class="pagination order-pagination">
+                    <button class="page-btn disabled"><img src="/img/icons/icon-first.svg" /></button>
+                    <button class="page-btn disabled"><img src="/img/icons/icon-prev.svg" /></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                    <button class="page-btn"><img src="/img/icons/icon-next.svg" /></button>
+                    <button class="page-btn"><img src="/img/icons/icon-last.svg" /></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 리뷰 작성 모달 -->
+    <div th:replace="fragments/modal/makeReviewModal"></div>
+</div>
+<!-- 푸터 -->
+<footer th:replace="fragments/footer :: common-footer"></footer>
+<script>
+    // 더미데이터
+    // state 0: 주문진행중(주문중, 배송중), 1: 배송완료, 2: 주문취소 로 잡고 작업함
+    // state 수정 필요할 시 js 코드와 mypage.css의 '.state-circle' 하위 스타일 수정
+    const stateList = [{
+        orderNum: "78A6431D409",
+        date: "2025-01-01",
+        state: 0,
+        total: "200,000",
+        products: [
+            {
+                name: "멋쟁이 반지",
+                image: "/img/products/ring/r1.png",
+                price: "120,000",
+                quantity: 1,
+            }, {
+                name: "짱쟁이 반지",
+                image: "/img/products/ring/r2.png",
+                price: "120,000",
+                quantity: 2
+            },
+            {
+                name: "짱쟁이 반지",
+                image: "/img/products/ring/r3.png",
+                price: "120,000",
+                quantity: 1
+            }
+        ],
+        reciveName: "오튜브",
+        address1: "서울특별시 강남구 무슨동",
+        address2: "뭐시기 사무실 101호"
+    }, {
+        orderNum: "34VB5540K83",
+        date: "2025-01-01",
+        state: 0,
+        total: "200,000",
+        products: [
+            {
+                name: "멋쟁이 반지",
+                image: "/img/products/ring/r1.png",
+                price: "120,000",
+                quantity: 1,
+            },
+        ],
+        reciveName: "오튜브",
+        address1: "서울특별시 강남구 무슨동",
+        address2: "뭐시기 사무실 101호"
+    }, {
+        orderNum: "322VB5540K83",
+        date: "2025-01-01",
+        state: 1,
+        total: "200,000",
+        products: [
+            {
+                name: "멋쟁이 반지",
+                image: "/img/products/ring/r1.png",
+                price: "120,000",
+                quantity: 1,
+            }, {
+                name: "짱쟁이 반지",
+                image: "/img/products/ring/r2.png",
+                price: "120,000",
+                quantity: 2
+            },
+        ],
+        reciveName: "오튜브",
+        address1: "서울특별시 강남구 무슨동",
+        address2: "뭐시기 사무실 101호"
+    }, {
+        orderNum: "43VB5540K83",
+        date: "2025-01-01",
+        state: 2,
+        total: "200,000",
+        products: [
+            {
+                name: "멋쟁이 반지",
+                image: "/img/products/ring/r1.png",
+                price: "120,000",
+                quantity: 1,
+            }, {
+                name: "짱쟁이 반지",
+                image: "/img/products/ring/r2.png",
+                price: "120,000",
+                quantity: 2
+            },
+            {
+                name: "짱쟁이 반지",
+                image: "/img/products/ring/r3.png",
+                price: "120,000",
+                quantity: 1
+            }
+        ],
+        reciveName: "오튜브",
+        address1: "서울특별시 강남구 무슨동",
+        address2: "뭐시기 사무실 101호"
+    }, {
+        orderNum: "64VB5540K83",
+        date: "2025-01-01",
+        state: 1,
+        total: "200,000",
+        products: [
+            {
+                name: "멋쟁이 반지",
+                image: "/img/products/ring/r1.png",
+                price: "120,000",
+                quantity: 1,
+            },
+        ],
+        reciveName: "오튜브",
+        address1: "서울특별시 강남구 무슨동",
+        address2: "뭐시기 사무실 101호"
+    },]
+
+    $(document).ready(function () {
+        // 주문현황 리스트
+        // '리뷰 작성' 버튼은 '주문완료상태' + '완료 n일 이내' 조건. 작성날짜와 현재날짜 비교하여 n일 이내의 건만 가능하도록 처리 필요
+        const $container = $('#StateContainer');
+        const stepLabels = ['주문진행중', '배송완료', '주문취소'];
+
+        stateList.forEach((state, index) => {
+            const stateHtml = `
+					<div id="StateItem" class="order-item">
+						<div class="order-summary">
+							<div class="order-col col-num">${state.orderNum}</div>
+							<div class="order-col col-date">${state.date}</div>
+							<div class="order-col col-state">
+								<div class="state-circle state-${state.state + 1}"></div>
+								${stepLabels[state.state]}
+							</div>
+							<div class="order-col col-total">${state.total}</div>
+							<div class="order-col col-thumb">
+								${state.products.map(product => `<img src="${product.image}" class="order-photo" alt="상품 이미지">`).join('')}
+							</div>
+							<img src="/img/icons/icon-arrow.svg" class="order-arrow" data-index="${index}">
+						</div>
+						<div id="StateDetail" class="order-detail" style="display: none;">
+							<div class="order-content">
+								<div class="order-product">
+									<p class="title-xs title-left">상품 정보</p>
+									<div class="product-wrap">
+									${state.products.map(product => `
+										<div class="product-item">
+											<img src=${product.image} alt="상품 이미지" />
+											<div class="product-info">
+												<p>${product.name}</p>
+												<p>₩${product.price}</p>
+												<p class="product-quantity">수량: ${product.quantity}</p>
+											</div>
+										</div>`).join('')}
+									</div>
+									${state.state > 0 ? (`<div class="review-order">
+									<button class="btn-primary open-cancel-modal" data-order="${state.orderNum}">리뷰 작성</button>
+									</div>`) : ''}
+								</div>
+								<div class="detail-order">
+									<p class="title-xs title-left">배송 정보</p>
+									<div class="product-wrap">
+										<div class="shipping-info">
+											<p class="shipping-title">받는 분 성함</p>
+											<p>${state.reciveName}</p>
+										</div>
+										<div class="shipping-info">
+											<p class="shipping-title">주소</p>
+											<div class="shipping-address">
+												<p>${state.address1}</p>
+												<p>${state.address2}</p>
+											</div>
+										</div>
+									</div>
+									<div class="shipping-order">
+										 ${createShippingSteps(state.state)}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				`;
+            $container.append(stateHtml);
+        });
+
+
+        // 리뷰 상세 아코디언
+        $container.on('click', '.order-arrow', function () {
+            const $arrow = $(this);
+            const $detail = $arrow.closest('.order-item').find('.order-detail');
+
+            $detail.stop(true, true).slideToggle(200);
+            $arrow.toggleClass('rotated');
+        });
+    });
+
+    // 리뷰 모달
+    // 작성 시 편의를 위해서 모달 외부 클릭 시 꺼지는 기능은 제외함
+    $(document).on('click', '.open-cancel-modal', function () {
+        const orderNum = $(this).data('order');
+
+        // 초기화
+        $('#ReviewText').val('');
+        $('#ReviewCount').text(0);
+        selectedRating = 0;
+        updateStars(selectedRating);
+
+        $('#ReviewModal').fadeIn(200);
+        $('#ReviewModal .modal-subtitle').text(`주문번호 ${orderNum}에 대한 리뷰를 작성하세요`);
+    });
+
+    $('#ReviewClose, .modal-close').on('click', function (e) {
+        if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
+            $('#ReviewModal').fadeOut(200);
+        }
+    });
+
+    // 리뷰 별점 매기기
+    let selectedRating = 0;
+    let isDragging = false;
+
+    $(document).on('click', '.star', function () {
+        selectedRating = parseInt($(this).data('rating'));
+        updateStars(selectedRating);
+    });
+    $(document).on('mousedown', '.star-rating', function () {
+        isDragging = true;
+    });
+    $(document).on('mouseup', function () {
+        isDragging = false;
+    });
+    $(document).on('mousemove', function (e) {
+        if (!isDragging) return;
+        const $stars = $('.star');
+        $stars.each(function () {
+            const offset = $(this).offset();
+            const width = $(this).width();
+            if (e.pageX >= offset.left && e.pageX <= offset.left + width) {
+                const newRating = parseInt($(this).data('rating'));
+                if (selectedRating !== newRating) {
+                    selectedRating = newRating;
+                    updateStars(selectedRating);
+                }
+            }
+        });
+    });
+
+    function updateStars(rating) {
+        $('.star').each(function () {
+            const starVal = parseInt($(this).data('rating'));
+            $(this).toggleClass('active', starVal <= rating);
+            $(this).text(starVal <= rating ? '★' : '☆');
+        });
+    }
+
+    // 리뷰 글자수 제한
+    $('#ReviewText').on('input', function () {
+        let content = $(this).val();
+        $('#ReviewCount').text(content.length);
+    });
+
+    // 진행현황 html 그리기
+    function createShippingSteps(stateVal) {
+        const stepLabels = ['주문확인', '배송중', '배송완료'];
+        let html = '';
+
+        for (let i = 0; i < 3; i++) {
+            const isCompleted = stateVal > i || stateVal == 2;
+            const isNow = stateVal < 2 && stateVal == i;
+
+            html += `
+				<div class="step step-${i + 1} ${isNow ? 'step-now' : ''}">
+					<div class="step-circle">
+						${isCompleted ? `<img src="/img/icons/icon-check.svg" alt="완료">` : i + 1}
+					</div>
+					${i < 2 ? `<div class="step-line step-line-${i + 1}"></div>` : ''}
+					<div class="step-text">
+						${stepLabels[i]}
+					</div>
+				</div>
+				`;
+        }
+        return html;
+    }
+
+    // 리뷰 전송
+    // '리뷰 별점' 수치는 selectedRating 변수 사용하면 됨
+</script>
+</body>
+</html>

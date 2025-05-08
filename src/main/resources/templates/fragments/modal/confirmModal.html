@@ -1,10 +1,9 @@
-<!-- fragments/modal/commonModal.html -->
-<div th:fragment="modalFragment(modalId, modalTitle, modalSub, modalContent, confirm, close, confrimId, cancelId)"
+<!-- fragments/modal/confirmModal.html -->
+<div th:fragment="modalFragment(modalId, modalTitle, modalContent, confirm, close, confrimId, cancelId)"
      class="modal" th:id="${modalId}">
-    <div class="modal-wrapper">
+    <div class="confirm-modal">
         <span class="modal-close">&times;</span>
         <p class="modal-title">[[${modalTitle}]]</p>
-        <p class="modal-subtitle">[[${modalSub}]]</p>
         <div class="modal-content">
             [[${modalContent}]]
         </div>

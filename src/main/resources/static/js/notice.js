@@ -168,7 +168,7 @@ function getCmt(){
             $commentList.empty(); // 초기화
 
             if (result.length === 0) {
-                $commentList.html('<p class="no-comment">등록된 댓글이 없습니다.</p>');
+                $commentList.html('<p class="comment-item no-comment">등록된 댓글이 없습니다.</p>');
                 $commentCount.text('(0)');
                 return;
             }
@@ -177,17 +177,19 @@ function getCmt(){
 
             result.forEach(function(comment) {
                 const html = `
-                    <div class="comment-list">
-                        <div class="">
-                            <span class="">${comment.userName}</span>
-                            <span class="">(${comment.userId})</span>
+                    <div class="comment-item">
+                        <div class="comment-meta">
+                            <div>
+                                <span class="comment-author">${comment.userName}</span>
+                                <span class="comment-userid">(${comment.userId})</span>                    
+                            </div>                      
+                            <span class="comment-date">${comment.createdAt}</span>
                         </div>
-                        <div>
-                            <span>${comment.createdAt}</span>
-                        </div>
-                        <div class="">
+                        <div class="comment-content">
                             <span>${comment.comment}</span>
-                            <button type="button">삭제</button>
+                        </div>
+                        <div class="del-button">
+                            <button class="btn-warning" type="button">삭제</button>
                         </div>
                     </div>
                     <hr>
