@@ -15,6 +15,13 @@ $(document).ready(function(){
         getShopList();
     })
 
+    $('#PriceBtn').on('click', function (e) {
+        e.preventDefault();
+        page = 1;
+        getShopList();
+        getPageCount();
+    })
+
     $('#MinPrice, #MaxPrice').on('keyup', function(e){
         if (e.which === 13){
             page = 1;
@@ -36,6 +43,9 @@ $(document).ready(function(){
         page = $(this).attr('data-page');
         getShopList();
     })
+
+    // 가격 슬라이더
+    initPriceSlider();
 })
 
 function getShopList(){
@@ -60,10 +70,13 @@ function getShopList(){
                 const html =
                 `<div class="shop-item">
                     <div class="shop-image">
-                        <a href=""><img src="${product.imageURL}" alt="shop-item" /></a>
+                        <div class="cart-icon">
+                            <img src="/img/icons/icon-cart-b.svg" />
+                        </div>
+                        <a href="#"><img class="product-image" src="${product.imageURL}" alt="shop-item" /></a>
                     </div>
                     <div class="shop-name">${product.productName}</div>
-                    <div class="shop-price">${product.price}</div>
+                    <div class="shop-product-price">${Number(product.price).toLocaleString()}&nbsp;원</div>
                     <div class="shop-desc">${product.productDesc}</div>
                 </div>`
                 $itemList.append(html);
@@ -110,4 +123,50 @@ function getPageCount(){
             console.error('상품 조회 실패:', status, error);
         }
     })
+}
+
+// 가격 슬라이더
+function initPriceSlider(options) {
+    const $minSlider = $('#RangeMin');
+    const $maxSlider = $('#RangeMax');
+    const $minPrice = $('#SliderMin');
+    const $maxPrice = $('#SliderMax');
+    const $minInput = $('#MinPrice');
+    const $maxInput = $('#MaxPrice');
+
+    let maxValue = 1000000 // DB에서 Max값 잡아와서 넣기
+
+
+    // 초기 세팅
+    $minSlider.attr('max', maxValue);
+    $maxSlider.attr('max', maxValue);
+    $minSlider.val(0);
+    $maxSlider.val(maxValue);
+
+    // 값 업데이트
+    function updatePrices() {
+        let minVal = parseInt($minSlider.val(), 10);
+        let maxVal = parseInt($maxSlider.val(), 10);
+
+        if (minVal > maxVal) {
+            minVal = maxVal;
+            $minSlider.val(minVal);
+        }
+        if (maxVal < minVal) {
+            maxVal = minVal;
+            $maxSlider.val(maxVal);
+        }
+
+        $minPrice.text(`₩${minVal.toLocaleString()}`);
+        $maxPrice.text(`₩${maxVal.toLocaleString()}`);
+        $minInput.val(minVal);
+        $maxInput.val(maxVal);
+    }
+
+    // 이벤트 바인딩
+    $minSlider.on('input', updatePrices);
+    $maxSlider.on('input', updatePrices);
+
+    // 초기값 렌더링
+    updatePrices();
 }
