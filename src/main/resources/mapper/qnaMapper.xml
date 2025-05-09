@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.QnaMapper">
+
+    <insert id="saveQna" parameterType="kr.co.brillar.dto.QnaDto">
+        INSERT INTO qna(
+                    userId,
+                    userName,
+                    title,
+                    contents
+        ) VALUES (
+                #{userId},
+                #{userName},
+                #{title},
+                #{contents}
+        )
+    </insert>
+
+    <select id="findQnaList" resultType="kr.co.brillar.dto.QnaDto" parameterType="int">
+        SELECT qnaSeq
+            , userId
+            , userName
+            , title
+            , contents
+            , TO_CHAR(createdAt, 'YYYY-MM-DD') AS createdAt
+            , answerId
+        FROM qna
+        ORDER BY qnaSeq DESC
+        LIMIT #{offset} , 10
+    </select>
+
+    <select id="findQnaCount">
+        SELECT COUNT(*)
+        FROM qna
+    </select>
+
+    <select id="findQnaContent" resultType="kr.co.brillar.dto.QnaViewDto" parameterType="long">
+        SELECT qnaSeq
+            , userId
+            , userName
+            , title
+            , contents
+            , TO_CHAR(createdAt, 'YYYY-MM-DD') AS createdAt
+            , answerId
+            , answerName
+            , answerContents
+            , TO_CHAR(createdAt, 'YYYY-MM-DD') AS answerCreatedAt
+        FROM qna
+        WHERE qnaSeq = #{qnaSeq};
+    </select>
+
+    <update id="saveQnaAnswer" parameterType="kr.co.brillar.dto.QnaViewDto">
+        UPDATE qna
+        SET
+            answerId = #{answerId},
+            answerName = #{answerName},
+            answerContents = #{answerContents},
+            answerCreatedAt = SYSDATE()
+        WHERE
+            qnaSeq = #{qnaSeq}
+    </update>
+
+    <delete id="deleteQna" parameterType="long">
+        DELETE
+        FROM qna
+        WHERE qnaSeq = #{qnaSeq}
+    </delete>
+
+    <update id="deleteQnaAnswer" parameterType="long">
+        UPDATE qna
+        SET
+            answerId = null,
+            answerName = null,
+            answerContents = null,
+            answerCreatedAt = SYSDATE()
+        WHERE
+            qnaSeq = #{qnaSeq}
+    </update>
+
+</mapper>

@@ -157,7 +157,7 @@
 }
 
 .answer-register {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: flex-end;
     gap: 5px;
@@ -218,4 +218,14 @@
     position: absolute;
     right: 5px;
     bottom: 5px;
+}
+
+.register-btn {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-warning{
+    display: none;
 }

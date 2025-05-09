@@ -28,16 +28,12 @@
         </div>
         <div id="qna-content" class="content-wrapper">
         </div>
-        <div class="pagination qna-pagination">
-            <button class="page-btn disabled"><img src="/img/icons/icon-first.svg"/></button>
-            <button class="page-btn disabled"><img src="/img/icons/icon-prev.svg"/></button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <button class="page-btn">4</button>
-            <button class="page-btn">5</button>
-            <button class="page-btn"><img src="/img/icons/icon-next.svg"/></button>
-            <button class="page-btn"><img src="/img/icons/icon-last.svg"/></button>
+        <div class="register-btn">
+            <a href="/qna/register">
+                <button id="WriteQna" class="btn-primary">작성하기</button>
+            </a>
+        </div>
+        <div class="pagination qna-pagination" id="QnaPage">
         </div>
     </div>
 </div>
@@ -45,100 +41,7 @@
 <!-- 푸터 -->
 <footer th:replace="fragments/footer :: common-footer"></footer>
 
-<script>
-    // 더미데이터
-    const qnas = [{
-        id: 40,
-        state: 0,
-        title: "대왕님의 본명이 김머왕이라는게 사실인가요??",
-        title: "대왕님의 본명이 김머왕이라는게 사실인가요??",
-        date: "2025-05-10",
-        secrecy: 1,
-    }, {
-        id: 39,
-        state: 0,
-        title: "정처기 실기가 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 0,
-    }, {
-        id: 38,
-        state: 0,
-        title: "정처기 실기가 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 0,
-    }, {
-        id: 37,
-        state: 1,
-        title: "정처기 실기가 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 0,
-    }, {
-        id: 36,
-        state: 1,
-        title: "정처기 실기가 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 1,
-    }, {
-        id: 35,
-        state: 1,
-        title: "정처기 실기가 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 1,
-    }, {
-        id: 34,
-        state: 1,
-        title: "정처기 실기가 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 1,
-    }, {
-        id: 33,
-        state: 1,
-        title: "정처기 실기가 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 0,
-    }, {
-        id: 32,
-        state: 1,
-        title: "정처기 실기가 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 0,
-    }, {
-        id: 31,
-        state: 1,
-        title: "정처기 필기도 어렵다는게 진짠가요",
-        date: "2025-05-10",
-        secrecy: 0,
-    },
-    ]
-
-    $(document).ready(function () {
-        const $qnaList = $('#qna-content');
-
-        $.each(qnas, function (i, qna) {
-            const stateText = qna.state === 0
-                ? `<div class="qna-col col-state wating">대기중</div>`
-                : `<div class="qna-col col-state confirm">답변 완료</div>`;
-            const lockIcon = qna.secrecy === 1
-                ? '<img src="/img/icons/icon-lock.svg" alt="비공개" class="lock-icon" style="width: 16px; height: 16px; margin-right: 4px;" />'
-                : '';
-
-            const qnaHtml = `
-				<div class="qna-list">
-					<div class="qna-col">${qna.id}</div>
-					${stateText}
-					<div class="qna-col col-title">
-						<a href="/qna/${qna.id}">
-							${qna.title}
-						</a>
-						${lockIcon}
-					</div>
-					<div class="qna-col col-date">${qna.date}</div>
-				</div>
-				`;
-            $qnaList.append(qnaHtml);
-        });
-    });
-</script>
+<script th:src="@{/js/qna.js}"></script>
 </body>
 
 </html>

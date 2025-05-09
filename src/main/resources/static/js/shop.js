@@ -111,7 +111,10 @@ function getPageCount(){
             if(data > 0){
                 for(let i = 0; i < data; i++){
                     if(i == 0){
-                        html += `<button class="page-btn active" data-page="${i+1}">${i+1}</button>`;
+                        html += `
+                            <button class="page-btn disabled"><img src="/img/icons/icon-first.svg"/></button>
+                            <button class="page-btn active" data-page="${i+1}">${i+1}</button>`
+                            <button class="page-btn disabled"><img src="/img/icons/icon-prev.svg"/></button>;
                         continue;
                     }
                     html += `<button class="page-btn" data-page="${i+1}">${i+1}</button>`;

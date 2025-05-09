@@ -7,6 +7,8 @@
   <link rel="stylesheet" type="text/css" href="/css/common/style.css">
   <link rel="stylesheet" type="text/css" href="/css/common/common.css">
   <link rel="stylesheet" type="text/css" href="/css/qna.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"
+          integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   <title>Q&A</title>
 </head>
 
@@ -21,7 +23,7 @@
   <div class="qna-wrapper">
     <div class="question-register">
       <form class="question-form">
-        <input type="text" placeholder="제목을 입력하세요." />
+        <input id="QnaTitle" type="text" placeholder="제목을 입력하세요." />
         <div class="textarea-wrapper">
           <textarea id="QuestText" maxlength="1000" placeholder="질문을 입력하세요."></textarea>
           <div class="question-limit comment-limit">
@@ -29,7 +31,7 @@
           </div>
         </div>
         <div class="btn-list">
-          <button type="submit" class="btn-primary">등록</button>
+          <button type="submit" id="QnaRegisterBtn" class="btn-primary">등록</button>
           <button type="button" class="btn-warning">취소</button>
         </div>
       </form>
@@ -40,17 +42,7 @@
 <!-- 푸터 -->
 <footer th:replace="fragments/footer :: common-footer"></footer>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script>
-  $(document).ready(function () {
-    // 글자수 카운트
-    $('#QuestText').on('input', function () {
-      let content = $(this).val();
-      $('#QuestCount').text(content.length);
-    });
-  });
-</script>
+<script th:src="@{/js/qna.js}"></script>
 </body>
 
 </html>
