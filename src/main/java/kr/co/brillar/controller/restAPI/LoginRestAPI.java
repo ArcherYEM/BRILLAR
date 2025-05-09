@@ -8,6 +8,8 @@ import kr.co.brillar.dto.SessionDto;
 import kr.co.brillar.service.LoginService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,8 +23,8 @@ public class LoginRestAPI {
     private final LoginService loginService;
 
     // 로그인 API
-    @GetMapping("/login")
-    public SessionDto getMethodName(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
+    @PostMapping("/login")
+    public SessionDto login(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
         SessionDto user = loginService.login(userId, userPassword);
 
         if (user != null) {
@@ -35,11 +37,20 @@ public class LoginRestAPI {
 
     // 헤더 유저 정보띄우기
     @GetMapping("/header")
-    public SessionDto getMethodName(HttpSession session) {
+    public ResponseEntity<?> getUserToHeader(HttpSession session) {
         SessionDto user = (SessionDto) session.getAttribute("loginUser");
+        
+        if (user == null) {
+            return ResponseEntity.ok(null);
+        }
+
         SessionDto headerUser = loginService.header(user.getUserId());
         
-        return headerUser;
+        if (headerUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        return ResponseEntity.ok(headerUser);
     }
     
     

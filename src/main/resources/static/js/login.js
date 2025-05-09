@@ -28,7 +28,7 @@ $("#LoginSubmit").on("click", function(){
 
     $.ajax({
         url: '/login/login',
-        type: 'GET',
+        type: 'POST',
         data: {
             userId: userId,
             userPassword: userPassword

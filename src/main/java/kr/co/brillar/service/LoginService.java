@@ -34,8 +34,17 @@ public class LoginService {
     // 헤더용
     public SessionDto header(String userId){
 
+        if (userId == null || userId.trim().isEmpty()) {
+            return null;
+        }
+        
         UserDto userInfo = loginMapper.login(userId);
         
+        if (userInfo == null) {
+            return null;
+        }
+        
+        // 정보 변경시 새로 반영
         SessionDto user = new SessionDto();
         user.setUserId(userInfo.getUserId());
         user.setUserName(userInfo.getUserName());
