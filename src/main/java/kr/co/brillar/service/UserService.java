@@ -33,15 +33,15 @@ public class UserService {
     }
 
     // 유저 비밀번호 변경
-    public int updatePassword(String userId, String newPassword, String oldPassword){
+    public int updatePassword(String userId, String newPasswordCheck, String oldPassword){
 
         UserDto userInfo = loginMapper.login(userId);
 
         if (passwordEncoder.matches(oldPassword, userInfo.getUserPassword())) {
 
             // 새 비밀번호가 기존 비밀번호와 겹치지 않을 때 정상 return 1 / 비정상 return 0
-            if (!passwordEncoder.matches(newPassword, userInfo.getUserPassword())) {
-                String currentNewPassword = passwordEncoder.encode(newPassword);
+            if (!passwordEncoder.matches(newPasswordCheck, userInfo.getUserPassword())) {
+                String currentNewPassword = passwordEncoder.encode(newPasswordCheck);
                 int result = userMapper.updatePassword(currentNewPassword, userId);
                 return result;
             }

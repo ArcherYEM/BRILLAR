@@ -395,7 +395,7 @@ $(document).ready(function () {
     });
 
     // 모달 닫기
-    $('#PwdModalClose, #ChangePwdClose, #ChangePwdModal').on('click', function (e) {
+    $('#PwdModalClose, #ChangePwdClose').on('click', function (e) {
         if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
             $('#ChangePwdModal').fadeOut(200);
         }
@@ -413,7 +413,6 @@ $(document).ready(function () {
 
     const $OldPwd = $('#OldPwd');
     const $NewPwd = $('#NewPwd');
-    const $NewPwdChk = $('#NewPwdChk');
     const $passwordConfirm = $('#NewPwdChk');
 
     // 비밀번호 유효성 검사
@@ -448,23 +447,45 @@ $(document).ready(function () {
                     withCredentials: true
                 },
                 data:{
-                    newPassword : $NewPwdChk.val(),
+                    newPassword : $NewPwd.val(),
+                    newPasswordCheck : $passwordConfirm.val(),
                     oldPassword : $OldPwd.val(),
                 },
                 success: function (result) {
                     switch (result) {
                         case 0:
-                            alert("error : 해당 비밀번호가 존재하지 않습니다")
+                            alert("비밀번호 변경에 실패하였습니다. 지속적인 문제발생시 시스템 관리자에게 문의바랍니다.")
+                            return
+                        case 4:
+                            alert("비밀번호가 일치하지 않습니다. 확인해주세요.")
+                            $passwordConfirm.val('')
+                            $passwordConfirm.focus()
+                            return    
+                        case 3:
+                            alert("해당 비밀번호는 사용 불가합니다. 비밀번호는 8자리 이상이어야 합니다.")
+                            $NewPwd.val('')
+                            $passwordConfirm.val('')
+                            $NewPwd.focus()
                             return
                         case 2:
-                            alert("새 비밀번호는 기존 비밀번호와 다르게 작성해야합니다")
+                            alert("새 비밀번호는 기존 비밀번호와 다르게 작성해야합니다.")
+                            $NewPwd.val('')
+                            $passwordConfirm.val('')
+                            $NewPwd.focus()
                             return
                         case -1:
-                            alert("기존 비밀번호를 확인해 주세요")
+                            alert("기존 비밀번호를 확인해 주세요.")
+                            $OldPwd.focus()
                             return
                         case 1:
-                            alert("변경이 완료되었습니다")
-                            location.reload()
+                            alert("변경이 완료되었습니다. 다시 로그인 해주세요.")
+                                $.ajax({
+                                    url: "/login/logout",
+                                    type: "POST",
+                                    success: function () {
+                                        window.location.href = "/login";
+                                    }
+                                });
                             break;
                     }
                 },
@@ -545,7 +566,7 @@ $(document).ready(function () {
                             alert("비밀번호가 틀렸습니다 확인해주세요")
                             return
                         }
-                        alert("회원 탈퇴가 완료되었습니다 이용해주셔서 감사합니다")
+                        alert("회원 탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.")
                         $.post("/login/logout")
                         window.location.href = "/";
                     })

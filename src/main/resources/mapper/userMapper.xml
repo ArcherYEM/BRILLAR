@@ -36,7 +36,7 @@
      <!-- 유저 비밀번호 변경 -->
       <update id="updatePassword">
          UPDATE user 
-         SET userPassword = #{newPassword},
+         SET userPassword = #{newPasswordCheck},
              updatedAt = NOW()
          WHERE userId = #{userId}
       </update>
