@@ -247,3 +247,244 @@
 
 }
 
+
+/* 제품 상세 */
+.product-container {
+    margin-top: 30px;
+    width: 1280px;
+}
+
+.product-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.image-wrapper {
+    width: 600px;
+    height: 600px;
+    background-color: var(--c-gray-3);
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.info-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 30px;
+
+    .title-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: var(--c-green-2);
+    }
+
+    .price-wrapper {
+        font-size: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--c-green-2);
+    }
+
+    .option-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .option-item {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .option-title {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .option-select {
+        width: 100%;
+    }
+
+    .size-box {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+
+        .size-item {
+            padding: 10px;
+            border: 1px solid var(--c-green-2);
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        input[type="radio"]:checked+.size-item {
+            background-color: var(--c-green-2);
+            color: var(--c-white);
+        ;
+        }
+    }
+
+    .request-text {
+        width: 100%;
+    }
+
+    .comment-limit {
+        font-size: 12px;
+        color: var(--c-green-3);
+    }
+
+    .request-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .btn-cart {
+        font-family: 'GowunBatang';
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .notice-wrapper {
+        font-size: 14px;
+        color: var(--c-purple-2);
+    }
+}
+
+.review-wrapper {
+    margin-top: 50px;
+
+    .review-top {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .review-total {
+        font-size: 18px;
+        color: var(--c-green-2);
+
+        .avg-rate {
+            font-size: 16px;
+        }
+    }
+
+    .review-list-wrap {
+        margin-top: 30px;
+
+        .review-filter {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 3px solid var(--c-green-2);
+        }
+
+        .photo-filter {
+            display: flex;
+            gap: 5px;
+        }
+
+        .sort-filter {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sort-item {
+            cursor: pointer;
+            transition: font-weight 0.2s, color 0.2s;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        input[type="radio"]:checked+.sort-item {
+            font-weight: 700;
+        }
+
+        input[type="checkbox"] {
+            margin: 0;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--c-purple-1);
+        }
+    }
+
+    .review-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .review-item {
+        padding: 15px 0;
+        border-bottom: 1px solid var(--c-green-2);
+        display: flex;
+
+        .reviewer-info {
+            width: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            color: var(--c-green-2);
+        }
+
+        .review-rate {
+            font-size: 18px;
+        }
+
+        .review-name {
+            font-weight: 700;
+        }
+
+        .review-date {
+            font-size: 14px;
+            color: var(--c-green-3);
+        }
+
+        .review-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .product-name {
+            font-weight: 700;
+        }
+
+        .review-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .review-text {
+            line-height: 1.2;
+        }
+
+        .img-container {
+            display: flex;
+            gap: 10px;
+
+            img {
+                width: 140px;
+                height: 149px;
+                background-color: vaR(--c-gray-3);
+            }
+        }
+    }
+
+    .product-pagination {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+}
