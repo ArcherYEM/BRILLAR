@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOP</title>
+    <link rel="stylesheet" th:href="@{/css/common/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common/common.css}"/>
+    <link rel="stylesheet" type="text/css" href="/css/shop.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+<header th:replace="fragments/header :: common-header"></header>
+<div class="container product-container">
+    <div class="product-wrapper">
+        <div class="image-wrapper">
+            <img src="/img/products/bracelet/b1.png" alt="제품이미지" />
+        </div>
+        <div class="info-wrapper">
+            <div class="title-wrapper">
+                <p class="title-sm title-left">플레인 골드 체인 팔찌</p>
+                <p class="subtitle">기본적인 디자인의 골드 팔찌</p>
+            </div>
+            <div class="price-wrapper">
+                <p><span>20,000</span>원</p>
+            </div>
+            <div class="option-wrapper">
+                <div class="option-item">
+                    <label class="option-title">소재</label>
+                    <div class="material-box">
+                        <select class="shop-select option-select">
+                            <option value="G" selected>옐로우 골드</option>
+                            <option value="S">실버</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="option-item">
+                    <label class="option-title">사이즈 선택</label>
+                    <div class="size-box">
+                        <input type="radio" name="size" id="size10" value="10cm" checked hidden>
+                        <label for="size10" class="size-item">10cm</label>
+                        <input type="radio" name="size" id="size12" value="12cm" hidden>
+                        <label for="size12" class="size-item">12cm</label>
+                        <input type="radio" name="size" id="size13" value="13cm" hidden>
+                        <label for="size13" class="size-item">13cm</label>
+                        <input type="radio" name="size" id="size14" value="14cm" hidden>
+                        <label for="size14" class="size-item">14cm</label>
+                        <input type="radio" name="size" id="size15" value="15cm" hidden>
+                        <label for="size15" class="size-item">15cm</label>
+                        <input type="radio" name="size" id="size16" value="16cm" hidden>
+                        <label for="size16" class="size-item">16cm</label>
+                        <input type="radio" name="size" id="size17" value="17cm" hidden>
+                        <label for="size17" class="size-item">17cm</label>
+                        <input type="radio" name="size" id="size18" value="18cm" hidden>
+                        <label for="size18" class="size-item">18cm</label>
+                        <input type="radio" name="size" id="size19" value="19cm" hidden>
+                        <label for="size19" class="size-item">19cm</label>
+                        <input type="radio" name="size" id="size20" value="20cm" hidden>
+                        <label for="size20" class="size-item">20cm</label>
+                    </div>
+                </div>
+                <div class="option-item">
+                    <div class="request-top">
+                        <label class="option-title">요청사항 (50자 이내)</label>
+                        <div class="comment-limit">
+                            <span id="RequestCount">0</span>/50
+                        </div>
+                    </div>
+                    <div class="request-box">
+                        <input id="RequestText" class="request-text" type="text" maxlength="50" />
+                    </div>
+                </div>
+            </div>
+            <button id="AddCart" class="btn-secondary btn-cart">장바구니 담기</button>
+            <div class="notice-wrapper">
+                <p>* 개봉 후에는 단순 변심으로 인한 반품 불가입니다.</p>
+                <p>* 배송은 영업일 기준 3일 이내 도착 예정입니다.</p>
+            </div>
+        </div>
+    </div>
+    <div class="review-wrapper">
+        <div class="review-top">
+            <p class="title-md">REVIEWS</p>
+            <div class="review-total">
+                <p>★★★★☆ <span class="avg-rate">4.0 (16)</span></p>
+            </div>
+        </div>
+        <div class="review-list-wrap">
+            <div class="review-filter">
+                <div class="photo-filter">
+                    <input type="checkbox" />
+                    <p>포토 리뷰만</p>
+                </div>
+                <div class="sort-filter">
+                    <input type="radio" name="size" id="SortRecent" value="recent" checked hidden>
+                    <label for="SortRecent" class="sort-item">최신순</label>
+                    <input type="radio" name="size" id="SortRate" value="rate" hidden>
+                    <label for="SortRate" class="sort-item">별점 높은 순</label>
+                </div>
+            </div>
+            <div class="review-list">
+                <!-- 더미데이터 -->
+                <div class="review-item">
+                    <div class="reviewer-info">
+                        <p class="review-rate">★★★★☆</p>
+                        <p class="review-name">오튜브</p>
+                        <p class="review-date ">2025-05-25</p>
+                    </div>
+                    <div class="review-container">
+                        <p class="product-name">플레인 골드 체인 팔찌</p>
+                        <div class="review-content">
+                            <p>와 정말 예쁜 팔찌네요</p>
+                            <div class="img-container">
+                                <img src="/img/products/bracelet/b1.png" alt="리뷰사진">
+                                <img src="/img/products/bracelet/b2.png" alt="리뷰사진">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="reviewer-info">
+                        <p class="review-rate">★★★★☆</p>
+                        <p class="review-name">오튜브</p>
+                        <p class="review-date ">2025-05-25</p>
+                    </div>
+                    <div class="review-container">
+                        <p class="product-name">플레인 골드 체인 팔찌</p>
+                        <div class="review-content">
+                            <p>와 정말 예쁜 팔찌네요 우리 벅초도 좋아합니다</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="reviewer-info">
+                        <p class="review-rate">★★★★☆</p>
+                        <p class="review-name">오튜브</p>
+                        <p class="review-date ">2025-05-25</p>
+                    </div>
+                    <div class="review-container">
+                        <p class="product-name">플레인 골드 체인 팔찌</p>
+                        <div class="review-content">
+                            <p class="review-text">와 정말 예쁜 팔찌네요 고라파덕 퍼스널컬러랑 착붙 ㄷㄷ 와 정말 예쁜 팔찌네요 고라파덕 퍼스널컬러랑 착붙 ㄷㄷ 와
+                                정말 예쁜 팔찌네요 고라파덕
+                                퍼스널컬러랑 착붙 ㄷㄷ 와 정말 예쁜 팔찌네요 고라파덕 퍼스널컬러랑 착붙 ㄷㄷ 와 정말 예쁜 팔찌네요 고라파덕 퍼스널컬러랑 착붙 ㄷㄷ</p>
+                            <div class="img-container">
+                                <img src="/img/products/bracelet/b1.png" alt="리뷰사진">
+                                <img src="/img/products/bracelet/b2.png" alt="리뷰사진">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="reviewer-info">
+                        <p class="review-rate">★★★★☆</p>
+                        <p class="review-name">오튜브</p>
+                        <p class="review-date ">2025-05-25</p>
+                    </div>
+                    <div class="review-container">
+                        <p class="product-name">플레인 골드 체인 팔찌</p>
+                        <div class="review-content">
+                            <p>와 정말 예쁜 팔찌네요 우리 벅초도 좋아합니다</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="reviewer-info">
+                        <p class="review-rate">★★★★☆</p>
+                        <p class="review-name">오튜브</p>
+                        <p class="review-date ">2025-05-25</p>
+                    </div>
+                    <div class="review-container">
+                        <p class="product-name">플레인 골드 체인 팔찌</p>
+                        <div class="review-content">
+                            <p>와 정말 예쁜 팔찌네요 우리 벅초도 좋아합니다</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pagination product-pagination">
+                <button class="page-btn disabled"><img src="/img/icons/icon-first.svg" /></button>
+                <button class="page-btn disabled"><img src="/img/icons/icon-prev.svg" /></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn"><img src="/img/icons/icon-next.svg" /></button>
+                <button class="page-btn"><img src="/img/icons/icon-last.svg" /></button>
+            </div>
+        </div>
+    </div>
+    <!-- 카트 확인 모달-->
+    <div th:replace="~{fragments/modal/confirmModal :: modalFragment(
+        'CartModal', '장바구니 담기',
+        '상품을 장바구니에 담았습니다.',
+        '바로 결제하기', '닫기', 'CartConfirm', 'CartModalClose')}">
+    </div>
+</div>
+
+
+<footer th:block th:replace="fragments/footer :: common-footer"></footer>
+<script>
+    $(document).ready(function () {
+        // 확인 모달
+        $('#AddCart').on('click', function (e) {
+            e.preventDefault();
+            $('#CartModal').fadeIn(200);
+        });
+        $('#CartModalClose, .modal-close, #CartModal').on('click', function (e) {
+            if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
+                $('#CartModal').fadeOut(200);
+            }
+        });
+
+        // 리뷰 20자 제한
+        $('#RequestText').on('input', function () {
+            let content = $(this).val();
+            $('#RequestCount').text(content.length);
+        });
+    })
+</script>
+</body>
+</html>
