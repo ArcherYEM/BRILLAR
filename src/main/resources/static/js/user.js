@@ -613,4 +613,6 @@ $(document).ready(function () {
         $detail.stop(true, true).slideToggle(200);
         $arrow.toggleClass('rotated');
     });
+
+
 });

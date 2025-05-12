@@ -45,7 +45,7 @@ public class QnaService {
 
     public Integer findQnaCount(){
         Integer count = qnaMapper.findQnaCount();
-        return count;
+        return count / 10 + 1;
     }
 
     public QnaViewDto findQnaContent(Long qnaSeq) {

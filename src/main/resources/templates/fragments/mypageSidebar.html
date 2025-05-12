@@ -1,5 +1,5 @@
 <!-- fragments/sidebar.html -->
-<div th:fragment="sidebarFragment(activeMenu, userName, purchaseCount)" class="sidebar">
+<div th:fragment="sidebarFragment('status', 'userName', 'purchaseCount')" class="sidebar">
     <div id="UserInfo" class="user-info">
         <p class="user-name">[[${userName}]]</p>
         <p class="user-state">
@@ -8,18 +8,24 @@
     </div>
     <div class="side-menu">
         <ul>
-            <li th:class="${activeMenu == 'mypage'} ? 'active' : null">
-                <div class="icon-wrapper icon-user"></div>
-                내 정보
-            </li>
-            <li th:class="${activeMenu == 'status'} ? 'active' : null">
-                <div class="icon-wrapper icon-truck"></div>
-                주문현황
-            </li>
-            <li th:class="${activeMenu == 'history'} ? 'active' : null">
-                <div class="icon-wrapper icon-purchase"></div>
-                주문내역
-            </li>
+            <a th:href="@{/user}">
+                <li th:class="${activeMenu == 'mypage'} ? 'active' : null">
+                    <div class="icon-wrapper icon-user"></div>
+                    내 정보
+                </li>
+            </a>
+            <a th:href="@{/user/order-status}">
+                <li th:class="${activeMenu == 'status'} ? 'active' : null">
+                    <div class="icon-wrapper icon-truck"></div>
+                    주문현황
+                </li>
+            </a>
+            <a th:href="@{/user/order-history}">
+                <li th:class="${activeMenu == 'history'} ? 'active' : null">
+                    <div class="icon-wrapper icon-purchase"></div>
+                    주문내역
+                </li>
+            </a>
         </ul>
     </div>
     <div class="logout-wrapper">

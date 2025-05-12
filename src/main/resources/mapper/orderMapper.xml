@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.OrderMapper">
+    <select id="findListOrderStateDto" resultType="kr.co.brillar.dto.OrderResponseDto" parameterType="map">
+        SELECT DISTINCT
+            A.orderSeq,
+            B.statusName,
+            A.receiveName,
+            A.amount,
+            TO_CHAR(A.orderDate,'YYYY-MM-DD') AS orderDate,
+            A.addr1,
+            A.addr2,
+            A.deliveryMemo,
+            A.payType
+        FROM `order` A
+            INNER JOIN orderStatus B
+                ON A.statusCode = B.statusCode
+        WHERE
+            A.userId = #{userId}
+        <if test="statusCode">
+            AND A.statusCode IN
+            ('IN_DELIVERY','WAIT_DELIVERY','WAIT_PAY')
+        </if>
+        ORDER BY A.orderSeq DESC
+            LIMIT #{offset} , #{limit}
+    </select>
+
+    <select id="findOrderProductList" parameterType="list" resultType="kr.co.brillar.dto.OrderProductDto">
+        SELECT
+            A.orderSeq,
+            B.productName,
+            B.imageURL,
+            A.price,
+            A.count,
+            A.unitPrice
+        FROM orderDetail A
+            INNER JOIN product B
+                ON A.productSeq = B.productSeq
+            WHERE
+            A.orderSeq IN
+            <foreach collection="orderSeqs" item="seq" open="(" separator="," close=")">
+                #{seq}
+            </foreach>
+        ORDER BY A.orderSeq DESC
+    </select>
+
+    <update id="cancelOrder" parameterType="map">
+        UPDATE `order`
+        SET statusCode = 'CANCEL'
+        WHERE
+            userId = #{userId}
+            AND orderSeq = #{orderSeq}
+            AND statusCode IN('WAIT_DELIVERY','WAIT_PAY')
+    </update>
+
+    <select id="orderPageCount" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM `order`
+        WHERE userId = #{userId}
+        <if test="statusCode">
+            AND statusCode IN('WAIT_DELIVERY','WAIT_PAY','IN_DELIVERY')
+        </if>
+    </select>
+
+    <select id="getPurchaseCount" parameterType="String">
+        SELECT
+            COUNT(*)
+        FROM `order`
+        WHERE userId = #{userId}
+        AND statusCode = 'DONE_DELIVERY';
+    </select>
+</mapper>

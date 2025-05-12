@@ -159,9 +159,9 @@ function getPageBtn(){
     $.ajax({
         url: '/api/qna/count',
         method: 'get',
-        success: function(count){
+        success: function(page){
             const $qnaPage = $('#QnaPage');
-            const page = count / 10;
+            console.log(page);
             let html = `<button class="page-btn disabled" id="FirstBtn"><img src="/img/icons/icon-first.svg"/></button>
                        <button class="page-btn disabled" id="prevBtn"><img src="/img/icons/icon-prev.svg"/></button>`;
             if(page > 0){
