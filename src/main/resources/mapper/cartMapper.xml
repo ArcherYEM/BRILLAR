@@ -5,6 +5,29 @@
 
 <mapper namespace="kr.co.brillar.mapper.cartMapper">
 
+    <select id="cartList" resultType="">
+        SELECT  p.productName,
+	            p.price,
+	            P.price * (1 - (D.discountRate*0.01)),
+	            P.price*(IFNULL(D.discountRate, 0)*0.01),
+	            CONCAT(ROUND(D.discountRate), '%'),
+	            D.discountRate,
+	            m.materialName,
+	            ps.sizeName,
+	            c.orderMemo,
+	            c.quantity
+        FROM userCart C
+            JOIN product P 
+            ON C.productSeq = P.productSeq
+            JOIN material M 
+            ON C.productSeq = M.productSeq 
+            JOIN productSize PS 
+            ON C.productSeq = PS.productSeq;
+            LEFT JOIN discount D 
+            ON P.discountSeq = D.discountSeq
+        WHERE C.userSeq = #{userId}
+    </select>
+
     <select id=""></select>
     
 </mapper>
