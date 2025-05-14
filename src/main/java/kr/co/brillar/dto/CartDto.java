@@ -12,13 +12,18 @@ import lombok.NoArgsConstructor;
 public class CartDto {
     
     private String productName;
+    private String imageURL;
     private String materialName;
     private String sizeName;
     private String orderMemo;
     private int quantity;
+    private int totalQuantity;
     private int price;
-    private int discountPrice;
-    private int discountRate;
+    private int reducedPrice;
+    private String discountRate;
+    private int totalPrice;
+    private int totalDiscountPrice;
+    private int totalCost;
     private String receiverName;
     private String senderName;
     private String receiverPhoneNumber;

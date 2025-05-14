@@ -43,5 +43,3 @@ $(document).on("click", "#LogoutButton", function (e) {
         }
     });
 });
-
-// 장바구니 카드에 담기

@@ -3,31 +3,45 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.co.brillar.mapper.cartMapper">
+<mapper namespace="kr.co.brillar.mapper.CartMapper">
 
-    <select id="cartList" resultType="">
-        SELECT  p.productName,
-	            p.price,
-	            P.price * (1 - (D.discountRate*0.01)),
-	            P.price*(IFNULL(D.discountRate, 0)*0.01),
-	            CONCAT(ROUND(D.discountRate), '%'),
-	            D.discountRate,
-	            m.materialName,
-	            ps.sizeName,
-	            c.orderMemo,
-	            c.quantity
+    <select id="cartList" resultType="kr.co.brillar.dto.CartDto">
+        SELECT  P.productName,
+                P.imageURL,
+	            P.price,
+	            P.price*(1 - (D.discountRate*0.01)) AS reducedPrice,
+	            CONCAT(ROUND(D.discountRate), '%') AS discountRate,
+	            M.materialName,
+	            PS.sizeName,
+	            C.orderMemo,
+	            C.quantity
         FROM userCart C
+            JOIN user U
+            ON C.userSeq = U.userSeq 
             JOIN product P 
             ON C.productSeq = P.productSeq
             JOIN material M 
             ON C.productSeq = M.productSeq 
             JOIN productSize PS 
-            ON C.productSeq = PS.productSeq;
+            ON C.productSeq = PS.productSeq
             LEFT JOIN discount D 
             ON P.discountSeq = D.discountSeq
-        WHERE C.userSeq = #{userId}
+        WHERE U.userId = #{userId}
     </select>
 
-    <select id=""></select>
-    
+    <select id="grandTotal" resultType="kr.co.brillar.dto.CartDto">
+        SELECT SUM(P.price*C.quantity) AS totalPrice,
+               SUM(P.price*C.quantity*(IFNULL(D.discountRate, 0)*0.01)) AS totalDiscountPrice,
+	           SUM(P.price*C.quantity*(1 - (IFNULL(D.discountRate, 0)*0.01))) AS totalCost,
+               SUM(C.quantity) AS totalQuantity
+        FROM userCart C
+            JOIN user U
+            ON C.userSeq = U.userSeq 
+            JOIN product P 
+            ON C.productSeq = P.productSeq
+            LEFT JOIN discount D 
+            ON P.discountSeq = D.discountSeq
+        WHERE U.userId = #{userId}
+    </select>
+
 </mapper>
