@@ -107,7 +107,7 @@ public class UserRestAPI {
     // 회원탈퇴
     @PostMapping("/delete")
     public int delete(@RequestParam(required = true) String userId,
-                              @RequestParam(required = true) String userPassword) {
+                      @RequestParam(required = true) String userPassword) {
 
         int result = userService.deleteUser(userId, userPassword);
         
