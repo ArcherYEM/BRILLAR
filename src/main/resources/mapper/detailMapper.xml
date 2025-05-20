@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.DetailMapper">
+
+    <select id="getProductDetail" resultType="kr.co.brillar.dto.DetailDto">
+        SELECT p.productSeq ,
+        	   p.productName ,
+        	   p.productDesc ,
+               p.price*(1 - (d.discountRate*0.01)) AS reducedPrice,
+               CONCAT(ROUND(d.discountRate), '%') AS discountRate,
+        	   p.groupId ,
+        	   p.price ,
+        	   p.imageURL ,
+        	   p.isClose
+        FROM product p
+            LEFT JOIN discount d 
+            ON p.discountSeq = d.discountSeq
+        WHERE p.productSeq = #{productSeq}
+    </select>
+
+    <select id="getProductMaterial" resultType="kr.co.brillar.dto.DetailDto">
+        SELECT m.materialSeq ,
+               m.materialName ,
+               m.materialCode
+        FROM product p 
+            JOIN material m 
+            ON p.productSeq = m.productSeq 
+        WHERE p.productSeq = #{productSeq}
+    </select>
+    
+    <select id="getProductSize" resultType="kr.co.brillar.dto.DetailDto">
+        SELECT ps.productSizeSeq ,
+               ps.sizeName
+        FROM productSize ps 
+        WHERE ps.groupId = #{groupId}
+    </select>
+</mapper>

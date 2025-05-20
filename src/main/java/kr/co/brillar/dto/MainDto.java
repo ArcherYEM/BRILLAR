@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MainDto {
 
-    private int productId;
+    private int productSeq;
     private int groupId;
     private String productName;
     private int price;

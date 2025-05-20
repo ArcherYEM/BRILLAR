@@ -24,7 +24,7 @@ $(document).ready(function () {
                                 <img src="${dto.imageURL}" alt="제품사진" />
                                 <div class="option-wrap">
                                     <p class="product-name">${dto.productName}</p>
-                                    <p class="product-option">${dto.materialName}, ${dto.sizeName}, 요청사항: ${dto.orderMemo != null ? dto.orderMemo : '없음'}</p>
+                                    <p class="product-option">${dto.materialName}, ${dto.sizeName != null ? dto.sizeName+', ' : ''}요청사항: ${dto.orderMemo != null ? dto.orderMemo : '없음'}</p>
                                 </div>
                                 <div class="product-quantity">
                                     <span class="quantity-dec" id="QuantityDec">-</span>

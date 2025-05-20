@@ -100,9 +100,9 @@ $(document).ready(function () {
             $.each(data, function(index, dto) {
                 html += `
                     <div class="new-item">
-                        <input id="PSeq" type="hidden" name="productId" value="${dto.productId}">
+                        <input id="PSeq" type="hidden" name="productSeq" value="${dto.productSeq}">
                         <div class="new-image">
-                            <a href=""><img src="${dto.imageUrl}" alt="new-item" /></a>
+                            <a href="/detail/${dto.productSeq}"><img src="${dto.imageUrl}" alt="new-item" /></a>
                         </div>
                         <div class="new-name">${dto.productName}</div>
                         <div class="new-price">${dto.price} 원</div>

@@ -23,9 +23,9 @@
             JOIN product P 
             ON C.productSeq = P.productSeq
             JOIN material M 
-            ON C.productSeq = M.productSeq 
-            JOIN productSize PS 
-            ON C.productSeq = PS.productSeq
+            ON C.materialSeq = M.materialSeq 
+            LEFT JOIN productSize PS 
+            ON C.productSizeSeq = PS.productSizeSeq
             LEFT JOIN discount D 
             ON P.discountSeq = D.discountSeq
         WHERE U.userId = #{userId}
