@@ -10,7 +10,7 @@
                 P.productSeq,
                 P.imageURL,
 	            P.price,
-	            p.price*(1 - (IFNULL(d.discountRate, 0)*0.01)) AS reducedPrice,
+	            P.price*(1 - (IFNULL(D.discountRate, 0)*0.01)) AS reducedPrice,
 	            CONCAT(ROUND(D.discountRate), '%') AS discountRate,
 	            M.materialName,
 	            PS.sizeName,

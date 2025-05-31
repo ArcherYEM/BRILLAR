@@ -52,6 +52,8 @@ $(document).ready(function () {
                         </div>
                     `;
                 });
+
+                cartResult();
             } else {
                 html += `
                     <div class="product-wrap">
@@ -62,7 +64,8 @@ $(document).ready(function () {
 
             $productInfo.html(html);
 
-            const cartResult = () => {
+            // 제품 결제가격 집계
+            function cartResult (){
                 $.get('/cart/result', (result)=>{
                     html = `
                         <p class="title-sm order-title">주문 내역</p>
@@ -87,8 +90,6 @@ $(document).ready(function () {
                 })
             }
 
-            cartResult();
-            
             // 수량 증감 (+ , -)
             $(document).on('click', '.product-wrap #QuantityInc', function () {
                 const $input = $(this).siblings('.quantity');
@@ -116,13 +117,13 @@ $(document).ready(function () {
                 let val = parseInt($input.val(), 10);
 
                 if (val === 1) {
-                    if (confirm("해당 물품을 삭제하시겠습니까?")) {
+                    if (confirm("해당 제품을 장바구니에서 제외하시겠습니까?")) {
                         $.post('/cart/delete', {cartSeq : $cartSeq.val(), productSeq : $productSeq.val()}, (result)=>{
                             if (result) {
                                 $productWrap.remove();
                                 cartResult();
                             } else {
-                                alert("삭제에 실패했습니다.");
+                                alert("삭제에 실패했습니다. 운영팀에 문의해 주세요");
                             }
                         })
                     }

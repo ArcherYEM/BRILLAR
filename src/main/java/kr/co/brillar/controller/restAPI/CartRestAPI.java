@@ -28,7 +28,7 @@ public class CartRestAPI {
         SessionDto loginUser = (SessionDto) session.getAttribute("loginUser");
 
         List<CartDto> cartList =  cartService.getItems(loginUser.getUserId());
-        
+
         return cartList;
     }
     

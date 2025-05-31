@@ -18,7 +18,7 @@ public class CartService {
     public List<CartDto> getItems(String userId){
 
         List<CartDto> cartList = cartMapper.cartList(userId);
-        
+
         return cartList;
     }
 
