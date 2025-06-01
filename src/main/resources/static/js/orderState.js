@@ -180,6 +180,12 @@ $(document).ready(function(){
         }
     })
 
+    //아이템 이미지 클릭시 해당 아이템 상세페이지
+    $(document).on('click', '.order-photo', function(){
+        const imgId = $('.order-photo').attr('data-img-id');
+
+    })
+
 })
 
 function getOrderStateList(page){
@@ -219,7 +225,7 @@ function getOrderStateList(page){
 							<div class="order-col col-state">${stepLabels[stateVal]}</div>
 							<div class="order-col col-total">${state.amount}</div>
 							<div class="order-col col-thumb">
-								${state.orderProductDtos.map(product => `<img src="${product.imageURL}" class="order-photo" alt="상품 이미지">`).join('')}
+								${state.orderProductDtos.map(product => `<a href="/detail/${product.productSeq}"><img src="${product.imageURL}" class="order-photo" alt="상품 이미지"></a>`).join('')}
 							</div>
 							<img src="/img/icons/icon-arrow.svg" class="order-arrow" data-index="${index}">
 						</div>
@@ -230,7 +236,7 @@ function getOrderStateList(page){
 									<div class="product-wrap">
 									${state.orderProductDtos.map(product => `
 										<div class="product-item">
-											<img src=${product.imageURL} alt="상품 이미지" />
+											<a href="/detail/${product.productSeq}"><img src=${product.imageURL} data-img-id="${product.productSeq}" alt="상품 이미지" /></a>
 											<div class="product-info">
 												<p>${product.productName}</p>
 												<p>₩${product.unitPrice}</p>
@@ -375,7 +381,7 @@ function getOrderHistory(page){
 							</div>
 							<div class="order-col col-total">${state.amount}</div>
 							<div class="order-col col-thumb">
-								${state.orderProductDtos.map(product => `<img src="${product.imageURL}" class="order-photo" alt="상품 이미지">`).join('')}
+								${state.orderProductDtos.map(product => `<img src="${product.imageURL}" data-img-id="${product.productSeq}" class="order-photo" alt="상품 이미지">`).join('')}
 							</div>
 							<img src="/img/icons/icon-arrow.svg" class="order-arrow" data-index="${index}">
 						</div>
@@ -394,9 +400,9 @@ function getOrderHistory(page){
 											</div>
 										</div>`).join('')}
 									</div>
-									${stateVal > 2 && stateVal !== 4 && reviewValid ? (`<div class="review-order">
-									<button class="btn-primary open-cancel-modal" data-order="${state.orderSeq}">리뷰 작성</button>
-									</div>`) : ''}
+                                    ${stateVal == 3 && reviewValid ? (`<div class="review-order">
+                                    <button class="btn-primary open-cancel-modal" data-order="${state.orderSeq}">리뷰 작성</button>
+                                    </div>`) : ''}
 								</div>
 								<div class="detail-order">
 									<p class="title-xs title-left">배송 정보</p>
