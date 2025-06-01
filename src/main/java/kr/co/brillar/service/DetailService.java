@@ -1,7 +1,6 @@
 package kr.co.brillar.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -41,5 +40,23 @@ public class DetailService {
         int result = detailMapper.insertToCart(detailDto);
 
         return result;
+    }
+
+    public int checkCartExist(String userId, int productSeq){
+
+        List<Integer> result = detailMapper.checkCartExist(userId, productSeq);
+
+        if (result.isEmpty()) {
+            return 0;
+        }
+
+        return 1;
+    }
+
+    public int checkStock(int productSeq){
+
+        int stock = detailMapper.checkStock(productSeq);
+
+        return stock;
     }
 }

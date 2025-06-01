@@ -6,6 +6,7 @@ $(document).ready(function () {
         const detailDto = await $.get('/detail/info', { productSeq: productSeq }) // 제품정보
         const material = await $.get('/detail/material', { productSeq: productSeq }) // 제품소재
         const productSize = await $.get('/detail/size', { groupId: detailDto.groupId }) // 제품사이즈
+        const checkStatus = await $.get('/detail/checkStatus', { productSeq: productSeq }) // 장바구니 유무
 
         if (!detailDto) {
             alert("해당 상품은 존재하지 않습니다")
@@ -91,10 +92,9 @@ $(document).ready(function () {
                         </div>
                     </div>
             `;
-        }
+        };
         
         html += `
-
                     <div class="option-item">
                         <div class="request-top">
                             <label class="option-title">요청사항 (50자 이내)</label>
@@ -107,7 +107,27 @@ $(document).ready(function () {
                         </div>
                     </div>
                 </div>
-                <button id="AddCart" class="btn-secondary btn-cart">장바구니 담기</button>
+        `;
+               
+        // 장바구니에 담겨있을 때
+        if (checkStatus == 1) {
+            html += `
+                    <button id="CartIn" class="btn-secondary btn-cart" style="background-color: #6c5f7c; color: rgba(255, 255, 255, 0.548);">장바구니에 담겨있습니다</button>
+            `;
+
+        // 재고가 남아있지 않을 때
+        } else if (checkStatus == 3) {
+            html += `
+                    <button id="SoldOut" class="btn-secondary btn-cart" style="background-color: #6c5f7c; color: rgba(255, 255, 255, 0.548);">품절</button>
+            `;
+            
+        } else {
+            html += `
+                    <button id="AddCart" class="btn-secondary btn-cart">장바구니 담기</button>
+            `;
+        }
+        
+        html += `
                 <div class="notice-wrapper">
                     <p>* 개봉 후에는 단순 변심으로 인한 반품 불가입니다.</p>
                     <p>* 배송은 영업일 기준 3일 이내 도착 예정입니다.</p>
@@ -146,9 +166,15 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(cartData),
             success: function(data) {
-                // 로그인이 되어 있지 않을 경우
                 if (data == 2) {
+                    // 로그인이 되어 있지 않을 경우
                     location.href= "/login";
+                    
+                } if(data == 3){
+                    // 이미 장바구니에 있을 경우
+                    alert("이미 장바구니에 포함되어 있습니다")
+                    location.reload()
+                    
                 } else {
                     $('#CartModal').fadeIn(200);
                 }
@@ -156,6 +182,17 @@ $(document).ready(function () {
         });
     });
 
+    $('#CartModal').on('click', function (e) {
+        const target = $(e.target);
+
+        if (target.is('#CartModal') || target.is('#CartModalClose') || target.hasClass('modal-close')) {
+            location.reload();
+
+        } else if ($(e.target).is('#CartConfirm')) {
+            location.href = "/cart";
+        }
+    })
+    
     $('#CartModalClose, .modal-close, #CartModal').on('click', function (e) {
         if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
             $('#CartModal').fadeOut(200);

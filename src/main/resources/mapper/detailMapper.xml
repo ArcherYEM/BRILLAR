@@ -68,5 +68,21 @@
     </insert>
     
     <!-- 장바구니에 들어가 있는지 확인 -->
+     <select id="checkCartExist" resultType="int">
+        SELECT cartSeq 
+        FROM userCart
+        WHERE userSeq = (
+                           SELECT userSeq 
+                           FROM user 
+                           WHERE userId = #{userId}
+                        )
+        AND productSeq = #{productSeq};
+     </select>
+
+     <select id="checkStock" resultType="int">
+        SELECT quantity
+        FROM stock
+        WHERE productSeq = #{productSeq}
+     </select>
      
 </mapper>

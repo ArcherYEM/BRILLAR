@@ -49,13 +49,41 @@ public class DetailRestAPI {
     @PostMapping("/addCart")
     public int postInsertCart(@RequestBody DetailDto detailDto, HttpSession session) {
         SessionDto sessionDto = (SessionDto) session.getAttribute("loginUser");
+        // 로그인 확인
         if (sessionDto == null) {
             return 2;
+        }
+
+        // 장바구니에 이미 있는지 확인
+        int checkCart = detailService.checkCartExist(sessionDto.getUserId(), detailDto.getProductSeq());
+        if (checkCart == 1) {
+            return 3;
         }
         
         detailDto.setUserId(sessionDto.getUserId());
 
         int result = detailService.insertToCart(detailDto);
+        
+        return result;
+    }
+    
+    @GetMapping("/checkStatus")
+    public int getCheckStatus(int productSeq, HttpSession session) {
+
+        SessionDto sessionDto = (SessionDto) session.getAttribute("loginUser");
+        int stock = detailService.checkStock(productSeq);
+
+        // 재고확인
+        if (stock == 0) {
+            return 3;
+        }
+ 
+        // 로그인 확인
+        if (sessionDto == null) {
+            return 2;
+        }
+
+        int result = detailService.checkCartExist(sessionDto.getUserId(), productSeq);
         
         return result;
     }
