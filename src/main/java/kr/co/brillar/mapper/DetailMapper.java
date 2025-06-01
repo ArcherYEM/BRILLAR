@@ -3,7 +3,6 @@ package kr.co.brillar.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import kr.co.brillar.dto.DetailDto;
 
@@ -18,7 +17,7 @@ public interface DetailMapper {
 
     int insertToCart(DetailDto detailDto);
 
-    List<Integer> checkCartExist(@Param("userId") String userId, @Param("productSeq") int productSeq);
+    List<Integer> checkCartExist(String userId, int productSeq, int materialSeq, Integer productSizeSeq);
 
     int checkStock(int productSeq);
 }

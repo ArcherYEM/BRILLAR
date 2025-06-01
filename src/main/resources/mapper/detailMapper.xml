@@ -70,13 +70,20 @@
     <!-- 장바구니에 들어가 있는지 확인 -->
      <select id="checkCartExist" resultType="int">
         SELECT cartSeq 
-        FROM userCart
-        WHERE userSeq = (
+        FROM userCart uc
+        WHERE uc.userSeq = (
                            SELECT userSeq 
                            FROM user 
                            WHERE userId = #{userId}
                         )
-        AND productSeq = #{productSeq};
+            AND uc.productSeq = #{productSeq}
+	        AND uc.materialSeq = #{materialSeq}
+            <if test="productSizeSeq == null or productSizeSeq == 0">
+                AND uc.productSizeSeq IS NULL
+            </if>
+            <if test="productSizeSeq != null or productSizeSeq != 0">
+                AND uc.productSizeSeq = #{productSizeSeq}
+            </if>
      </select>
 
      <select id="checkStock" resultType="int">

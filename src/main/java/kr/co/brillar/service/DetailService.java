@@ -42,9 +42,9 @@ public class DetailService {
         return result;
     }
 
-    public int checkCartExist(String userId, int productSeq){
+    public int checkCartExist(String userId, int productSeq, int materialSeq, Integer productSizeSeq){
 
-        List<Integer> result = detailMapper.checkCartExist(userId, productSeq);
+        List<Integer> result = detailMapper.checkCartExist(userId, productSeq, materialSeq, productSizeSeq);
 
         if (result.isEmpty()) {
             return 0;

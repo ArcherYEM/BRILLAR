@@ -28,7 +28,7 @@ public class DetailDto {
     private int materialSeq;
     private String materialName;
     private String materialCode;
-    private int productSizeSeq;
+    private Integer productSizeSeq;
     private String sizeName;
     private String orderMemo;
 
