@@ -257,7 +257,7 @@ function getOrderStateList(page){
 									<div class="shipping-order">
 										 ${createShippingSteps(stateVal)}
 									</div>
-									${stateVal < 1 ? (`<div class="delete-order">
+									${stateVal < 2 ? (`<div class="delete-order">
 									<button class="btn-warning open-cancel-modal" data-order="${state.orderSeq}">주문취소</button>
 									</div>`) : ''}
 								</div>
