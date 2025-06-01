@@ -17,6 +17,9 @@ $(document).ready(function(){
             }
         },
         error: function(xhr){
+            if (xhr.status === 200 || 401) {
+                return;
+            }
             console.error("로그인 과정 에러 발생 : ", xhr);
         }
     })

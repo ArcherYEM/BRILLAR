@@ -28,7 +28,7 @@ $("#LoginSubmit").on("click", function(){
 
     $.ajax({
         url: '/login/login',
-        type: 'GET',
+        type: 'POST',
         data: {
             userId: userId,
             userPassword: userPassword
@@ -40,7 +40,8 @@ $("#LoginSubmit").on("click", function(){
                 return;
             }
 
-            window.location.href = "/";
+            const prevPage = document.referrer
+            window.location.href = prevPage;
         },
     })
 })

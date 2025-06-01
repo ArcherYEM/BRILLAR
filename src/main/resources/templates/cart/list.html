@@ -17,63 +17,9 @@
 <div class="container cart-container">
     <div class="cart-wrapper">
         <div class="cart-info">
-            <div class="product-info">
-                <p class="title-md title-left">
-                    장바구니
-                </p>
-                <!-- 더미데이터 -->
-                <div class="product-wrap">
-                    <div class="product-item">
-                        <img src="/img/products/bracelet/b1.png" alt="제품사진" />
-                        <div class="option-wrap">
-                            <p class="product-name">사실은도금인팔찌</p>
-                            <p class="product-option">실버, 18cm, 요청사항: 없음</p>
-                        </div>
-                        <div class="product-quantity">
-                            <span class="quantity-dec">-</span>
-                            <input type="number" class="quantity" max="99" value="1" />
-                            <span class="quantity-inc">+</span>
-                        </div>
-                        <div class="product-price">
-                            <p class="before-sale">₩<span>200,000</span></p>
-                            <p>₩<span>180,000</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-wrap">
-                    <div class="product-item">
-                        <img src="/img/products/bracelet/b1.png" alt="제품사진" />
-                        <div class="option-wrap">
-                            <p class="product-name">사실은도금인팔찌</p>
-                            <p class="product-option">실버, 18cm, 요청사항: 없음</p>
-                        </div>
-                        <div class="product-quantity">
-                            <span class="quantity-dec">-</span>
-                            <input type="number" class="quantity" max="99" value="1" />
-                            <span class="quantity-inc">+</span>
-                        </div>
-                        <div class="product-price">
-                            <p>₩<span>50,000</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-wrap">
-                    <div class="product-item">
-                        <img src="/img/products/bracelet/b1.png" alt="제품사진" />
-                        <div class="option-wrap">
-                            <p class="product-name">사실은도금인팔찌</p>
-                            <p class="product-option">실버, 18cm, 요청사항: 없음</p>
-                        </div>
-                        <div class="product-quantity">
-                            <span class="quantity-dec">-</span>
-                            <input type="number" class="quantity" max="99" value="1" />
-                            <span class="quantity-inc">+</span>
-                        </div>
-                        <div class="product-price">
-                            <p>₩<span>50,000</span></p>
-                        </div>
-                    </div>
-                </div>
+            <div class="product-info" id="ProductInfo">
+                <!-- 장바구니 아이템 출력란 -->
+                <p style="color: rgba(128, 128, 128, 0.438); font-family: 'Inter'; text-align: center; font-size: larger; margin-top: 50px;">장바구니가 비어있습니다</p>
             </div>
             <div class="shipping-info">
                 <p class="title-md title-left">
@@ -121,23 +67,8 @@
                 </div>
             </div>
         </div>
-        <div class="order-info">
-            <p class="title-sm order-title">주문 내역</p>
-            <div class="order-calc">
-                <div class="order-wrap">
-                    <p class="info-title title-sum">합계&nbsp;(<span>3</span>개):</p>
-                    <p class="info-value">₩200,000</p>
-                </div>
-                <div class="order-wrap order-discount">
-                    <p class="info-title">할인:</p>
-                    <p class="info-value">-₩2,000</p>
-                </div>
-            </div>
-            <div class="order-wrap total-wrap">
-                <p class="info-title title-total">결제금액:</p>
-                <p class="info-value value-total">₩198,000</p>
-            </div>
-            <button id="PayContinue" class="btn-secondary">결제하기</button>
+        <div class="order-info" id="OrderInfo">
+            <!-- 주문내역 출력란 -->
         </div>
     </div>
     <!-- 결제 확인 모달-->
@@ -150,57 +81,6 @@
 
 <!-- 푸터 -->
 <footer th:replace="fragments/footer :: common-footer"></footer>
-
-<script>
-    $(document).ready(function () {
-        // 수량 증감
-        $('.quantity-inc').on('click', function () {
-            const $input = $(this).siblings('.quantity');
-            let val = parseInt($input.val(), 10);
-            if (val < 99) {
-                $input.val(val + 1);
-            }
-        });
-        $('.quantity-dec').on('click', function () {
-            const $input = $(this).siblings('.quantity');
-            let val = parseInt($input.val(), 10);
-            if (val > 1) {
-                $input.val(val - 1);
-            }
-        });
-
-        // 최대 99까지만 입력되도록
-        $('.quantity').on('input', function () {
-            let val = parseInt($(this).val(), 10);
-            if (isNaN(val) || val < 1) {
-                $(this).val(1);
-            } else if (val > 99) {
-                $(this).val(99);
-            }
-        });
-
-        // 받는 사람과 동일 체크박스
-        $('#InputSameName').on('change', function () {
-            const isChecked = $(this).is(':checked');
-            const $receiverName = $('#ReceiverName');
-            const $senderName = $('#SenderName');
-
-            if (isChecked && $receiverName.val().trim() !== '') {
-                $senderName.val($receiverName.val().trim());
-            }
-        });
-
-        // 결제 확인 모달
-        $('#PayContinue').on('click', function (e) {
-            e.preventDefault();
-            $('#PayModal').fadeIn(200);
-        });
-        $('#PayModalClose, .modal-close, #PayModal').on('click', function (e) {
-            if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
-                $('#PayModal').fadeOut(200);
-            }
-        });
-    });
-</script>
+<script th:src="@{/js/cart.js}"></script>
 </body>
 </html>

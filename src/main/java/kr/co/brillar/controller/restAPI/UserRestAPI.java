@@ -14,9 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @RestController
 @RequiredArgsConstructor
@@ -90,11 +87,18 @@ public class UserRestAPI {
     
     // 비밀번호 변경
     @PostMapping("/updatePassword")
-    public int updatePassword(String newPassword, String oldPassword, HttpSession session) {
-
+    public int updatePassword(String newPassword, String newPasswordCheck, String oldPassword, HttpSession session) {
         SessionDto sessionDto = (SessionDto) session.getAttribute("loginUser");
-        int result = userService.updatePassword(sessionDto.getUserId(), newPassword, oldPassword);
-        
+
+        if (newPasswordCheck == null || newPasswordCheck == "" || newPasswordCheck.trim().length() < 8) {
+            return 3; // 새 비밀번호가 공란 또는 조건에 맞지 않을 때
+        }
+
+        if (!newPassword.equals(newPasswordCheck)) {
+            return 4; // 새 비밀번호와 새 비밀번호 확인이 같지 않을 때
+        }
+
+        int result = userService.updatePassword(sessionDto.getUserId(), newPasswordCheck, oldPassword);
         return result;
     }
     
@@ -103,7 +107,7 @@ public class UserRestAPI {
     // 회원탈퇴
     @PostMapping("/delete")
     public int delete(@RequestParam(required = true) String userId,
-                              @RequestParam(required = true) String userPassword) {
+                      @RequestParam(required = true) String userPassword) {
 
         int result = userService.deleteUser(userId, userPassword);
         

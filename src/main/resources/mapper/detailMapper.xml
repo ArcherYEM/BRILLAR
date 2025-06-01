@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.DetailMapper">
+
+    <select id="getProductDetail" resultType="kr.co.brillar.dto.DetailDto">
+        SELECT p.productSeq ,
+        	   p.productName ,
+        	   p.productDesc ,
+               p.price*(1 - (d.discountRate*0.01)) AS reducedPrice,
+               CONCAT(ROUND(d.discountRate), '%') AS discountRate,
+        	   p.groupId ,
+        	   p.price ,
+        	   p.imageURL ,
+        	   p.isClose
+        FROM product p
+            LEFT JOIN discount d 
+            ON p.discountSeq = d.discountSeq
+        WHERE p.productSeq = #{productSeq}
+    </select>
+
+    <select id="getProductMaterial" resultType="kr.co.brillar.dto.DetailDto">
+        SELECT m.materialSeq ,
+               m.materialName ,
+               m.materialCode
+        FROM product p 
+            JOIN material m 
+            ON p.productSeq = m.productSeq 
+        WHERE p.productSeq = #{productSeq}
+        ORDER BY 
+            CASE WHEN m.materialName REGEXP '[가-힣]' THEN 1 ELSE 0 END, 
+            CASE WHEN m.materialName REGEXP '[가-힣]' THEN m.materialName END DESC
+    </select>
+    
+    <select id="getProductSize" resultType="kr.co.brillar.dto.DetailDto">
+        SELECT ps.productSizeSeq ,
+               ps.sizeName
+        FROM productSize ps 
+        WHERE ps.groupId = #{groupId}
+    </select>
+
+    <!-- 장바구니에 제품 추가 -->
+    <insert id="insertToCart" parameterType="map">
+        INSERT INTO userCart(
+                             userSeq, 
+                             productSeq, 
+                             productSizeSeq, 
+                             materialSeq, 
+                             orderMemo, 
+                             quantity, 
+                             updatedAt
+        )
+        VALUES  (
+                 (
+                    SELECT userSeq 
+                    FROM user 
+                    WHERE userId = #{userId}
+                 ), 
+                 #{productSeq}, 
+                 #{productSizeSeq}, 
+                 #{materialSeq},
+                 #{orderMemo}, 
+                 1 , 
+                 NOW()
+        )
+    </insert>
+    
+    <!-- 장바구니에 들어가 있는지 확인 -->
+     
+</mapper>

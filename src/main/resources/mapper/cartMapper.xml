@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.CartMapper">
+
+    <select id="cartList" resultType="kr.co.brillar.dto.CartDto">
+        SELECT  P.productName,
+                P.productSeq,
+                P.imageURL,
+	            P.price,
+	            P.price*(1 - (IFNULL(D.discountRate, 0)*0.01)) AS reducedPrice,
+	            CONCAT(ROUND(D.discountRate), '%') AS discountRate,
+	            M.materialName,
+	            PS.sizeName,
+	            C.orderMemo,
+	            C.quantity,
+                C.cartSeq 
+        FROM userCart C
+            JOIN user U
+            ON C.userSeq = U.userSeq 
+            JOIN product P 
+            ON C.productSeq = P.productSeq
+            JOIN material M 
+            ON C.materialSeq = M.materialSeq 
+            LEFT JOIN productSize PS 
+            ON C.productSizeSeq = PS.productSizeSeq
+            LEFT JOIN discount D 
+            ON P.discountSeq = D.discountSeq
+        WHERE U.userId = #{userId}
+    </select>
+
+    <select id="grandTotal" resultType="kr.co.brillar.dto.CartDto">
+        SELECT SUM(P.price*C.quantity) AS totalPrice,
+               SUM(P.price*C.quantity*(IFNULL(D.discountRate, 0)*0.01)) AS totalDiscountPrice,
+	           SUM(P.price*C.quantity*(1 - (IFNULL(D.discountRate, 0)*0.01))) AS totalCost,
+               SUM(C.quantity) AS totalQuantity
+        FROM userCart C
+            JOIN user U
+            ON C.userSeq = U.userSeq 
+            JOIN product P 
+            ON C.productSeq = P.productSeq
+            LEFT JOIN discount D 
+            ON P.discountSeq = D.discountSeq
+        WHERE U.userId = #{userId}
+    </select>
+
+    <update id="quantityInc">
+        UPDATE userCart c
+            JOIN stock s 
+            ON c.productSeq = s.productSeq 
+        SET c.quantity = c.quantity + 1,
+            c.updatedAt = NOW()
+        WHERE c.cartSeq = #{cartSeq} 
+            AND c.productSeq = #{productSeq}
+            AND c.quantity <![CDATA[ < ]]> s.quantity
+    </update>
+
+    <update id="quantityDec">
+        UPDATE userCart c 
+        SET c.quantity = c.quantity - 1,
+            c.updatedAt = NOW()
+        WHERE c.cartSeq = #{cartSeq} 
+            AND c.productSeq = #{productSeq}
+            AND c.quantity <![CDATA[ > ]]> 1
+    </update>
+
+    <update id="quantityChange" parameterType="map">
+        UPDATE userCart c
+            JOIN stock s 
+            ON c.productSeq = s.productSeq 
+        SET c.quantity = #{quantity},
+            c.updatedAt = NOW()
+        WHERE c.cartSeq = #{cartSeq}
+        	AND c.productSeq = #{productSeq}
+        	AND s.quantity <![CDATA[ > ]]>  #{quantity}
+    </update>
+
+    <delete id="deleteItem">
+        DELETE FROM userCart
+        WHERE cartSeq = #{cartSeq}
+            AND productSeq = #{productSeq}
+    </delete>
+</mapper>
