@@ -16,7 +16,7 @@
 <header th:replace="fragments/header :: common-header"></header>
 <div class="container mypage-container">
     <!-- 사이드바: 페이지명, 유저이름, 구매횟수 전달 필요 -->
-    <div th:replace="~{fragments/mypageSidebar :: sidebarFragment('mypage', '김머왕', 10)}"></div>
+    <div th:replace="~{fragments/mypageSidebar :: sidebarFragment('mypage', 'userName', 'purchaseCount')}"></div>
     <div class="mypage-content">
         <div id="MyPageInfo" class="mypage-info">
         </div>

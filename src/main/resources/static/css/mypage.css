@@ -630,15 +630,23 @@
         height: 8px;
         border-radius: 50%;
 
+        &.state-0 {
+            background-color: var(--c-gray-2);
+        }
+
         &.state-1 {
-            background-color: var(--c-purple-2);
+            background-color: var(--c-gray-2);
         }
 
         &.state-2 {
-            background-color: var(--c-green-5);
+            background-color: var(--c-purple-2);
         }
 
         &.state-3 {
+            background-color: var(--c-green-5);
+        }
+
+        &.state-4 {
             background-color: var(--c-red-2);
         }
     }

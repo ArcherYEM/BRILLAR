@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="/css/common/style.css">
     <link rel="stylesheet" type="text/css" href="/css/common/common.css">
     <link rel="stylesheet" type="text/css" href="/css/qna.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <title>Q&A</title>
 </head>
 
@@ -24,10 +26,10 @@
             </div>
             <div class="btn-list">
                 <!-- 답변은 관리자에게, 삭제는 작성자에게만 보임 -->
-                <button class="btn-primary">답변</button>
+                <button class="btn-primary" id="AnswerBtn" style="display: none;">답변</button>
                 <div class="btn-sub-list">
-                    <button class="btn-primary">목록</button>
-                    <button class="btn-warning">삭제</button>
+                    <button class="btn-primary" id="QnaListBtn">목록</button>
+                    <button class="btn-warning" id="DeleteBtn" style="display: none;">삭제</button>
                 </div>
             </div>
         </div>
@@ -35,13 +37,13 @@
         <div id="AnswerView" class="answer-view">
         </div>
         <!-- 답변 없을 때 (관리자만)-->
-        <div class="answer-register">
+        <div class="answer-register" id="AnswerRegister">
             <div class="comment-limit">
                 <span id="AnswerCount">0</span>/500
             </div>
             <textarea id="AnswerText" class="comment-textarea" maxlength="500"
                       placeholder="답변을 작성하세요. (500자)"></textarea>
-            <button class="btn-primary">등록</button>
+            <button class="btn-primary" id="AnswerSaveBtn">등록</button>
         </div>
     </div>
 </div>
@@ -49,67 +51,7 @@
 <!-- 푸터 -->
 <footer th:replace="fragments/footer :: common-footer"></footer>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script>
-    // 더미데이터
-    const qnaContent = [{
-        id: 40,
-        state: 1,
-        title: "대왕님의 본명이 김머왕이라는게 사실인가요??",
-        content: "개되방 사람들이 자꾸 대왕님 본명이 사실 김머왕이라고 그러더라고요. 사실인가요? 사람 이름이 김머왕일 수 있나요?<br />진짜 김머왕이라면 한자는 뭘 쓰는 건가요?",
-        date: "2025-05-10",
-        author: "오튜브",
-        answer: {
-            author: "관리자",
-            date: "2025-05-10",
-            content: "근거 없는 소문을 퍼트리지 마십시오."
-        }
-    },]
-
-    $(document).ready(function () {
-        const qna = qnaContent[0]
-
-        // 질문
-        const questionHTML = `
-				<div class="question-top">
-					<p class="question-state">${qna.state === 1 ? '답변완료' : '대기중'}</p>
-					<p class="question-title">${qna.title}</p>
-					<div class="question-top-info">
-						<p class="question-author">${qna.author}</p>
-						<p class="question-date">${qna.date}</p>
-					</div>
-				</div>
-				<div class="question-content">${qna.content}</div>
-			`
-        $('#QuestionDetail').html(questionHTML);
-
-        // 답변
-        if (qna.state === 1 && qna.answer) {
-            const answerHTML = `
-				<div class="answer-detail">
-					<div class="answer-top">
-					<div class="answer-title">관리자 답변</div>
-					<div class="answer-date">${qna.answer.date}</div>
-					</div>
-					<div class="answer-content">${qna.answer.content}</div>
-				</div>
-				<div class="btn-list">
-					<button class="btn-warning">삭제</button>
-				</div>
-				`;
-            $('#AnswerView').html(answerHTML).show();
-        } else {
-            $('#AnswerView').hide(); // 답변 없으면 숨김
-        }
-
-        // 답변 글자수 카운트
-        $('#AnswerText').on('input', function () {
-            let content = $(this).val();
-            $('#AnswerCount').text(content.length);
-        });
-    });
-</script>
+<script th:src="@{/js/qna.js}"></script>
 </body>
 
 </html>
