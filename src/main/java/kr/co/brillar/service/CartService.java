@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import kr.co.brillar.dto.CartDto;
-import kr.co.brillar.mapper.CartMapper;
+import kr.co.brillar.mapper.UserCartMapper;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     
-    private final CartMapper cartMapper;
+    private final UserCartMapper cartMapper;
 
     // 장바구니 품목 리스트
     public List<CartDto> getItems(String userId){
