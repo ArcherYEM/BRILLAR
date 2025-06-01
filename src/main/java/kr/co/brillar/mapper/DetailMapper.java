@@ -14,4 +14,6 @@ public interface DetailMapper {
     List<DetailDto> getProductMaterial(int productSeq);
 
     List<DetailDto> getProductSize(int groupId);
+
+    int insertToCart(DetailDto detailDto);
 }

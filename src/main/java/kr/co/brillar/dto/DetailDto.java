@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class DetailDto {
     
     // 아이템 상세
+    private String userId;
     private int productSeq;
     private String discountRate;
     private int reducedPrice;
@@ -29,6 +30,7 @@ public class DetailDto {
     private String materialCode;
     private int productSizeSeq;
     private String sizeName;
+    private String orderMemo;
 
     // 리뷰 리스트
 }

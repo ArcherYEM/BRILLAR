@@ -1,6 +1,7 @@
 package kr.co.brillar.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,12 @@ public class DetailService {
         List<DetailDto> size = detailMapper.getProductSize(groupId);
         
         return size;
+    }
+
+    public int insertToCart(DetailDto detailDto) {
+        
+        int result = detailMapper.insertToCart(detailDto);
+
+        return result;
     }
 }

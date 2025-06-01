@@ -40,7 +40,8 @@ $("#LoginSubmit").on("click", function(){
                 return;
             }
 
-            window.location.href = "/";
+            const prevPage = document.referrer
+            window.location.href = prevPage;
         },
     })
 })

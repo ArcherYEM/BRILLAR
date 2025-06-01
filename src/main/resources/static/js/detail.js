@@ -7,9 +7,12 @@ $(document).ready(function () {
         const material = await $.get('/detail/material', { productSeq: productSeq }) // 제품소재
         const productSize = await $.get('/detail/size', { groupId: detailDto.groupId }) // 제품사이즈
 
+        if (!detailDto) {
+            alert("해당 상품은 존재하지 않습니다")
+            history.back()
+        }
+        
         const $productWrapper = $('#ProductWrapper')
-
-        console.log("detail 정보 : ",detailDto);
 
         let html = `
             <div class="image-wrapper">
@@ -37,7 +40,7 @@ $(document).ready(function () {
         html += `
                 </div>
                 <div class="option-wrapper">
-                    <div class="option-item" id="MaterialOption">
+                    <div class="option-item">
                         <label class="option-title">소재</label>
         `;
                 
@@ -45,7 +48,7 @@ $(document).ready(function () {
         if (material.length > 1) {
             html += `
                         <div class="material-box">
-                            <select class="shop-select option-select" style="font-weight: 600;">
+                            <select class="shop-select option-select" id="MaterialOption" style="font-weight: 600;">
             `;
             $.each(material, (index, dto) => {
                 html += `
@@ -59,7 +62,7 @@ $(document).ready(function () {
             `;
         } else {
             const onlyOneMaterial = material[0]
-            html += `   <p><span style="font-weight: 600;" value="${onlyOneMaterial.materialSeq}">${onlyOneMaterial.materialName}</span></p>
+            html += `   <p><span id="MaterialOption" style="font-weight: 600;" value="${onlyOneMaterial.materialSeq}">${onlyOneMaterial.materialName}</span></p>
                     </div>
             `;
         };
@@ -118,8 +121,41 @@ $(document).ready(function () {
     // 확인 모달
     $(document).on('click', '#AddCart', function (e) {
         e.preventDefault();
-        $('#CartModal').fadeIn(200);
+
+        // 선택한 소재 가져오기
+        const $selectedMaterial = $(".option-wrapper #MaterialOption").is("select")
+            ? $("#MaterialOption").val()
+            : $("#MaterialOption").attr("value");
+
+        // 선택한 사이즈 가져오기
+        const $selectedSize = $('.option-wrapper input[name="size"]:checked').val();
+
+        // 요청사항 가져오기
+        const $requestText = $('#RequestText').val()
+
+        const cartData = {
+            productSeq : productSeq,
+            materialSeq : $selectedMaterial,
+            productSizeSeq : $selectedSize,
+            orderMemo : $requestText,
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/detail/addCart',
+            contentType: 'application/json',
+            data: JSON.stringify(cartData),
+            success: function(data) {
+                // 로그인이 되어 있지 않을 경우
+                if (data == 2) {
+                    location.href= "/login";
+                } else {
+                    $('#CartModal').fadeIn(200);
+                }
+            }
+        });
     });
+
     $('#CartModalClose, .modal-close, #CartModal').on('click', function (e) {
         if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
             $('#CartModal').fadeOut(200);
