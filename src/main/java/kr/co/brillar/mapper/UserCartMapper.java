@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.co.brillar.dto.CartDto;
 
 @Mapper
-public interface CartMapper {
+public interface UserCartMapper {
     
     List<CartDto> cartList(String userId);
     
