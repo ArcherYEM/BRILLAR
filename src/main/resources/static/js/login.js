@@ -40,8 +40,13 @@ $("#LoginSubmit").on("click", function(){
                 return;
             }
 
+            // 로그인 성공시 이전 페이지로 돌아가기
             const prevPage = document.referrer
-            window.location.href = prevPage;
+            if (prevPage.includes("/login")) {
+                window.location.href = "/";
+            } else {
+                window.location.href = prevPage;
+            }
         },
     })
 })

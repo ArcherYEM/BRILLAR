@@ -8,6 +8,7 @@ import kr.co.brillar.dto.DetailDto;
 import kr.co.brillar.dto.SessionDto;
 import kr.co.brillar.service.DetailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/detail")
+@Log4j2
 public class DetailRestAPI {
     
     private final DetailService detailService;
@@ -49,15 +51,53 @@ public class DetailRestAPI {
     @PostMapping("/addCart")
     public int postInsertCart(@RequestBody DetailDto detailDto, HttpSession session) {
         SessionDto sessionDto = (SessionDto) session.getAttribute("loginUser");
+        // 로그인 확인
         if (sessionDto == null) {
             return 2;
         }
-        
-        detailDto.setUserId(sessionDto.getUserId());
 
+        // 장바구니에 이미 있는지 확인
+        int checkCart = detailService.checkCartExist(sessionDto.getUserId(), detailDto.getProductSeq(), detailDto.getMaterialSeq(), detailDto.getProductSizeSeq());
+        if (checkCart == 1) {
+            return 3;
+        }
+
+        detailDto.setUserId(sessionDto.getUserId());
+        
         int result = detailService.insertToCart(detailDto);
         
         return result;
+    }
+    
+    @GetMapping("/checkStatus")
+    public int getCheckStatus(int productSeq, int materialSeq, Integer productSizeSeq, HttpSession session) {
+
+        SessionDto sessionDto = (SessionDto) session.getAttribute("loginUser");
+        int stock = detailService.checkStock(productSeq);
+
+        // 재고량 비교
+        if (stock == 0) {
+            return 3;
+        }
+ 
+        // 로그인 확인
+        if (sessionDto == null) {
+            return 2;
+        }
+
+        int result = detailService.checkCartExist(sessionDto.getUserId(), productSeq, materialSeq, productSizeSeq);
+        
+        return result;
+    }
+
+    @GetMapping("/checkStock")
+    public int getCheckStock(int productSeq) {
+
+        int stock = detailService.checkStock(productSeq);
+
+        log.info("재고 확인 :", stock);
+
+        return stock;
     }
     
 }

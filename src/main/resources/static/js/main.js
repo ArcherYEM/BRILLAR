@@ -13,91 +13,19 @@ const swiper = new Swiper('.swiper', {
     },
 });
 
-// 더미데이터
-const products = [{
-        id: 1,
-        name: "골드 체인 팔찌1",
-        price: "20,000원",
-        desc: "고급스러운 골드 체인 팔찌",
-        image: "../img/products/bracelet/b1.png",
-        link: "/shop/bracelet/1"
-    },
-    {
-        id: 2,
-        name: "골드 체인 팔찌2",
-        price: "25,000원",
-        desc: "고급스러운 골드 체인 팔찌",
-        image: "../img/products/bracelet/b1.png",
-        link: "/shop/bracelet/1"
-    },
-    {
-        id: 3,
-        name: "골드 체인 팔찌3",
-        price: "10,000원",
-        desc: "고급스러운 골드 체인 팔찌",
-        image: "../img/products/bracelet/b1.png",
-        link: "/shop/bracelet/1"
-    },
-    {
-        id: 4,
-        name: "골드 체인 팔찌4",
-        price: "20,000원",
-        desc: "고급스러운 골드 체인 팔찌",
-        image: "../img/products/bracelet/b1.png",
-        link: "/shop/bracelet/1"
-    },
-    {
-        id: 5,
-        name: "골드 체인 팔찌5",
-        price: "23,000원",
-        desc: "고급스러운 골드 체인 팔찌",
-        image: "../img/products/bracelet/b1.png",
-        link: "/shop/bracelet/1"
-    },
-    {
-        id: 6,
-        name: "골드 체인 팔찌6",
-        price: "20,000원",
-        desc: "고급스러운 골드 체인 팔찌",
-        image: "../img/products/bracelet/b1.png",
-        link: "/shop/bracelet/1"
-    },]
-
-const saleProducts = [{
-        id: 1,
-        name: "루비 실버 물방울 귀걸이",
-        price: "20,000원",
-        discount: "15% OFF",
-        image: "../img/products/earring/e4.png",
-        link: "/shop/bracelet/1"
-    },
-    {
-        id: 2,
-        name: "더블링 실버 반지",
-        price: "25,000원",
-        discount: "5% OFF",
-        image: "../img/products/ring/r4.png",
-        link: "/shop/bracelet/1"
-    },
-    {
-        id: 3,
-        name: "골드 LOVE 목걸이",
-        price: "10,000원",
-        discount: "15% OFF",
-        image: "../img/products/necklace/n3.png",
-        link: "/shop/bracelet/1"
-    },]
-
 $(document).ready(function () {
     // 신상품
     $.ajax({
         url: '/api/main/getProducts',
         method: 'GET',
         dataType: 'json',
-        success: (data)=>{
+        success: async (data)=>{
             const $newList = $('#NewList')
             let html = '';
-            $.each(data, function(index, dto) {
+            for (const dto of data) {
+                let stock = 0;
+                stock = await $.get('/api/main/chkStock', {productSeq : dto.productSeq})
+                
                 html += `
                     <div class="new-item">
                         <input id="PSeq" type="hidden" name="productSeq" value="${dto.productSeq}">
@@ -105,13 +33,28 @@ $(document).ready(function () {
                             <a href="/detail/${dto.productSeq}"><img src="${dto.imageUrl}" alt="new-item" /></a>
                         </div>
                         <div class="new-name">${dto.productName}</div>
+                `
+                
+                if (stock == 3) {
+                    html += `
+                        <div>
+                            <span class="new-price" style="text-decoration-line: line-through; color: rgba(114, 114, 114, 0.55);">${dto.price} 원</span>
+                            <span style="font-weight: 600;"> 품절</span>
+                        </div>
+                    `
+                } else {
+                    html += `
                         <div class="new-price">${dto.price} 원</div>
+                    `
+                };
+
+                html +=`
                         <div class="new-desc">${dto.productDesc}</div>
                     </div>
                 `;
-            });
-
-            $newList.html(html);
+    
+                $newList.html(html);
+            }
         },
         error: (xhr, status, error)=>{
             console.error(status, error);
@@ -121,19 +64,23 @@ $(document).ready(function () {
     // 할인 상품
     const $saleItemList = $('#SaleList');
 
-    $.each(saleProducts, function (i, product) {
-        const itemHtml = `
-            <div class="sale-item" style="background-image: url('${product.image}')">
-                <div class="sale-info-wrap">
-                    <div class="sale-info">
-                        <div class="sale-discount">${product.discount}</div>
-                        <div class="sale-name">${product.name}</div>
-                        <div class="sale-price">${product.price}</div>
+    $.get('/api/main/getSale', function (saleList) {
+        let itemHtml = ''
+        $.each(saleList, function (idx, data) {
+            itemHtml += `
+                <div class="sale-item" style="background-image: url('${data.imageUrl}')">
+                    <div class="sale-info-wrap">
+                        <div class="sale-info">
+                            <div class="sale-discount">${data.discountRate} OFF</div>
+                            <div class="sale-name">${data.productName}</div>
+                            <div class="sale-price">${data.reducedPrice}원</div>
+                        </div>
+                        <a href="/detail/${data.productSeq}" class="sale-link">바로가기</a>
                     </div>
-                    <a href="${product.link}" class="sale-link">바로가기</a>
                 </div>
-            </div>
             `
+        })
+
         $saleItemList.append(itemHtml);
     })
 })

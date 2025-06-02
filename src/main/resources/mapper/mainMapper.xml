@@ -18,4 +18,22 @@
         LIMIT 6;
     </select>
 
+    <select id="getSaleProduct" resultType="kr.co.brillar.dto.MainDto">
+        SELECT p.productSeq,
+        	   p.productName,
+               p.imageURL,
+        	   p.price *(1 - (d.discountRate * 0.01)) AS reducedPrice,
+        	   CONCAT(ROUND(d.discountRate), '%') AS discountRate
+        FROM product p
+            JOIN discount d 
+            ON p.discountSeq = d.discountSeq
+        WHERE p.discountSeq IS NOT NULL;
+    </select>
+
+    <select id="checkStock" resultType="int">
+        SELECT quantity
+        FROM stock
+        WHERE productSeq = #{productSeq}
+     </select>
+
 </mapper>
