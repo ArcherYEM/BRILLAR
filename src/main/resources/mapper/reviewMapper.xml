@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.ReviewMapper">
+    <insert id="saveReview" parameterType="kr.co.brillar.dto.ReviewDto">
+        INSERT INTO review(
+            productSeq,
+            userId,
+            userName,
+            score,
+            contents,
+            imageUrl
+        ) VALUES(
+            #{productSeq},
+            #{userId},
+            #{userName},
+            #{score},
+            #{contents},
+            #{imageUrl}
+        )
+    </insert>
+
+    <select id="findReviewList" resultType="kr.co.brillar.dto.ReviewDto" parameterType="long">
+        SELECT  A.reviewSeq,
+            A.productSeq,
+            A.userId,
+            A.userName,
+            A.score,
+            A.contents,
+            A.imageUrl,
+            DATE_FORMAT(A.createdAt,'%Y-%d-%H'),
+            B.productName
+        FROM review A
+            INNER JOIN product B
+                ON A.productSeq = B.productSeq
+        WHERE A.productSeq = #{productSeq}
+        ORDER BY A.createdAt DESC;
+    </select>
+
+</mapper>
