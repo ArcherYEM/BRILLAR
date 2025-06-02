@@ -78,12 +78,14 @@
                         )
             AND uc.productSeq = #{productSeq}
 	        AND uc.materialSeq = #{materialSeq}
-            <if test="productSizeSeq == null or productSizeSeq == 0">
-                AND uc.productSizeSeq IS NULL
-            </if>
-            <if test="productSizeSeq != null or productSizeSeq != 0">
-                AND uc.productSizeSeq = #{productSizeSeq}
-            </if>
+            <choose>
+                <when test="productSizeSeq == null or productSizeSeq == 0">
+                    AND uc.productSizeSeq IS NULL
+                </when>
+                <otherwise>
+                    AND uc.productSizeSeq = #{productSizeSeq}
+                </otherwise>
+            </choose>
      </select>
 
      <select id="checkStock" resultType="int">

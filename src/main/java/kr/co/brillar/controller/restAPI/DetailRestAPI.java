@@ -83,6 +83,7 @@ public class DetailRestAPI {
             return 2;
         }
 
+        // 장바구니에 없을 경우 return 0 , 있을 경우 1
         int result = detailService.checkCartExist(sessionDto.getUserId(), productSeq, materialSeq, productSizeSeq);
         
         return result;
