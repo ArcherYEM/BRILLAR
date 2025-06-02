@@ -73,7 +73,7 @@ function getShopList(){
                         <div class="cart-icon">
                             <img src="/img/icons/icon-cart-b.svg" />
                         </div>
-                        <a href="#"><img class="product-image" src="${product.imageURL}" alt="shop-item" /></a>
+                        <a href="/detail/${product.productSeq}"><img class="product-image" src="${product.imageURL}" alt="shop-item" /></a>
                     </div>
                     <div class="shop-name">${product.productName}</div>
                     <div class="shop-product-price">${Number(product.price).toLocaleString()}&nbsp;원</div>

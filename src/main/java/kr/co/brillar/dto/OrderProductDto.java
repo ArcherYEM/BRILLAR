@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class OrderProductDto {
 
     private Long orderSeq;
+    private Long productSeq;
     private String productName;
     private String imageURL;
     private Integer price;

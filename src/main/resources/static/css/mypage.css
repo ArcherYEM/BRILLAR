@@ -702,4 +702,21 @@
         font-size: 14px;
         color: var(--c-green-3);
     }
+
+    .review-file {
+        display: none;
+    }
+
+    .review-label{
+        font-size: 14px;
+        padding: 8px 20px;
+        border-radius: 5px;
+        border: 1px solid var(--c-green-2);
+        background-color: var(--c-green-2);
+        color: var(--c-white);
+        transition: all 0.2s linear;
+        cursor: pointer;
+        line-height: 1.5;
+    }
+
 }
