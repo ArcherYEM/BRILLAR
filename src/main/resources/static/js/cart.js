@@ -14,6 +14,8 @@ $(document).ready(function () {
                             장바구니
                         </p>
             `;
+
+            // 장바구니에 아이템이 하나라도 있을 시 & 없을 시
             if (data && data.length > 0) {
                 $.each(data, (index, dto) => {
                     html += `
@@ -60,6 +62,8 @@ $(document).ready(function () {
                         <p style="color: rgba(128, 128, 128, 0.438); font-family: 'Inter'; text-align: center; font-size: larger; margin-top: 50px;">장바구니가 비어있습니다</p>
                     </div>
                 `;
+
+                cartResult();
             }
 
             $productInfo.html(html);
@@ -108,6 +112,7 @@ $(document).ready(function () {
                 })
             });
 
+            // 수량이 1이하일 때 수량 감소를 누를 시 아이템 삭제
             $(document).on('click', '.product-wrap #QuantityDec', function () {
                 const $input = $(this).siblings('.quantity');
                 const $cartSeq = $(this).closest('.product-item').find('input[name="cartSeq"]');

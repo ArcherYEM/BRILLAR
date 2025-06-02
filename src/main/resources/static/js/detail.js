@@ -6,6 +6,7 @@ $(document).ready(function () {
         const detailDto = await $.get('/detail/info', { productSeq: productSeq }) // 제품정보
         const material = await $.get('/detail/material', { productSeq: productSeq }) // 제품소재
         const productSize = await $.get('/detail/size', { groupId: detailDto.groupId }) // 제품사이즈
+        const checkStock = await $.get('/detail/checkStock', { productSeq: productSeq  }) // 재고 확인
 
         if (!detailDto) {
             alert("해당 상품은 존재하지 않습니다")
@@ -91,10 +92,9 @@ $(document).ready(function () {
                         </div>
                     </div>
             `;
-        }
+        };
         
         html += `
-
                     <div class="option-item">
                         <div class="request-top">
                             <label class="option-title">요청사항 (50자 이내)</label>
@@ -107,7 +107,20 @@ $(document).ready(function () {
                         </div>
                     </div>
                 </div>
-                <button id="AddCart" class="btn-secondary btn-cart">장바구니 담기</button>
+        `
+
+        // 재고확인 후 품절버튼 활성화
+        if (checkStock == 0) {
+            html += `
+                    <button id="SoldOut" class="btn-secondary btn-cart" style="background-color: #6c5f7c; color: rgba(255, 255, 255, 0.548);">품절</button>
+            `
+        } else {
+            html += `
+                    <button id="AddCart" class="btn-secondary btn-cart">장바구니 담기</button>
+            `
+        }
+
+        html += `
                 <div class="notice-wrapper">
                     <p>* 개봉 후에는 단순 변심으로 인한 반품 불가입니다.</p>
                     <p>* 배송은 영업일 기준 3일 이내 도착 예정입니다.</p>
@@ -116,6 +129,43 @@ $(document).ready(function () {
         `;
 
         $productWrapper.html(html);
+
+        // 초기 랜더링시 비교
+        requestAnimationFrame(() => {
+            $('.option-wrapper #MaterialOption').trigger('change');
+        });
+
+        // 옵션 변경 시 장바구니 유무
+        $(document).on('change', '.option-wrapper #MaterialOption, .option-wrapper input[name="size"]', async function () {
+
+            const $selectedMaterial = $(".option-wrapper #MaterialOption").is("select")
+                ? $("#MaterialOption").val()
+                : $("#MaterialOption").attr("value");
+
+            const $selectedSize = $('.option-wrapper input[name="size"]:checked').val();
+            
+            const checkStatus = await $.get('/detail/checkStatus', { productSeq: productSeq,
+                                                                     materialSeq:$selectedMaterial,
+                                                                     productSizeSeq: $selectedSize
+                                                                    })
+            
+            if (checkStatus == 1) {
+                $('.btn-cart').text('장바구니에 담겨있습니다')
+                              .prop('disabled', true)
+                              .css({'background-color':'#6c5f7c','color': 'rgba(255, 255, 255, 0.548)'})
+                              .attr("id", "CartIn")
+            } else if (checkStatus == 3) {
+                $('.btn-cart').text('품절')
+                              .prop('disabled', true)
+                              .css({'background-color':'#6c5f7c','color': 'rgba(255, 255, 255, 0.548)'})
+                              .attr("id", "SoldOut")
+            } else if (checkStatus == 0) {
+                $('.btn-cart').text('장바구니 담기')
+                              .prop('disabled', false)
+                              .css({'background-color':'','color': ''})
+                              .attr("id", "AddCart")
+            }
+        })
     })()
         
     // 확인 모달
@@ -131,7 +181,10 @@ $(document).ready(function () {
         const $selectedSize = $('.option-wrapper input[name="size"]:checked').val();
 
         // 요청사항 가져오기
-        const $requestText = $('#RequestText').val()
+        let $requestText = $('#RequestText').val().trim();
+
+        // 요청사항이 undefind 또는 null 또는 공백으로 인식될경우 null로 처리
+        if (!$requestText) $requestText = null
 
         const cartData = {
             productSeq : productSeq,
@@ -146,9 +199,15 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(cartData),
             success: function(data) {
-                // 로그인이 되어 있지 않을 경우
                 if (data == 2) {
+                    // 로그인이 되어 있지 않을 경우
                     location.href= "/login";
+                    
+                } if(data == 3){
+                    // 이미 장바구니에 있을 경우
+                    alert("이미 장바구니에 포함되어 있습니다")
+                    location.reload()
+                    
                 } else {
                     $('#CartModal').fadeIn(200);
                 }
@@ -156,6 +215,17 @@ $(document).ready(function () {
         });
     });
 
+    $('#CartModal').on('click', function (e) {
+        const target = $(e.target);
+
+        if (target.is('#CartModal') || target.is('#CartModalClose') || target.hasClass('modal-close')) {
+            location.reload();
+
+        } else if ($(e.target).is('#CartConfirm')) {
+            location.href = "/cart";
+        }
+    })
+    
     $('#CartModalClose, .modal-close, #CartModal').on('click', function (e) {
         if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
             $('#CartModal').fadeOut(200);

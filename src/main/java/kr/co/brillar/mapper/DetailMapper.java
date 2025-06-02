@@ -16,4 +16,8 @@ public interface DetailMapper {
     List<DetailDto> getProductSize(int groupId);
 
     int insertToCart(DetailDto detailDto);
+
+    List<Integer> checkCartExist(String userId, int productSeq, int materialSeq, Integer productSizeSeq);
+
+    int checkStock(int productSeq);
 }

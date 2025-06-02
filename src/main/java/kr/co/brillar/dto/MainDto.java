@@ -18,4 +18,6 @@ public class MainDto {
     private String productDesc;
     private String imageUrl;
     private String discountSeq;
+    private int reducedPrice;
+    private String discountRate;
 }
