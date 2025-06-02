@@ -31,6 +31,7 @@
     <select id="findOrderProductList" parameterType="list" resultType="kr.co.brillar.dto.OrderProductDto">
         SELECT
             A.orderSeq,
+            B.productSeq,
             B.productName,
             B.imageURL,
             A.price,

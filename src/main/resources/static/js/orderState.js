@@ -45,8 +45,10 @@ $(document).ready(function(){
 
     // 리뷰 모달
     // 작성 시 편의를 위해서 모달 외부 클릭 시 꺼지는 기능은 제외함
-    $(document).on('click', '.open-cancel-modal', function () {
-        const orderNum = $(this).data('order');
+    $(document).on('click', '.open-review-modal', function () {
+        const productNum = $(this).data('product');
+        const productName = $(this).closest('.product-item').find('.product-info p').first().text();
+        const productSeq = $(this).closest('.product-item').find('a').attr('href').split('/').pop();
 
         // 초기화
         $('#ReviewText').val('');
@@ -55,7 +57,8 @@ $(document).ready(function(){
         updateStars(selectedRating);
 
         $('#ReviewModal').fadeIn(200);
-        $('#ReviewModal .modal-subtitle').text(`주문번호 ${orderNum}에 대한 리뷰를 작성하세요`);
+        $('#ReviewModal').attr('data-id',productSeq);
+        $('#ReviewModal .modal-subtitle').text(`주문번호 ${productName}에 대한 리뷰를 작성하세요`);
     });
 
     $('#ReviewClose, .modal-close').on('click', function (e) {
@@ -180,6 +183,20 @@ $(document).ready(function(){
         }
     })
 
+    $(document).on('click','#MakeReview', function(){
+        const $modal = $(this).closest('#ReviewModal');
+        const imageUrl =  $modal.find('#ReviewFile')[0].files[0];
+        const form = new FormData();
+
+        form.append('productSeq',$modal.attr('data-id'));
+        form.append('score', $modal.find('.star-rating').find('.star.active').last().attr('data-rating'));
+        form.append('contents', $modal.find('#ReviewText').val());
+        if (imageUrl){
+            form.append('imageUrl', imageUrl);
+        }
+
+        saveReview(form);
+    })
 })
 
 function getOrderStateList(page){
@@ -219,7 +236,7 @@ function getOrderStateList(page){
 							<div class="order-col col-state">${stepLabels[stateVal]}</div>
 							<div class="order-col col-total">${state.amount}</div>
 							<div class="order-col col-thumb">
-								${state.orderProductDtos.map(product => `<img src="${product.imageURL}" class="order-photo" alt="상품 이미지">`).join('')}
+								${state.orderProductDtos.map(product => `<a href="/detail/${product.productSeq}"><img src="${product.imageURL}" class="order-photo" alt="상품 이미지"></a>`).join('')}
 							</div>
 							<img src="/img/icons/icon-arrow.svg" class="order-arrow" data-index="${index}">
 						</div>
@@ -229,8 +246,8 @@ function getOrderStateList(page){
 									<p class="title-xs title-left">상품 정보</p>
 									<div class="product-wrap">
 									${state.orderProductDtos.map(product => `
-										<div class="product-item">
-											<img src=${product.imageURL} alt="상품 이미지" />
+										<div class="product-item"">
+											<a href="/detail/${product.productSeq}"><img src=${product.imageURL} alt="상품 이미지" /></a>
 											<div class="product-info">
 												<p>${product.productName}</p>
 												<p>₩${product.unitPrice}</p>
@@ -375,7 +392,7 @@ function getOrderHistory(page){
 							</div>
 							<div class="order-col col-total">${state.amount}</div>
 							<div class="order-col col-thumb">
-								${state.orderProductDtos.map(product => `<img src="${product.imageURL}" class="order-photo" alt="상품 이미지">`).join('')}
+								${state.orderProductDtos.map(product => `<a href="/detail/${product.productSeq}"><img src="${product.imageURL}" class="order-photo" alt="상품 이미지"></a>`).join('')}
 							</div>
 							<img src="/img/icons/icon-arrow.svg" class="order-arrow" data-index="${index}">
 						</div>
@@ -386,17 +403,17 @@ function getOrderHistory(page){
 									<div class="product-wrap">
 									${state.orderProductDtos.map(product => `
 										<div class="product-item">
-											<img src=${product.imageURL} alt="상품 이미지" />
+											<a href="/detail/${product.productSeq}"><img src=${product.imageURL} alt="상품 이미지" /></a>
 											<div class="product-info">
 												<p>${product.productName}</p>
 												<p>₩${product.unitPrice}</p>
 												<p class="product-quantity">수량: ${product.count}</p>
 											</div>
+											${stateVal == 3 && reviewValid ? (`<div class="review-order">
+                                            <button class="btn-primary open-review-modal" data-product="${product.productSeq}">리뷰 작성</button>
+                                            </div>`) : ''}
 										</div>`).join('')}
 									</div>
-									${stateVal > 2 && stateVal !== 4 && reviewValid ? (`<div class="review-order">
-									<button class="btn-primary open-cancel-modal" data-order="${state.orderSeq}">리뷰 작성</button>
-									</div>`) : ''}
 								</div>
 								<div class="detail-order">
 									<p class="title-xs title-left">배송 정보</p>
@@ -453,6 +470,28 @@ function getPageBtn(num, statusCode){
                      <button class="page-btn" id="LastBtn"><img src="/img/icons/icon-last.svg"/></button>`;
             $orderHistoryPage.append(html);
             pageCount = page;
+        }
+    })
+}
+
+//리뷰 저장
+function saveReview(form){
+    $.ajax({
+        url: '/api/review/save',
+        method: 'post',
+        data: form,
+        processData: false,
+        contentType: false,
+        success: function(result){
+            if(!result){
+                return;
+            }
+            alert('리뷰 작성 성공');
+            $('#ReviewModal').find('#ReviewFile').val('');
+            $('#ReviewModal').fadeOut(200);
+        },
+        error(err){
+            console.error(err);
         }
     })
 }
