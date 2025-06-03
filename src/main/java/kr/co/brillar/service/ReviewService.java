@@ -3,6 +3,7 @@ package kr.co.brillar.service;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.brillar.dto.ReviewDto;
 import kr.co.brillar.dto.ReviewRequestDto;
+import kr.co.brillar.dto.ReviewResponseDto;
 import kr.co.brillar.dto.SessionDto;
 import kr.co.brillar.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,8 +72,50 @@ public class ReviewService {
 
     }
 
-    public List<ReviewDto> findReviewList(Long productSeq) {
-        List<ReviewDto> reviewList = reviewMapper.findReviewList(productSeq);
-        return reviewList;
+    public List<ReviewResponseDto> findReviewList(Long productSeq, Integer sortVal,Integer page,HttpServletRequest request) {
+        Integer offset = (page - 1) * 10;
+        List<ReviewDto> reviewList = reviewMapper.findReviewList(productSeq, sortVal, offset);
+
+        SessionDto loginUser = (SessionDto) request.getSession().getAttribute("loginUser");
+        List<ReviewResponseDto> responseDtos = new ArrayList<>();
+
+        //로그인 유저랑 작성자 같은지 비교
+        for (ReviewDto reviewDto : reviewList) {
+            ReviewResponseDto build = ReviewResponseDto.builder()
+                    .reviewSeq(reviewDto.getReviewSeq())
+                    .productSeq(reviewDto.getProductSeq())
+                    .userName(reviewDto.getUserName())
+                    .imageUrl(reviewDto.getImageUrl())
+                    .createdAt(reviewDto.getCreatedAt())
+                    .contents(reviewDto.getContents())
+                    .score(reviewDto.getScore())
+                    .productName(reviewDto.getProductName())
+                    .createdAt(reviewDto.getCreatedAt())
+                    .build();
+
+            if(loginUser != null) {
+                if (reviewDto.getUserId().equals(loginUser.getUserId())) {
+                    build.setCheckUser(true);
+                }
+            }
+            responseDtos.add(build);
+        }
+        return responseDtos;
+    }
+
+    @Transactional
+    public Integer deleteReview(Long reviewSeq, HttpServletRequest request) {
+        SessionDto loginUser = (SessionDto) request.getSession().getAttribute("loginUser");
+        if(loginUser == null || loginUser.getUserId() == (null)) {
+            return null;
+        }
+        Integer result = reviewMapper.deleteReview(reviewSeq, loginUser.getUserId());
+        return result;
+    }
+
+    public Integer findReviewCount(Long productSeq) {
+        Integer count = reviewMapper.findReviewCount(productSeq);
+        count  = count / 10 + 1;
+        return count;
     }
 }

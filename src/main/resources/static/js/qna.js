@@ -1,3 +1,5 @@
+let totalBtn = 0;
+
 $(document).ready(function(){
 
     const path = window.location.pathname;
@@ -21,6 +23,11 @@ $(document).ready(function(){
     $(document).on('click','#FirstBtn',function(){
         getQnaList(1);
     })
+
+    $(document).on('click','#LastBtn',function(){
+        getQnaList(totalBtn);
+    })
+
 
     $(document).on('click','#QnaPage button',function(){
         const page = $(this).attr('data-page');
@@ -161,9 +168,9 @@ function getPageBtn(){
         method: 'get',
         success: function(page){
             const $qnaPage = $('#QnaPage');
-            console.log(page);
+            totalBtn = page;
             let html = `<button class="page-btn disabled" id="FirstBtn"><img src="/img/icons/icon-first.svg"/></button>
-                       <button class="page-btn disabled" id="prevBtn"><img src="/img/icons/icon-prev.svg"/></button>`;
+                       <button class="page-btn disabled" id="PrevBtn"><img src="/img/icons/icon-prev.svg"/></button>`;
             if(page > 0){
                 for(let i = 0; i < page; i++){
                     if(i == 0){

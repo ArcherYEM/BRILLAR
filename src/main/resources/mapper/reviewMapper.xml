@@ -22,7 +22,7 @@
         )
     </insert>
 
-    <select id="findReviewList" resultType="kr.co.brillar.dto.ReviewDto" parameterType="long">
+    <select id="findReviewList" resultType="kr.co.brillar.dto.ReviewDto" parameterType="map">
         SELECT  A.reviewSeq,
             A.productSeq,
             A.userId,
@@ -30,13 +30,33 @@
             A.score,
             A.contents,
             A.imageUrl,
-            DATE_FORMAT(A.createdAt,'%Y-%d-%H'),
+            DATE_FORMAT(A.createdAt,'%Y-%m-%d'),
             B.productName
         FROM review A
             INNER JOIN product B
                 ON A.productSeq = B.productSeq
         WHERE A.productSeq = #{productSeq}
-        ORDER BY A.createdAt DESC;
+        <choose>
+            <when test="sortVal == 1 or sortVal == null">
+                ORDER BY A.createdAt DESC
+            </when>
+            <when test="sortVal == 2">
+                ORDER BY A.score DESC, A.createdAt DESC
+            </when>
+        </choose>
+            LIMIT 10 OFFSET #{offset}
     </select>
 
+    <delete id="deleteReview" parameterType="map">
+        DELETE
+        FROM review
+        WHERE userId = #{userId}
+        AND reviewSeq = #{reviewSeq}
+    </delete>
+
+    <select id="findReviewCount" resultType="int" parameterType="long">
+        SELECT  COUNT(*)
+        FROM review A
+        WHERE A.productSeq = #{productSeq}
+    </select>
 </mapper>
