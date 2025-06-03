@@ -60,4 +60,5 @@ public class UserController {
         Integer count = orderStateService.getPurchaseCount(user.getUserId());
         model.addAttribute("purchaseCount", count);
     }
+
 }
