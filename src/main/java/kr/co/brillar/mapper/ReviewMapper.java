@@ -10,5 +10,9 @@ public interface ReviewMapper {
 
     Integer saveReview(ReviewDto reviewDto);
 
-    List<ReviewDto> findReviewList(Long productSeq);
+    List<ReviewDto> findReviewList(Long productSeq, Integer sortVal, Integer offset);
+
+    Integer deleteReview(Long reviewSeq, String userId);
+
+    Integer findReviewCount(Long productSeq);
 }

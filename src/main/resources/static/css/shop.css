@@ -488,3 +488,8 @@
         justify-content: center;
     }
 }
+
+.btn-primary{
+    height: 30px;
+    margin-top: auto;
+}
