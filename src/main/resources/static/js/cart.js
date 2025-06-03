@@ -191,6 +191,35 @@ $(document).ready(function () {
         }
     });
 
+    let phoneDuple = false;
+
+    // 휴대폰 번호 포맷
+    $(document).on('input','#PhoneNumber', function () {
+        let phoneNoValue = $(this).val().replace(/[^0-9]/g, '');
+        phoneNoValue = phoneNoValue.slice(0, 11);
+
+        if (phoneNoValue.length <= 3) {
+            $(this).val(phoneNoValue);
+        } else if (phoneNoValue.length <= 7) {
+            $(this).val(phoneNoValue.replace(/(\d{3})(\d+)/, '$1-$2'));
+        } else {
+            $(this).val(phoneNoValue.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3'));
+        }
+
+        phoneDuple = false;
+        $(this).get(0).setCustomValidity('');
+    });
+
+    // 주소검색
+    $('#SearchAddrAPI').on('click', function () {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                $('#Addr1').val(data.address);
+                $('#Addr2').focus();
+            }
+        }).open();
+    });
+
     // 받는 사람과 동일 체크박스
     $(document).on('change','#InputSameName', function () {
         const isChecked = $(this).is(':checked');
@@ -212,4 +241,46 @@ $(document).ready(function () {
             $('#PayModal').fadeOut(200);
         }
     });
+
+    $('#PayConfirm').on('click', async function (e) {
+        // const cartItems = await $.get('/cart/list')
+        
+        const $receiverName = $('#ReceiverName')
+        const $addr1 = $('#Addr1')
+        const $addr2 = $('#Addr2')
+
+        data = {
+            statusCode: 'WAIT_DELIVERY',
+            payType: 'C',
+            receiveName: $receiverName.val(),
+            addr1: $addr1.val(),
+            addr2: $addr2.val()
+        };
+
+        const order = await $.ajax({
+            url: '/orderComplete/insertOrder',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            dataType: 'json'
+        });
+        
+        // console.log("나머지 데이터 확인 : ", order);
+        
+        const itemValues = await $.get('/orderComplete/calcVal')
+
+        itemValues.forEach(item => {
+            item.orderSeq = order
+        });
+
+        const orderDetail = await $.ajax({
+            url: '/orderComplete/insertDetail',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(itemValues),
+            dataType: 'json'
+        })
+
+        console.log("결과 : ", orderDetail)
+    })
 });

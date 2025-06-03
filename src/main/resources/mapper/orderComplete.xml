@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.brillar.mapper.OrderCompleteMapper">
+
+    <insert id="insertOrder" parameterType="map" useGeneratedKeys="true" keyProperty="orderSeq">
+        INSERT INTO `order` (
+                             userId,
+                             statusCode,
+                             amount,
+                             payType,
+                             receiveName,
+                             addr1,
+                             addr2,
+                             updatedAt
+        ) 
+        VALUES (
+                #{userId},
+                #{statusCode},
+                (
+                    SELECT SUM(p.price *c.quantity*(1 - (IFNULL(d.discountRate, 0)*0.01))) as amount
+		            FROM userCart c
+		                JOIN user u 
+                        ON c.userSeq = u.userSeq 
+		                JOIN product p 
+                        ON c.productSeq = p.productSeq
+		                LEFT JOIN discount d 
+                        ON p.discountSeq = d.discountSeq
+		            WHERE  u.userId = #{userId}
+                ),
+                #{payType},
+                #{receiveName},
+                #{addr1},
+                #{addr2},
+                NOW()
+        )
+    </insert>
+
+    <insert id="insertOrderDetail" parameterType="list">
+        INSERT INTO orderDetail (
+                                 orderSeq,
+                                 productSeq,
+                                 productSizeSeq,
+                                 materialSeq,
+                                 orderMemo,
+                                 count,
+                                 unitPrice,
+                                 price,
+                                 updatedAt
+        )
+        VALUES 
+        <foreach collection="orderDetailList" item="item" separator=",">
+            (
+             #{item.orderSeq},
+             #{item.productSeq},
+             #{item.productSizeSeq},
+             #{item.materialSeq},
+             #{item.orderMemo},
+             #{item.count},
+             #{item.unitPrice},
+             #{item.price},
+             NOW()
+        )
+        </foreach>
+    </insert>
+
+    <select id="calcItemPrice" resultType="kr.co.brillar.dto.OrderCompleteDto">
+        SELECT c.quantity AS count,
+	           c.productSeq,
+	           c.productSizeSeq,
+	           c.materialSeq,
+	           c.orderMemo,
+               p.price*(1 - IFNULL(d.discountRate, 0)*0.01) AS unitPrice,
+	           p.price*c.quantity*(1 - (IFNULL(d.discountRate, 0)*0.01)) AS price
+        FROM userCart c
+            JOIN user u
+            ON c.userSeq = u.userSeq 
+            JOIN product p 
+            ON c.productSeq = p.productSeq
+            LEFT JOIN discount d 
+            ON p.discountSeq = d.discountSeq
+        WHERE u.userId = #{userId}
+    </select>
+</mapper>
