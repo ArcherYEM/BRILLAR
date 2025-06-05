@@ -11,7 +11,7 @@ import kr.co.brillar.dto.SessionDto;
 @RequestMapping("/orderComplete")
 public class OrderComplete {
     
-    @GetMapping("")
+    @GetMapping("/{orderSeq}")
     public String getMethodName(HttpSession session) {
         SessionDto user = (SessionDto) session.getAttribute("loginUser");
 

@@ -21,60 +21,16 @@
                 <img src="/img/icons/icon-check-w.svg" alt="아이콘">
             </div>
             <div class="title-text">
-                <p class="order-text">Order&nbsp;<span>#234000</span></p>
+                <p class="order-text" id="OrderNumber"></p>
                 <p class="complete-text">주문이 완료되었습니다.</p>
             </div>
         </div>
         <div class="top-link">
-            <!-- 링크 url주소 맞춰서 수정 필요 -->
-            <a class="link-state" href="/user/orderstate">주문 현황</a>
+            <a class="link-state" href="/user/order-status">주문 현황</a>
         </div>
     </div>
-    <div class="complete-content">
-        <div class="complete-item complete-product">
-            <div class="complete-title">품목</div>
-            <!-- 더미데이터 -->
-            <div class="product-wrap">
-                <div class="product-item">
-                    <img src="/img/products/bracelet/b1.png" alt="제품사진" />
-                    <p class="product-name">사실은도금인팔찌</p>
-                    <p class="product-quantity">x&nbsp;<span>2</span></p>
-                </div>
-            </div>
-            <div class="product-wrap">
-                <div class="product-item">
-                    <img src="/img/products/bracelet/b1.png" alt="제품사진" />
-                    <p class="product-name">사실은도금인팔찌</p>
-                    <p class="product-quantity">x&nbsp;<span>1</span></p>
-                </div>
-            </div>
-            <div class="product-wrap">
-                <div class="product-item">
-                    <img src="/img/products/bracelet/b1.png" alt="제품사진" />
-                    <p class="product-name">사실은도금인팔찌</p>
-                    <p class="product-quantity">x&nbsp;<span>1</span></p>
-                </div>
-            </div>
-        </div>
-        <div class="complete-item complete-address">
-            <div class="complete-title">배송 주소</div>
-            <div class="complete-desc">
-                <p>서울특별시 송파구 위례성대로 2</p>
-                <p>장은빌딩 2층</p>
-            </div>
-        </div>
-        <div class="complete-item complete-shipping">
-            <div class="complete-title">받는 분 성함</div>
-            <div class="complete-desc">
-                <p>양머왕</p>
-            </div>
-        </div>
-        <div class="complete-item complete-total">
-            <div class="complete-title">결제금액</div>
-            <div class="complete-desc">
-                <p>₩198,000</p>
-            </div>
-        </div>
+    <div class="complete-content" id="CompleteContent">
+        <!-- 주문 완료 정보 출력란 -->
     </div>
     <div class="complete-bottom">
         <p>도움이 필요하신가요?</p>
@@ -84,6 +40,6 @@
 
 <!-- 푸터 -->
 <footer th:replace="fragments/footer :: common-footer"></footer>
-
+<script th:src="@{/js/orderComplete.js}"></script>
 </body>
 </html>

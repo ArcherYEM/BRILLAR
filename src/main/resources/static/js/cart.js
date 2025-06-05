@@ -243,44 +243,76 @@ $(document).ready(function () {
     });
 
     $('#PayConfirm').on('click', async function (e) {
-        // const cartItems = await $.get('/cart/list')
         
-        const $receiverName = $('#ReceiverName')
-        const $addr1 = $('#Addr1')
-        const $addr2 = $('#Addr2')
+        try {
+            // 재고 확인
+            const checkStock = await $.ajax({
+                url: '/orderComplete/updateStock',
+                method: 'POST'
+            })
 
-        data = {
-            statusCode: 'WAIT_DELIVERY',
-            payType: 'C',
-            receiveName: $receiverName.val(),
-            addr1: $addr1.val(),
-            addr2: $addr2.val()
-        };
+            const $receiverName = $('#ReceiverName')
+            const $addr1 = $('#Addr1')
+            const $addr2 = $('#Addr2')
 
-        const order = await $.ajax({
-            url: '/orderComplete/insertOrder',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            dataType: 'json'
-        });
-        
-        // console.log("나머지 데이터 확인 : ", order);
-        
-        const itemValues = await $.get('/orderComplete/calcVal')
+            data = {
+                statusCode: 'WAIT_DELIVERY',
+                payType: 'C',
+                receiveName: $receiverName.val(),
+                addr1: $addr1.val(),
+                addr2: $addr2.val()
+            };
+            
+            console.log("주문 데이터 확인 : ", data);
+            
+            // 주문 추가
+            const order = await $.ajax({
+                url: '/orderComplete/insertOrder',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                dataType: 'json'
+            });
+            
+            // 주문 상세 내용
+            const itemValues = await $.get('/orderComplete/calcVal')
+    
+            itemValues.forEach(item => {
+                item.orderSeq = order
+            });
+    
+            // 주문 상세 추가
+            await $.ajax({
+                url: '/orderComplete/insertDetail',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(itemValues),
+                dataType: 'json'
+            })
 
-        itemValues.forEach(item => {
-            item.orderSeq = order
-        });
+            // 장바구니 내용 제거
+            await $.ajax({
+                url: '/orderComplete/deleteCart',
+                method: 'DELETE'
+            })
 
-        const orderDetail = await $.ajax({
-            url: '/orderComplete/insertDetail',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(itemValues),
-            dataType: 'json'
-        })
+            // 주문 완료메세지 출력
+            if (checkStock) {
+                alert(checkStock)
+                console.log(checkStock);
+            }
 
-        console.log("결과 : ", orderDetail)
+            // 주문 완료 페이지로 이동
+            location.href = `/orderComplete/${order}`
+        } catch (error) {
+            if (error.responseText) {
+                // 제품소진으로 인한 주문실패 메세지 출력
+                alert(error.responseText);
+                console.log(error.responseText);
+            } else {
+                alert("상품주문에 실패하였습니다. 운영진에 문의해 주세요")
+            }
+            return;
+        }
     })
 });

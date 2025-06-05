@@ -83,4 +83,117 @@
             ON p.discountSeq = d.discountSeq
         WHERE u.userId = #{userId}
     </select>
+
+    <!-- 재고 수량 감소 동시성 제어 -->
+    <!-- 주문 요청 시 -->
+    <!-- 재고 확인 -->
+    <select id="checkStockForUpdate" resultType="kr.co.brillar.dto.OrderCompleteDto">
+        SELECT s.productSeq ,
+               s.quantity AS count
+        FROM stock s
+        WHERE s.productSeq IN (
+        	                    SELECT uc.productSeq
+        	                    FROM userCart uc
+                                JOIN user u
+                                   ON uc.userSeq = u.userSeq
+        	                    WHERE u.userId = #{userId}
+        )
+        FOR UPDATE
+    </select>
+
+    <!-- 장바구니 확인 -->
+    <select id="checkCart" resultType="kr.co.brillar.dto.OrderCompleteDto">
+        SELECT uc.productSeq ,
+               uc.quantity AS count,
+        	   p.productName 
+        FROM
+        	userCart uc
+        JOIN user u 
+            ON uc.userSeq = u.userSeq
+        JOIN product p 
+            ON uc.productSeq = p.productSeq
+        WHERE u.userId = #{userId}
+    </select>
+
+    <!-- 주문 완료 후  -->
+    <!-- 재고증감 내역 추가 -->
+    <insert id="addHistory">
+        INSERT INTO stockHistory(productSeq,
+						         oldStockQuantity,
+						         newStockQuantity,
+						         modifyQuantity,
+						         modifyHistory
+        )
+        SELECT s.productSeq ,
+        	   s.quantity , 
+        	   s.quantity - ucSum.quantity AS modifyQuantity,
+        	   CONCAT('-', ucSum.quantity) AS modifyHistory,
+        	   '판매'
+        FROM stock s 
+        JOIN (
+                SELECT uc.productSeq, 
+                       SUM(uc.quantity) AS quantity
+        	    FROM userCart uc
+        	    JOIN user u
+        	       ON uc.userSeq = u.userSeq
+        	    WHERE u.userId = #{userId}
+        	    GROUP BY productSeq
+        ) ucSum
+            ON s.productSeq = ucSum.productSeq
+    </insert>
+
+    <!-- 재고 수량 감소 -->
+    <update id="decreaseStock">
+        UPDATE
+        	stock s
+        JOIN (
+                SELECT uc.productSeq, SUM(uc.quantity) AS quantity
+        	    FROM userCart uc
+                JOIN user u
+                   ON uc.userSeq = u.userSeq
+        	    WHERE u.userId = #{userId}
+        	    GROUP BY productSeq
+        ) ucSum
+            ON s.productSeq = ucSum.productSeq 
+        SET s.quantity = s.quantity - ucSum.quantity
+    </update>
+    
+    <!-- cart내역 제거 -->
+    <delete id="deleteCart">
+        DELETE uc FROM userCart uc
+        JOIN user u
+           ON uc.userSeq = u.userSeq
+        WHERE u.userId = #{userId}
+    </delete>
+
+    <!-- ==========================주문 완료 페이지================= -->
+    <select id="getOrderInfo" resultType="kr.co.brillar.dto.OrderCompleteDto">
+        SELECT o.userId ,
+               o.orderSeq ,
+        	   o.receiveName ,
+        	   o.addr1 ,
+        	   o.addr2 ,
+        	   o.amount
+        FROM `order` o
+        WHERE o.userId = #{userId} 
+            AND o.orderSeq = #{orderSeq};
+    </select>
+
+    <select id="getDetailInfo" resultType="kr.co.brillar.dto.OrderCompleteDto">
+        SELECT od.productSeq ,
+        	   p.productName ,
+        	   ps.sizeName ,
+        	   m.materialName ,
+        	   od.orderMemo ,
+        	   od.count ,
+        	   p.imageURL 
+        FROM orderDetail od 
+        JOIN product p 
+            ON od.productSeq = p.productSeq
+        LEFT JOIN productSize ps 
+            ON od.productSizeSeq = ps.productSizeSeq 
+        JOIN material m 
+            ON od.materialSeq = m.materialSeq 
+        WHERE od.orderSeq = #{orderSeq};
+    </select>
 </mapper>

@@ -29,4 +29,18 @@ public class OrderCompleteDto {
     private int count;
     private int unitPrice;
     private int price;
+
+    // 주문 페이지
+    private String imageURL;
+    private String sizeName;
+    private String materialName;
+
+    // 재고 소진 안내 메세지용
+    private String productName;
+
+    // 재고 변동 내역기록
+    private int oldStockQuantity;
+    private int newStockQuantity;
+    private int modifyQuantity;
+    private String modifyHistory;
 }
