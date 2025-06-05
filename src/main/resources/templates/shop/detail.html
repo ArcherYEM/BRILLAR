@@ -43,6 +43,7 @@
             </div>
         </div>
     </div>
+    <button type="button" id="Pay">결제</button>
     <!-- 카트 확인 모달-->
     <div th:replace="~{fragments/modal/confirmModal :: modalFragment(
         'CartModal', '장바구니 담기',
@@ -54,5 +55,6 @@
 <footer th:block th:replace="fragments/footer :: common-footer"></footer>
 <script th:src="@{/js/detail.js}"></script>
 <script th:src="@{/js/review.js}"></script>
+<script th:src="@{/js/kakaoPay.js}"></script>
 </body>
 </html>
