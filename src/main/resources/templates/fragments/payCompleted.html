@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>결제 완료</title>
+</head>
+<body>
+    <h2>결제가 완료되었습니다.</h2>
+    <p>잠시 후 창이 닫힙니다.</p>
+
+    <script>
+        // 부모 창에 결제 완료 payment-completed 메시지 전송
+        window.opener.postMessage("payment-completed", "http://localhost:8080");
+        window.close();  // 팝업 닫기
+    </script>
+</body>
+</html>

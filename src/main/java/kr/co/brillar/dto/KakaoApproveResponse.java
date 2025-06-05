@@ -1,7 +1,5 @@
 package kr.co.brillar.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,5 +12,5 @@ public class KakaoApproveResponse {
     private String partner_order_id;
     private String partner_user_id;
     private String pg_token;
-    private LocalDateTime approved_at;
+    
 }

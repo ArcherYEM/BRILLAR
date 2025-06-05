@@ -1,13 +1,13 @@
 package kr.co.brillar.controller.restAPI;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import kr.co.brillar.dto.KakaoApproveResponse;
 import kr.co.brillar.dto.KakaoReadyResponse;
 import kr.co.brillar.service.KakaoPayService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +27,12 @@ public class KakaoOrderController {
     }
 
     @GetMapping("/pay/completed")
-    public String payCompleted(@RequestParam String pg_token,HttpServletRequest request){
+    public String payCompleted(@RequestParam String pg_token,HttpServletRequest request, Model model){
         KakaoApproveResponse response = kakaoPayService.payApprove(pg_token, request);
-        return "redirect:/cart";
+
+        // 결제 성공시 승인 정보 출력용
+        // model.addAttribute("approve", response);
+        return "fragments/payCompleted"; // 성공시 payCompleted.html 불러오기
     }
 
     @GetMapping("/pay/cancel")
