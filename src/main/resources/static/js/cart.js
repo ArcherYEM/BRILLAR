@@ -88,9 +88,16 @@ $(document).ready(function () {
                             <p class="info-value value-total">₩${result.totalCost != null ? result.totalCost : 0}</p>
                             <input type="hidden" name="totalCost" id="TotalCost" value=${result.totalCost != null ? result.totalCost : 0}>
                         </div>
-                        <button id="PayContinue" class="btn-secondary">결제하기</button>
-                    `;
-                    
+                    `
+                    if (!result) {
+                        html += `
+                            <button id="NoItems" class="btn-secondary" disabled>결제하기</button>
+                        `;
+                    } else {
+                        html += `
+                            <button id="PayContinue" class="btn-secondary">결제하기</button>
+                        `;
+                    }
                     $orderInfo.html(html)
                 })
             }
@@ -233,10 +240,17 @@ $(document).ready(function () {
     });
 
     // 결제 확인 모달
-    $(document).on('click','#PayContinue', function (e) {
+    $(document).on('click','#PayContinue, #NoItems', function (e) {
         e.preventDefault();
-        $('#PayModal').fadeIn(200);
+        
+        if ($(this).is('#PayContinue')) {
+            $('#PayModal').fadeIn(200);
+
+        } else if ($(this).is('#NoItems')) {
+            alert("장바구니가 비어있습니다");
+        }
     });
+
     $('#PayModalClose, .modal-close, #PayModal').on('click', function (e) {
         if ($(e.target).hasClass('modal') || $(e.target).hasClass('modal-close') || $(e.target).hasClass('btn-warning')) {
             $('#PayModal').fadeOut(200);
@@ -244,7 +258,6 @@ $(document).ready(function () {
     });
 
     $('#PayConfirm').on('click', async function (e) {
-        
         try {
             // 재고 확인
             const checkStock = await $.ajax({
@@ -254,72 +267,88 @@ $(document).ready(function () {
 
             const $totalCoast = $('.total-wrap #TotalCost').val()
 
+            // 카카오 페이 결제
             const payment = await $.ajax({
                 url: '/kakao/pay/ready',
                 method: 'POST',
                 data: {
                     productName : '결제상품',
-                    totalPrice :  $totalCoast
+                    totalPrice :  $totalCoast,
                 }
             })
 
-            window.location.href = payment.next_redirect_pc_url
-            if (!payment) {
-                return
-            }
-            console.log(payment);
+            const popup = window.open(payment.next_redirect_pc_url, "kakaopay", "width=500, height=700")
 
-            const $receiverName = $('#ReceiverName')
-            const $addr1 = $('#Addr1')
-            const $addr2 = $('#Addr2')
-
-            data = {
-                statusCode: 'WAIT_DELIVERY',
-                payType: 'C',
-                receiveName: $receiverName.val(),
-                addr1: $addr1.val(),
-                addr2: $addr2.val()
-            };
+            // 팝업창 닫힘 감지
+            const pollPopup = setInterval(() => {
+                if (popup.closed) {
+                    clearInterval(pollPopup);
+                    alert("결제가 취소되었거나 창이 닫혔습니다.");
+                }
+            }, 1000);
             
-            // 주문 추가
-            const order = await $.ajax({
-                url: '/orderComplete/insertOrder',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(data),
-                dataType: 'json'
+            // 메시지 수신 대기
+            window.addEventListener("message", async function listener(event) {
+                if (event.origin !== "http://localhost:8080") return;
+
+                // payment-completed 메시지를 전달 받으면 실행
+                if (event.data === "payment-completed") {
+                    clearInterval(pollPopup); // popup-interval 중지
+                    window.removeEventListener("message", listener); 
+                    const $receiverName = $('#ReceiverName')
+                    const $addr1 = $('#Addr1')
+                    const $addr2 = $('#Addr2')
+                
+                    data = {
+                        statusCode: 'WAIT_DELIVERY',
+                        payType: 'C',
+                        receiveName: $receiverName.val(),
+                        addr1: $addr1.val(),
+                        addr2: $addr2.val()
+                    };
+
+                    // 주문 추가
+                    const order = await $.ajax({
+                        url: '/orderComplete/insertOrder',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        dataType: 'json'
+                    });
+
+                    // 주문 상세 내용
+                    const itemValues = await $.get('/orderComplete/calcVal')
+                
+                    itemValues.forEach(item => {
+                        item.orderSeq = order
+                    });
+                
+                    // 주문 상세 추가
+                    await $.ajax({
+                        url: '/orderComplete/insertDetail',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(itemValues),
+                        dataType: 'json'
+                    })
+                
+                    // 장바구니 내용 제거
+                    await $.ajax({
+                        url: '/orderComplete/deleteCart',
+                        method: 'DELETE'
+                    })
+                
+                    // 주문 완료메세지 출력
+                    if (checkStock) {
+                        alert(checkStock)
+                        console.log(checkStock);
+                    }
+
+                    // 결제 시도
+                    // window.location.href = payment.next_redirect_pc_url
+                    location.href = `/orderComplete/${order}`
+                }
             });
-            
-            // 주문 상세 내용
-            const itemValues = await $.get('/orderComplete/calcVal')
-    
-            itemValues.forEach(item => {
-                item.orderSeq = order
-            });
-    
-            // 주문 상세 추가
-            await $.ajax({
-                url: '/orderComplete/insertDetail',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(itemValues),
-                dataType: 'json'
-            })
-
-            // 장바구니 내용 제거
-            await $.ajax({
-                url: '/orderComplete/deleteCart',
-                method: 'DELETE'
-            })
-
-            // 주문 완료메세지 출력
-            if (checkStock) {
-                alert(checkStock)
-                console.log(checkStock);
-            }
-
-            // 주문 완료 페이지로 이동
-            location.href = `/orderComplete/${order}`
         } catch (error) {
             if (error.responseText) {
                 // 제품소진으로 인한 주문실패 메세지 출력
@@ -331,18 +360,4 @@ $(document).ready(function () {
             return;
         }
     })
-
-    // function pay(){
-    //     $.ajax({
-    //         url: '/kakao/pay/ready',
-    //         method: 'post',
-    //         data: {productName: 'tt', totalPrice: 1000},
-    //         success: function(result){
-    //             window.location.href = result.next_redirect_pc_url;
-    //         },
-    //         error : function(xhr, status, error){
-    //             console.error('결제 실패:', status, error);
-    //         }
-    //     })
-    // }
 });
