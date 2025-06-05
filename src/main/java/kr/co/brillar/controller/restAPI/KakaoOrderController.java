@@ -29,7 +29,7 @@ public class KakaoOrderController {
     @GetMapping("/pay/completed")
     public String payCompleted(@RequestParam String pg_token,HttpServletRequest request){
         KakaoApproveResponse response = kakaoPayService.payApprove(pg_token, request);
-        return "/cart/orderComplete";
+        return "redirect:/cart";
     }
 
     @GetMapping("/pay/cancel")

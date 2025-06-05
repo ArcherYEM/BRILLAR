@@ -86,6 +86,7 @@ $(document).ready(function () {
                         <div class="order-wrap total-wrap">
                             <p class="info-title title-total">결제금액:</p>
                             <p class="info-value value-total">₩${result.totalCost != null ? result.totalCost : 0}</p>
+                            <input type="hidden" name="totalCost" id="TotalCost" value=${result.totalCost != null ? result.totalCost : 0}>
                         </div>
                         <button id="PayContinue" class="btn-secondary">결제하기</button>
                     `;
@@ -251,6 +252,23 @@ $(document).ready(function () {
                 method: 'POST'
             })
 
+            const $totalCoast = $('.total-wrap #TotalCost').val()
+
+            const payment = await $.ajax({
+                url: '/kakao/pay/ready',
+                method: 'POST',
+                data: {
+                    productName : '결제상품',
+                    totalPrice :  $totalCoast
+                }
+            })
+
+            window.location.href = payment.next_redirect_pc_url
+            if (!payment) {
+                return
+            }
+            console.log(payment);
+
             const $receiverName = $('#ReceiverName')
             const $addr1 = $('#Addr1')
             const $addr2 = $('#Addr2')
@@ -262,8 +280,6 @@ $(document).ready(function () {
                 addr1: $addr1.val(),
                 addr2: $addr2.val()
             };
-            
-            console.log("주문 데이터 확인 : ", data);
             
             // 주문 추가
             const order = await $.ajax({
@@ -315,4 +331,18 @@ $(document).ready(function () {
             return;
         }
     })
+
+    // function pay(){
+    //     $.ajax({
+    //         url: '/kakao/pay/ready',
+    //         method: 'post',
+    //         data: {productName: 'tt', totalPrice: 1000},
+    //         success: function(result){
+    //             window.location.href = result.next_redirect_pc_url;
+    //         },
+    //         error : function(xhr, status, error){
+    //             console.error('결제 실패:', status, error);
+    //         }
+    //     })
+    // }
 });
