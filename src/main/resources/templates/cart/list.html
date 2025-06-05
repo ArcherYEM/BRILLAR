@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/common/common.css">
     <link rel="stylesheet" type="text/css" href="/css/cart.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <!-- 헤더 -->
@@ -44,7 +45,7 @@
                 <div class="shipping-wrap">
                     <div class="shipping-item">
                         <p>휴대폰 번호<span class="ship-required">*</span></p>
-                        <input type="text" required />
+                        <input type="text" id="PhoneNumber" required/>
                     </div>
                     <div class="shipping-item">
                         <p>이메일 주소</p>
@@ -55,15 +56,15 @@
                     <div class="shipping-top">
                         <p>주소<span class="ship-required">*</span></p>
                         <div class="check-wrap">
-                            <input type="checkbox" checked />
+                            <input type="checkbox"/>
                             <p>다음에도 이 주소 사용</p>
                         </div>
                     </div>
                     <div class="address-group">
-                        <input type="text" readonly />
-                        <button class="search-postcode btn-secondary" type="button">주소검색</button>
+                        <input id="Addr1" type="text" readonly />
+                        <button id="SearchAddrAPI" class="search-postcode btn-secondary" type="button">주소검색</button>
                     </div>
-                    <input type="text" placeholder="상세주소를 입력하세요" required />
+                    <input id="Addr2" type="text" placeholder="상세주소를 입력하세요" required />
                 </div>
             </div>
         </div>

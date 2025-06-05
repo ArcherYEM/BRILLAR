@@ -29,17 +29,17 @@ $(document).ready(function(){
 $(document).on("click", "#LogoutButton", function (e) {
     e.preventDefault();
 
-    $.ajax({
-        url: "/login/logout",
-        type: "POST",
-        success: function () {
-            if (confirm("로그아웃 하시겠습니까?")) {
+    if (confirm("로그아웃 하시겠습니까?")) {
+        $.ajax({
+            url: "/login/logout",
+            type: "POST",
+            success: function () {
                 window.location.href = "/login";
+            },
+            error: function (err) {
+                console.error("로그아웃 실패: ", err);
+                alert("로그아웃 중 오류가 발생했습니다.");
             }
-        },
-        error: function (err) {
-            console.error("로그아웃 실패: ", err);
-            alert("로그아웃 중 오류가 발생했습니다.");
-        }
-    });
+        });
+    }
 });

@@ -46,10 +46,12 @@ public class DetailService {
 
         List<Integer> result = detailMapper.checkCartExist(userId, productSeq, materialSeq, productSizeSeq);
 
+        // 장바구니에 없을 경우
         if (result.isEmpty()) {
             return 0;
         }
 
+        // 장바구니에 있을경우
         return 1;
     }
 

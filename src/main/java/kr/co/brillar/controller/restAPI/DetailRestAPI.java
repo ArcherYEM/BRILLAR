@@ -8,7 +8,6 @@ import kr.co.brillar.dto.DetailDto;
 import kr.co.brillar.dto.SessionDto;
 import kr.co.brillar.service.DetailService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/detail")
-@Log4j2
 public class DetailRestAPI {
     
     private final DetailService detailService;
@@ -85,6 +83,7 @@ public class DetailRestAPI {
             return 2;
         }
 
+        // 장바구니에 없을 경우 return 0 , 있을 경우 1
         int result = detailService.checkCartExist(sessionDto.getUserId(), productSeq, materialSeq, productSizeSeq);
         
         return result;
@@ -94,8 +93,6 @@ public class DetailRestAPI {
     public int getCheckStock(int productSeq) {
 
         int stock = detailService.checkStock(productSeq);
-
-        log.info("재고 확인 :", stock);
 
         return stock;
     }

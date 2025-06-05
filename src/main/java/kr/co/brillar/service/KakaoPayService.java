@@ -51,13 +51,14 @@ public class KakaoPayService {
     }
 
     public KakaoApproveResponse payApprove(String pg_token,HttpServletRequest request){
+        SessionDto loginUser = (SessionDto) request.getSession().getAttribute("loginUser");
         String tid = (String) request.getSession().getAttribute("tid");
 
         Map<String,String> parameters = new HashMap<>();
         parameters.put("cid","TC0ONETIME");
         parameters.put("tid", tid);
         parameters.put("partner_order_id","11111");
-        parameters.put("partner_user_id","10");
+        parameters.put("partner_user_id",loginUser.getUserId());
         parameters.put("pg_token", pg_token);
 
         HttpEntity<Map<String,String>> requestEntity = new HttpEntity<>(parameters, getHeaders());

@@ -86,6 +86,7 @@ $(document).ready(function () {
                         <div class="order-wrap total-wrap">
                             <p class="info-title title-total">결제금액:</p>
                             <p class="info-value value-total">₩${result.totalCost != null ? result.totalCost : 0}</p>
+                            <input type="hidden" name="totalCost" id="TotalCost" value=${result.totalCost != null ? result.totalCost : 0}>
                         </div>
                         <button id="PayContinue" class="btn-secondary">결제하기</button>
                     `;
@@ -191,6 +192,35 @@ $(document).ready(function () {
         }
     });
 
+    let phoneDuple = false;
+
+    // 휴대폰 번호 포맷
+    $(document).on('input','#PhoneNumber', function () {
+        let phoneNoValue = $(this).val().replace(/[^0-9]/g, '');
+        phoneNoValue = phoneNoValue.slice(0, 11);
+
+        if (phoneNoValue.length <= 3) {
+            $(this).val(phoneNoValue);
+        } else if (phoneNoValue.length <= 7) {
+            $(this).val(phoneNoValue.replace(/(\d{3})(\d+)/, '$1-$2'));
+        } else {
+            $(this).val(phoneNoValue.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3'));
+        }
+
+        phoneDuple = false;
+        $(this).get(0).setCustomValidity('');
+    });
+
+    // 주소검색
+    $('#SearchAddrAPI').on('click', function () {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                $('#Addr1').val(data.address);
+                $('#Addr2').focus();
+            }
+        }).open();
+    });
+
     // 받는 사람과 동일 체크박스
     $(document).on('change','#InputSameName', function () {
         const isChecked = $(this).is(':checked');
@@ -212,4 +242,107 @@ $(document).ready(function () {
             $('#PayModal').fadeOut(200);
         }
     });
+
+    $('#PayConfirm').on('click', async function (e) {
+        
+        try {
+            // 재고 확인
+            const checkStock = await $.ajax({
+                url: '/orderComplete/updateStock',
+                method: 'POST'
+            })
+
+            const $totalCoast = $('.total-wrap #TotalCost').val()
+
+            const payment = await $.ajax({
+                url: '/kakao/pay/ready',
+                method: 'POST',
+                data: {
+                    productName : '결제상품',
+                    totalPrice :  $totalCoast
+                }
+            })
+
+            window.location.href = payment.next_redirect_pc_url
+            if (!payment) {
+                return
+            }
+            console.log(payment);
+
+            const $receiverName = $('#ReceiverName')
+            const $addr1 = $('#Addr1')
+            const $addr2 = $('#Addr2')
+
+            data = {
+                statusCode: 'WAIT_DELIVERY',
+                payType: 'C',
+                receiveName: $receiverName.val(),
+                addr1: $addr1.val(),
+                addr2: $addr2.val()
+            };
+            
+            // 주문 추가
+            const order = await $.ajax({
+                url: '/orderComplete/insertOrder',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                dataType: 'json'
+            });
+            
+            // 주문 상세 내용
+            const itemValues = await $.get('/orderComplete/calcVal')
+    
+            itemValues.forEach(item => {
+                item.orderSeq = order
+            });
+    
+            // 주문 상세 추가
+            await $.ajax({
+                url: '/orderComplete/insertDetail',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(itemValues),
+                dataType: 'json'
+            })
+
+            // 장바구니 내용 제거
+            await $.ajax({
+                url: '/orderComplete/deleteCart',
+                method: 'DELETE'
+            })
+
+            // 주문 완료메세지 출력
+            if (checkStock) {
+                alert(checkStock)
+                console.log(checkStock);
+            }
+
+            // 주문 완료 페이지로 이동
+            location.href = `/orderComplete/${order}`
+        } catch (error) {
+            if (error.responseText) {
+                // 제품소진으로 인한 주문실패 메세지 출력
+                alert(error.responseText);
+                console.log(error.responseText);
+            } else {
+                alert("상품주문에 실패하였습니다. 운영진에 문의해 주세요")
+            }
+            return;
+        }
+    })
+
+    // function pay(){
+    //     $.ajax({
+    //         url: '/kakao/pay/ready',
+    //         method: 'post',
+    //         data: {productName: 'tt', totalPrice: 1000},
+    //         success: function(result){
+    //             window.location.href = result.next_redirect_pc_url;
+    //         },
+    //         error : function(xhr, status, error){
+    //             console.error('결제 실패:', status, error);
+    //         }
+    //     })
+    // }
 });
