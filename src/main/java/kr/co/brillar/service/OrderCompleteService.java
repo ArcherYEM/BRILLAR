@@ -91,15 +91,18 @@ public class OrderCompleteService {
             return noStockProduct;
         }
         
-        // 주문 성공 시
-        orderCompleteMapper.addHistory(userId); // 재고내역 추가
-        orderCompleteMapper.decreaseStock(userId); // 재고 수량 감소
-
-        return Collections.emptyList();
+        return Collections.emptyList(); // 재고가 충분하여 빈 배열 반환
     }
 
+    // 주문 성공 시 재고 차감
+    public void stockWork(String userId){
+        orderCompleteMapper.addHistory(userId); // 재고내역 추가
+        orderCompleteMapper.decreaseStock(userId); // 재고 수량 감소
+    }
+
+    // 상품처리 완료 후 장바구니 내역 삭제
     public void deleteCart(String userId){
-        orderCompleteMapper.deleteCart(userId); // 장바구니 삭제
+        orderCompleteMapper.deleteCart(userId);
     }
 
     // ============================주문 완료 페이지===========================
