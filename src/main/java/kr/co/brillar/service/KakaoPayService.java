@@ -25,6 +25,9 @@ public class KakaoPayService {
 
         SessionDto loginUser = (SessionDto) request.getSession().getAttribute("loginUser");
 
+        String origin = request.getScheme() + "://" + request.getServerName() + 
+                        (request.getServerPort() == 80 || request.getServerPort() == 443 ? "" : ":" + request.getServerPort());
+        
         Map<String, String> parameters = new HashMap<>();
         parameters.put("cid", "TC0ONETIME");
         parameters.put("partner_order_id", "11111");
@@ -33,9 +36,9 @@ public class KakaoPayService {
         parameters.put("quantity","1");
         parameters.put("total_amount", String.valueOf(totalPrice));
         parameters.put("tax_free_amount","0");
-        parameters.put("approval_url", "http://localhost:8080/kakao/pay/completed");
-        parameters.put("cancel_url", "http://localhost:8080/kakao/pay/cancel");
-        parameters.put("fail_url", "http://localhost:8080/kakao/pay/fail");
+        parameters.put("approval_url", origin + "/kakao/pay/completed");
+        parameters.put("cancel_url", origin + "/kakao/pay/cancel");
+        parameters.put("fail_url", origin + "/kakao/pay/fail");
 
         HttpEntity<Map<String,String>> requestEntity = new HttpEntity<>(parameters, getHeaders());
 

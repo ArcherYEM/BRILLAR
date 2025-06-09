@@ -295,12 +295,16 @@ $(document).ready(function () {
                 if (event.data === "payment-completed") {
                     clearInterval(pollPopup); // popup-interval 중지
                     window.removeEventListener("message", listener); 
+
+                    // 재고 작업
+                    await $.post(('/orderComplete/stockWork'))
+
                     const $receiverName = $('#ReceiverName')
                     const $addr1 = $('#Addr1')
                     const $addr2 = $('#Addr2')
                 
                     data = {
-                        statusCode: 'WAIT_DELIVERY',
+                        statusCode: 'WAIT_PAY',
                         payType: 'C',
                         receiveName: $receiverName.val(),
                         addr1: $addr1.val(),
@@ -344,8 +348,7 @@ $(document).ready(function () {
                         console.log(checkStock);
                     }
 
-                    // 결제 시도
-                    // window.location.href = payment.next_redirect_pc_url
+                    // 해당 주문 orderComplete 페이지로 이동
                     location.href = `/orderComplete/${order}`
                 }
             });

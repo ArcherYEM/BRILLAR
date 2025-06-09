@@ -384,13 +384,15 @@ function getOrderHistory(page){
             const stateHtml = `
 					<div id="StateItem" class="order-item">
 						<div class="order-summary">
-							<div class="order-col col-num">${index + 1 + (page-1) * 5}</div>
-							<div class="order-col col-date">${state.orderDate}</div>
-							<div class="order-col col-state">
-								<div class="state-circle state-${stateVal}"></div>
-								${stepLabels[stateVal]}
-							</div>
-							<div class="order-col col-total">${state.amount}</div>
+                            <a class="order-summary" href="/orderComplete/${state.orderSeq}">
+							    <div class="order-col col-num">${index + 1 + (page-1) * 5}</div>
+							    <div class="order-col col-date">${state.orderDate}</div>
+							    <div class="order-col col-state">
+							    	<div class="state-circle state-${stateVal}"></div>
+							    	${stepLabels[stateVal]}
+							    </div>
+							    <div class="order-col col-total">${state.amount}</div>
+                            </a>
 							<div class="order-col col-thumb">
 								${state.orderProductDtos.map(product => `<a href="/detail/${product.productSeq}"><img src="${product.imageURL}" class="order-photo" alt="상품 이미지"></a>`).join('')}
 							</div>

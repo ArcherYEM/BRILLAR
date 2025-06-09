@@ -23,11 +23,11 @@
                     SELECT SUM(p.price *c.quantity*(1 - (IFNULL(d.discountRate, 0)*0.01))) as amount
 		            FROM userCart c
 		                JOIN user u 
-                        ON c.userSeq = u.userSeq 
+                            ON c.userSeq = u.userSeq 
 		                JOIN product p 
-                        ON c.productSeq = p.productSeq
+                            ON c.productSeq = p.productSeq
 		                LEFT JOIN discount d 
-                        ON p.discountSeq = d.discountSeq
+                            ON p.discountSeq = d.discountSeq
 		            WHERE  u.userId = #{userId}
                 ),
                 #{payType},
@@ -76,11 +76,11 @@
 	           p.price*c.quantity*(1 - (IFNULL(d.discountRate, 0)*0.01)) AS price
         FROM userCart c
             JOIN user u
-            ON c.userSeq = u.userSeq 
+                ON c.userSeq = u.userSeq 
             JOIN product p 
-            ON c.productSeq = p.productSeq
+                ON c.productSeq = p.productSeq
             LEFT JOIN discount d 
-            ON p.discountSeq = d.discountSeq
+                ON p.discountSeq = d.discountSeq
         WHERE u.userId = #{userId}
     </select>
 
@@ -106,8 +106,7 @@
         SELECT uc.productSeq ,
                uc.quantity AS count,
         	   p.productName 
-        FROM
-        	userCart uc
+        FROM userCart uc
         JOIN user u 
             ON uc.userSeq = u.userSeq
         JOIN product p 
